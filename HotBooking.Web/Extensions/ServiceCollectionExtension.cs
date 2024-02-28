@@ -1,4 +1,4 @@
-﻿using HotBooking.Web.Data;
+﻿using HotBooking.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HotBooking.Data\HotBooking.Data.csproj" />
+  </ItemGroup>
+
 </Project>
