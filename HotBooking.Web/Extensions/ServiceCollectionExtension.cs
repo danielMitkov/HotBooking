@@ -16,7 +16,7 @@ public static class ServiceCollectionExtension
         var connectionString = config.GetConnectionString("DefaultConnection");
 
         services
-            .AddDbContext<ApplicationDbContext>(options =>
+            .AddDbContext<HotBookingDbContext>(options =>
             options.UseSqlServer(connectionString));
 
         services.AddDatabaseDeveloperPageExceptionFilter();
@@ -28,7 +28,7 @@ public static class ServiceCollectionExtension
     {
         services
             .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<HotBookingDbContext>();
 
         return services;
     }

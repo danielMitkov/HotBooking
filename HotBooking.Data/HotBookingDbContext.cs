@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace HotBooking.Data;
-public class ApplicationDbContext:IdentityDbContext
+public class HotBookingDbContext:IdentityDbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public HotBookingDbContext(DbContextOptions<HotBookingDbContext> options)
         : base(options)
     {
     }
