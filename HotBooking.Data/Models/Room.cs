@@ -1,8 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotBooking.Data.Models;
+
 public class Room
 {
+    public Room()
+    {
+        Features = new HashSet<Feature>();
+        RoomImages = new HashSet<ImageUrl>();
+        Reviews = new HashSet<Review>();
+
+        IsAvailable = true;
+    }
+
     [Key]
     public int Id { get; set; }
 
@@ -19,16 +30,31 @@ public class Room
     public int RoomSize { get; set; }
 
     [Required]
+    public decimal PricePerNight { get; set; }
+
+    [Required]
     public bool IsAvailable { get; set; }
 
     [Required]
-    public decimal PricePerNight { get; set; }
+    public int ManagerId { get; set; }
 
-    public ICollection<Feature> Features { get; set; } = new HashSet<Feature>();
+    [ForeignKey(nameof(ManagerId))]
+    public Manager Manager { get; set; } = null!;
 
-    public ICollection<ImageUrl> RoomImages { get; set; } = new HashSet<ImageUrl>();
+    [Required]
+    public int HotelId { get; set; }
 
-    public ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
+    [ForeignKey(nameof(HotelId))]
+    public Hotel Hotel { get; set; } = null!;
 
-    public ICollection<Booking> Bookings { get; set; } = new HashSet<Booking>();
+    public int? BookingId { get; set; }
+
+    [ForeignKey(nameof(BookingId))]
+    public Booking? Booking { get; set; }
+
+    public ICollection<Feature> Features { get; set; }
+
+    public ICollection<ImageUrl> RoomImages { get; set; }
+
+    public ICollection<Review> Reviews { get; set; }
 }
