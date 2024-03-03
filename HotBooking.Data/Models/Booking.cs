@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HotBooking.Data.Constants;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,6 +15,7 @@ public class Booking
     public DateTime CheckOut { get; set; }
 
     [Required]
+    [MaxLength(BookingConstants.AdultsCountMax)]
     public int AdultsCount { get; set; }
 
     [Required]
