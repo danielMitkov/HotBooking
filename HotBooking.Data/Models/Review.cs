@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HotBooking.Data.Constants;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,12 +9,15 @@ public class Review
     public int Id { get; set; }
 
     [Required]
-    public int Rating { get; set; }
+    [MaxLength(ReviewConstants.RatingScoreMax)]
+    public int RatingScore { get; set; }
 
     [Required]
+    [MaxLength(ReviewConstants.TitleLengthMax)]
     public string Title { get; set; } = null!;
 
     [Required]
+    [MaxLength(ReviewConstants.CommentMax)]
     public string Comment { get; set; } = null!;
 
     [Required]
@@ -24,7 +27,7 @@ public class Review
     public int UserId { get; set; }
 
     [ForeignKey(nameof(UserId))]
-    public IdentityUser User { get; set; } = null!;
+    public ApplicationUser User { get; set; } = null!;
 
     [Required]
     public int RoomId { get; set; }
