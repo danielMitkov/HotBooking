@@ -4,6 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HotBooking.Data.Models;
 public class Hotel
 {
+    public Hotel()
+    {
+        Facilities = new HashSet<Facility>();
+        Rooms = new HashSet<Room>();
+        HotelImages = new HashSet<ImageUrl>();
+    }
+
     [Key]
     public int Id { get; set; }
 
@@ -11,7 +18,10 @@ public class Hotel
     public string Name { get; set; } = null!;
 
     [Required]
-    public string Address { get; set; } = null!;
+    public string Description { get; set; } = null!;
+
+    [Required]
+    public string StreetAddress { get; set; } = null!;
 
     [Required]
     public string City { get; set; } = null!;
@@ -20,15 +30,7 @@ public class Hotel
     public string Country { get; set; } = null!;
 
     [Required]
-    public string PhoneNumber { get; set; } = null!;
-
-    [Required]
-    public string Email { get; set; } = null!;
-
-    [Required]
     public int StarRating { get; set; }
-
-
 
     [Required]
     public int ManagerId { get; set; }
@@ -36,7 +38,9 @@ public class Hotel
     [ForeignKey(nameof(ManagerId))]
     public Manager Manager { get; set; } = null!;
 
-    public ICollection<Facility> Facilities { get; set; } = new HashSet<Facility>();
+    public ICollection<Facility> Facilities { get; set; }
 
-    public ICollection<Room> Rooms { get; set; } = new HashSet<Room>();
+    public ICollection<Room> Rooms { get; set; }
+
+    public ICollection<ImageUrl> HotelImages { get; set; }
 }
