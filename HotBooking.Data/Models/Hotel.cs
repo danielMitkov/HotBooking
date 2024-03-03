@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using HotBooking.Data.Constants;
 
 namespace HotBooking.Data.Models;
+
 public class Hotel
 {
     public Hotel()
@@ -15,21 +17,27 @@ public class Hotel
     public int Id { get; set; }
 
     [Required]
-    public string Name { get; set; } = null!;
+    [MaxLength(HotelConstants.HotelNameLengthMax)]
+    public string HotelName { get; set; } = null!;
 
     [Required]
+    [MaxLength(HotelConstants.DescriptionLengthMax)]
     public string Description { get; set; } = null!;
 
     [Required]
+    [MaxLength(HotelConstants.StreetAddressLengthMax)]
     public string StreetAddress { get; set; } = null!;
 
     [Required]
-    public string City { get; set; } = null!;
+    [MaxLength(HotelConstants.CityNameLengthMax)]
+    public string CityName { get; set; } = null!;
 
     [Required]
-    public string Country { get; set; } = null!;
+    [MaxLength(HotelConstants.CountryNameLengthMax)]
+    public string CountryName { get; set; } = null!;
 
     [Required]
+    [MaxLength(HotelConstants.StarRatingMax)]
     public int StarRating { get; set; }
 
     [Required]
