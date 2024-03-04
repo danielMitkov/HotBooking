@@ -25,8 +25,8 @@ public class Booking
     public Room Room { get; set; } = null!;
 
     [Required]
-    public int UserId { get; set; }
+    public string UserId { get; set; } = null!;
 
     [ForeignKey(nameof(UserId))]
-    public IdentityUser User { get; set; } = null!;
+    public ApplicationUser User { get; set; } = null!;
 }
