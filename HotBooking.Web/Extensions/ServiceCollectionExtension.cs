@@ -1,5 +1,5 @@
 ﻿using HotBooking.Data;
-using Microsoft.AspNetCore.Identity;
+using HotBooking.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -27,7 +27,7 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
     {
         services
-            .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<HotBookingDbContext>();
 
         return services;
