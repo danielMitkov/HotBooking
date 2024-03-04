@@ -24,7 +24,7 @@ public class Review
     public DateTime ReviewedOn { get; set; }
 
     [Required]
-    public int UserId { get; set; }
+    public string UserId { get; set; } = null!;
 
     [ForeignKey(nameof(UserId))]
     public ApplicationUser User { get; set; } = null!;
