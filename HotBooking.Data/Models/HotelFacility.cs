@@ -5,14 +5,14 @@ namespace HotBooking.Data.Models;
 public class HotelFacility
 {
     [Required]
-    public int FacilityId { get; set; }
-
-    [Required, ForeignKey(nameof(FacilityId))]
-    public Facility Facility { get; set; } = null!;
-
-    [Required]
     public int HotelId { get; set; }
 
-    [Required, ForeignKey(nameof(HotelId))]
+    [ForeignKey(nameof(HotelId))]
     public Hotel Hotel { get; set; } = null!;
+
+    [Required]
+    public int FacilityId { get; set; }
+
+    [ForeignKey(nameof(FacilityId))]
+    public Facility Facility { get; set; } = null!;
 }
