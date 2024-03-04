@@ -36,12 +36,6 @@ public class Room
     public bool IsAvailable { get; set; }
 
     [Required]
-    public int ManagerId { get; set; }
-
-    [ForeignKey(nameof(ManagerId))]
-    public Manager Manager { get; set; } = null!;
-
-    [Required]
     public int HotelId { get; set; }
 
     [ForeignKey(nameof(HotelId))]
