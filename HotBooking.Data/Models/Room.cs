@@ -17,19 +17,21 @@ public class Room
     [Key]
     public int Id { get; set; }
 
-    [Required, MaxLength(RoomConstants.TitleLengthMax)]
+    [Required]
+    [MaxLength(RoomConstants.TitleLengthMax)]
     public string Title { get; set; } = null!;
 
-    [Required, MaxLength(RoomConstants.DescriptionLengthMax)]
+    [Required]
+    [MaxLength(RoomConstants.DescriptionLengthMax)]
     public string Description { get; set; } = null!;
 
-    [Required, MaxLength(RoomConstants.BedsCountMax)]
+    [Required]
     public int BedsCount { get; set; }
 
-    [Required, MaxLength(RoomConstants.RoomSizeSquareMetersMax)]
+    [Required]
     public int RoomSizeSquareMeters { get; set; }
 
-    [Required, MaxLength(RoomConstants.PricePerNightMax)]
+    [Required]
     public decimal PricePerNight { get; set; }
 
     [Required]
