@@ -3,6 +3,11 @@
 namespace HotBooking.Data.Models;
 public class Feature
 {
+    public Feature()
+    {
+        RoomsFeatures = new HashSet<RoomFeature>();
+    }
+
     [Key]
     public int Id { get; set; }
 
@@ -11,4 +16,6 @@ public class Feature
 
     [Required]
     public string IconClassName { get; set; } = null!;
+
+    public ICollection<RoomFeature> RoomsFeatures { get; set; }
 }
