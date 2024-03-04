@@ -29,4 +29,25 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<RoomFeature> RoomsFeatures { get; set; } = null!;
 
     public DbSet<HotelFacility> HotelsFacilities { get; set; } = null!;
+
+    override protected void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder
+            .Entity<HotelFacility>()
+            .HasKey(x => new { x.HotelId, x.FacilityId });
+
+        modelBuilder
+            .Entity<RoomFeature>()
+            .HasKey(x => new { x.RoomId, x.FeatureId });
+
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            foreach (var foreignKey in entityType.GetForeignKeys())
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+        }
+
+        base.OnModelCreating(modelBuilder);
+    }
 }
