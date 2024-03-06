@@ -18,9 +18,5 @@ public class Manager
     [ForeignKey(nameof(UserId))]
     public ApplicationUser User { get; set; } = null!;
 
-    [Required]
-    public int HotelId { get; set; }
-
-    [ForeignKey(nameof(HotelId))]
-    public Hotel Hotel { get; set; } = null!;
+    public Hotel? Hotel { get; set; } = null!;
 }

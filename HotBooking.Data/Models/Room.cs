@@ -37,16 +37,13 @@ public class Room
     [Required]
     public bool IsAvailable { get; set; }
 
+    public Booking? Booking { get; set; }
+
     [Required]
     public int HotelId { get; set; }
 
     [ForeignKey(nameof(HotelId))]
     public Hotel Hotel { get; set; } = null!;
-
-    public int? BookingId { get; set; }
-
-    [ForeignKey(nameof(BookingId))]
-    public Booking? Booking { get; set; }
 
     public ICollection<Feature> Features { get; set; }
 
