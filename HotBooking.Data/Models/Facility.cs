@@ -17,8 +17,8 @@ public class Facility
     public string Name { get; set; } = null!;
 
     [Required]
-    [MaxLength(FacilityConstants.IconClassNameLengthMax)]
-    public string IconClassName { get; set; } = null!;
+    [MaxLength(FacilityConstants.SvgTagLengthMax)]
+    public string SvgTag { get; set; } = null!;
 
     public ICollection<HotelFacility> HotelsFacilities { get; set; }
 }

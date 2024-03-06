@@ -17,8 +17,8 @@ public class Feature
     public string Name { get; set; } = null!;
 
     [Required]
-    [MaxLength(FeatureConstants.IconClassNameLengthMax)]
-    public string IconClassName { get; set; } = null!;
+    [MaxLength(FeatureConstants.SvgTagLengthMax)]
+    public string SvgTag { get; set; } = null!;
 
     public ICollection<RoomFeature> RoomsFeatures { get; set; }
 }
