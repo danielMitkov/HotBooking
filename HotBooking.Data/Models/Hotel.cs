@@ -37,7 +37,6 @@ public class Hotel
     public string CountryName { get; set; } = null!;
 
     [Required]
-    [MaxLength(HotelConstants.StarRatingMax)]
     public int StarRating { get; set; }
 
     [Required]

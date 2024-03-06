@@ -1,5 +1,4 @@
-﻿using HotBooking.Data.Constants;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotBooking.Data.Models;
@@ -15,7 +14,6 @@ public class Booking
     public DateTime CheckOut { get; set; }
 
     [Required]
-    [MaxLength(BookingConstants.AdultsCountMax)]
     public int AdultsCount { get; set; }
 
     [Required]

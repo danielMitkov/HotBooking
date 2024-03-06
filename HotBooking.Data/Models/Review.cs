@@ -9,7 +9,6 @@ public class Review
     public int Id { get; set; }
 
     [Required]
-    [MaxLength(ReviewConstants.RatingScoreMax)]
     public int RatingScore { get; set; }
 
     [Required]
