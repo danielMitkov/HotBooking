@@ -1,4 +1,7 @@
-﻿using HotBooking.Data;
+﻿using HotBooking.Core.Interfaces;
+using HotBooking.Core.Services;
+using HotBooking.Data;
+using HotBooking.Data.Common;
 using HotBooking.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +11,8 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        services.AddScoped<IHotelsService, HotelsService>();
+
         return services;
     }
 
