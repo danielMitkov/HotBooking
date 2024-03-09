@@ -17,6 +17,11 @@ body {
     margin-bottom: 60px;
 }
 
+.hotel-item img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
 
 .svg-container {
     width: 100%;
