@@ -23,20 +23,20 @@ public class Review
     public DateTime ReviewedOn { get; set; }
 
     [Required]
-    public string UserId { get; set; } = null!;
+    public int HotelId { get; set; }
 
-    [ForeignKey(nameof(UserId))]
-    public ApplicationUser User { get; set; } = null!;
-
-    [Required]
-    public int RoomId { get; set; }
-
-    [ForeignKey(nameof(RoomId))]
-    public Room Room { get; set; } = null!;
+    [ForeignKey(nameof(HotelId))]
+    public Hotel Hotel { get; set; } = null!;
 
     [Required]
     public int BookingId { get; set; }
 
     [ForeignKey(nameof(BookingId))]
     public Booking Booking { get; set; } = null!;
+
+    [Required]
+    public string UserId { get; set; } = null!;
+
+    [ForeignKey(nameof(UserId))]
+    public ApplicationUser User { get; set; } = null!;
 }
