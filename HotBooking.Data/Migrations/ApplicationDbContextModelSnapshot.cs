@@ -85,6 +85,56 @@ namespace HotBooking.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "49c62027-4afc-4a6f-89b4-58b946cc51a8",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "256fd113-02aa-4030-bc84-4af8a82553b8",
+                            Email = "guest@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "guest@mail.com",
+                            NormalizedUserName = "guest@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOqS6fpT4gfUiwVA4PRCrhqiehyyFYT5JTyjHr9wAh4NGFXByABQWvF4V6mchNh18A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d42d8e08-974a-4961-9cfc-d42904c76d2c",
+                            TwoFactorEnabled = false,
+                            UserName = "guest@mail.com"
+                        },
+                        new
+                        {
+                            Id = "a9dbd6b4-a878-41a6-9da6-8fac71893547",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d6b1e6a6-94f4-46d4-8f69-dd211c7f9d0e",
+                            Email = "two@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "two@mail.com",
+                            NormalizedUserName = "two@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEc6DrLM8cnvKh1TsFwxM14VS85W0B4V9r4qzbdbEhsLBav0Fn5Neb/xj/H0HAhdRg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d3577acc-108b-4bc7-8e83-a975c1179a4d",
+                            TwoFactorEnabled = false,
+                            UserName = "two@mail.com"
+                        },
+                        new
+                        {
+                            Id = "409a1fe1-a017-4e11-94fb-7c638937c52d",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c23831a4-fd9a-4168-a64e-c0fe4a434456",
+                            Email = "manager@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "manager@mail.com",
+                            NormalizedUserName = "manager@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA7WdWhx2YuxmX6p6htYKiVAqo92ek1hdrq2dEAVp6ttzUXVUVls8EwyYX3zkjZ7Hg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "4c3b5885-b95a-4b0b-99f8-fd2afff32c80",
+                            TwoFactorEnabled = false,
+                            UserName = "manager@mail.com"
+                        });
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Booking", b =>
@@ -104,6 +154,9 @@ namespace HotBooking.Data.Migrations
                     b.Property<DateTime>("CheckOut")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
@@ -113,12 +166,66 @@ namespace HotBooking.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("HotelId");
+
                     b.HasIndex("RoomId")
                         .IsUnique();
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Bookings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AdultsCount = 2,
+                            CheckIn = new DateTime(2023, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            HotelId = 1,
+                            RoomId = 1,
+                            UserId = "49c62027-4afc-4a6f-89b4-58b946cc51a8"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AdultsCount = 3,
+                            CheckIn = new DateTime(2023, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            HotelId = 1,
+                            RoomId = 2,
+                            UserId = "49c62027-4afc-4a6f-89b4-58b946cc51a8"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AdultsCount = 1,
+                            CheckIn = new DateTime(2023, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            HotelId = 2,
+                            RoomId = 3,
+                            UserId = "a9dbd6b4-a878-41a6-9da6-8fac71893547"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AdultsCount = 4,
+                            CheckIn = new DateTime(2023, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            HotelId = 2,
+                            RoomId = 4,
+                            UserId = "a9dbd6b4-a878-41a6-9da6-8fac71893547"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AdultsCount = 2,
+                            CheckIn = new DateTime(2023, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOut = new DateTime(2023, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            HotelId = 2,
+                            RoomId = 5,
+                            UserId = "a9dbd6b4-a878-41a6-9da6-8fac71893547"
+                        });
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Facility", b =>
@@ -218,10 +325,33 @@ namespace HotBooking.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ManagerId")
-                        .IsUnique();
+                    b.HasIndex("ManagerId");
 
                     b.ToTable("Hotels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CityName = "London",
+                            CountryName = "United Kingdom",
+                            Description = "Less than a 5-minute walk from London Paddington Station and Hyde Park, this boutique hotel offers elegant rooms with free internet and satellite TV.",
+                            HotelName = "The Chilworth London Paddington",
+                            ManagerId = 1,
+                            StarRating = 5,
+                            StreetAddress = "Westminster Borough"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CityName = "Bansko",
+                            CountryName = "Bulgaria",
+                            Description = "Get your trip off to a great start with a stay at this property, which offers free Wi-Fi in all rooms. Conveniently situated in the Bansko part of Bansko, this property puts you close to attractions and interesting dining options. Rated with 5 stars, this high-quality property provides guests with access to massage, restaurant and hot tub on-site.",
+                            HotelName = "Kempinski Hotel Grand Arena Bansko",
+                            ManagerId = 1,
+                            StarRating = 4,
+                            StreetAddress = "#96 Pirin Street"
+                        });
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.HotelFacility", b =>
@@ -239,7 +369,7 @@ namespace HotBooking.Data.Migrations
                     b.ToTable("HotelsFacilities");
                 });
 
-            modelBuilder.Entity("HotBooking.Data.Models.ImageUrl", b =>
+            modelBuilder.Entity("HotBooking.Data.Models.HotelImageUrl", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -247,10 +377,7 @@ namespace HotBooking.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("HotelId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RoomId")
+                    b.Property<int>("HotelId")
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
@@ -262,9 +389,21 @@ namespace HotBooking.Data.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.HasIndex("RoomId");
+                    b.ToTable("HotelImageUrls");
 
-                    b.ToTable("ImageUrls");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            HotelId = 1,
+                            Url = "https://www.w3schools.com/html/pic_trulli.jpg"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            HotelId = 2,
+                            Url = "https://pix8.agoda.net/hotelImages/182146/-1/112f1fa0f38baf10800569462deb46cd.jpg"
+                        });
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Manager", b =>
@@ -289,6 +428,14 @@ namespace HotBooking.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Managers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PhoneNumber = "08812345678",
+                            UserId = "409a1fe1-a017-4e11-94fb-7c638937c52d"
+                        });
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Review", b =>
@@ -307,14 +454,14 @@ namespace HotBooking.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RatingScore")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReviewedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -327,13 +474,71 @@ namespace HotBooking.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookingId");
+                    b.HasIndex("BookingId")
+                        .IsUnique();
 
-                    b.HasIndex("RoomId");
+                    b.HasIndex("HotelId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BookingId = 1,
+                            Comment = "I love this product! It's exactly what I needed.",
+                            HotelId = 1,
+                            RatingScore = 5,
+                            ReviewedOn = new DateTime(2023, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Excellent Product",
+                            UserId = "49c62027-4afc-4a6f-89b4-58b946cc51a8"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BookingId = 2,
+                            Comment = "The product was okay, but could be better.",
+                            HotelId = 1,
+                            RatingScore = 3,
+                            ReviewedOn = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Average Experience",
+                            UserId = "49c62027-4afc-4a6f-89b4-58b946cc51a8"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BookingId = 3,
+                            Comment = "I was very disappointed with this product.",
+                            HotelId = 2,
+                            RatingScore = 1,
+                            ReviewedOn = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Poor Quality",
+                            UserId = "a9dbd6b4-a878-41a6-9da6-8fac71893547"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BookingId = 4,
+                            Comment = "I got my money's worth with this product.",
+                            HotelId = 2,
+                            RatingScore = 4,
+                            ReviewedOn = new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Good Value",
+                            UserId = "a9dbd6b4-a878-41a6-9da6-8fac71893547"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BookingId = 5,
+                            Comment = "This product is amazing! Highly recommended.",
+                            HotelId = 2,
+                            RatingScore = 5,
+                            ReviewedOn = new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Best Product Ever",
+                            UserId = "a9dbd6b4-a878-41a6-9da6-8fac71893547"
+                        });
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Room", b =>
@@ -355,9 +560,6 @@ namespace HotBooking.Data.Migrations
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
-
                     b.Property<decimal>("PricePerNight")
                         .HasColumnType("decimal(18,2)");
 
@@ -374,6 +576,58 @@ namespace HotBooking.Data.Migrations
                     b.HasIndex("HotelId");
 
                     b.ToTable("Rooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BedsCount = 2,
+                            Description = "A comfortable room for a relaxing stay.",
+                            HotelId = 1,
+                            PricePerNight = 75.50m,
+                            RoomSizeSquareMeters = 25,
+                            Title = "Cozy Retreat"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BedsCount = 1,
+                            Description = "Luxurious suite with modern amenities.",
+                            HotelId = 1,
+                            PricePerNight = 120.75m,
+                            RoomSizeSquareMeters = 40,
+                            Title = "Executive Suite"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BedsCount = 3,
+                            Description = "Spacious room suitable for families.",
+                            HotelId = 2,
+                            PricePerNight = 95.25m,
+                            RoomSizeSquareMeters = 35,
+                            Title = "Family Getaway"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BedsCount = 1,
+                            Description = "Enjoy breathtaking views of the ocean.",
+                            HotelId = 2,
+                            PricePerNight = 110.00m,
+                            RoomSizeSquareMeters = 30,
+                            Title = "Ocean View Paradise"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BedsCount = 2,
+                            Description = "Escape to a cozy lodge in the mountains.",
+                            HotelId = 2,
+                            PricePerNight = 85.80m,
+                            RoomSizeSquareMeters = 28,
+                            Title = "Mountain Lodge"
+                        });
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.RoomFeature", b =>
@@ -389,6 +643,29 @@ namespace HotBooking.Data.Migrations
                     b.HasIndex("FeatureId");
 
                     b.ToTable("RoomsFeatures");
+                });
+
+            modelBuilder.Entity("HotBooking.Data.Models.RoomImageUrl", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(2083)
+                        .HasColumnType("nvarchar(2083)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomImageUrls");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -530,6 +807,12 @@ namespace HotBooking.Data.Migrations
 
             modelBuilder.Entity("HotBooking.Data.Models.Booking", b =>
                 {
+                    b.HasOne("HotBooking.Data.Models.Hotel", "Hotel")
+                        .WithMany("Bookings")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("HotBooking.Data.Models.Room", "Room")
                         .WithOne("Booking")
                         .HasForeignKey("HotBooking.Data.Models.Booking", "RoomId")
@@ -541,6 +824,8 @@ namespace HotBooking.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Hotel");
 
                     b.Navigation("Room");
 
@@ -566,8 +851,8 @@ namespace HotBooking.Data.Migrations
             modelBuilder.Entity("HotBooking.Data.Models.Hotel", b =>
                 {
                     b.HasOne("HotBooking.Data.Models.Manager", "Manager")
-                        .WithOne("Hotel")
-                        .HasForeignKey("HotBooking.Data.Models.Hotel", "ManagerId")
+                        .WithMany("Hotels")
+                        .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -593,17 +878,15 @@ namespace HotBooking.Data.Migrations
                     b.Navigation("Hotel");
                 });
 
-            modelBuilder.Entity("HotBooking.Data.Models.ImageUrl", b =>
+            modelBuilder.Entity("HotBooking.Data.Models.HotelImageUrl", b =>
                 {
-                    b.HasOne("HotBooking.Data.Models.Hotel", null)
+                    b.HasOne("HotBooking.Data.Models.Hotel", "Hotel")
                         .WithMany("HotelImages")
                         .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("HotBooking.Data.Models.Room", null)
-                        .WithMany("RoomImages")
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Manager", b =>
@@ -620,14 +903,14 @@ namespace HotBooking.Data.Migrations
             modelBuilder.Entity("HotBooking.Data.Models.Review", b =>
                 {
                     b.HasOne("HotBooking.Data.Models.Booking", "Booking")
-                        .WithMany()
-                        .HasForeignKey("BookingId")
+                        .WithOne("Review")
+                        .HasForeignKey("HotBooking.Data.Models.Review", "BookingId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("HotBooking.Data.Models.Room", "Room")
+                    b.HasOne("HotBooking.Data.Models.Hotel", "Hotel")
                         .WithMany("Reviews")
-                        .HasForeignKey("RoomId")
+                        .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -639,7 +922,7 @@ namespace HotBooking.Data.Migrations
 
                     b.Navigation("Booking");
 
-                    b.Navigation("Room");
+                    b.Navigation("Hotel");
 
                     b.Navigation("User");
                 });
@@ -670,6 +953,17 @@ namespace HotBooking.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Feature");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("HotBooking.Data.Models.RoomImageUrl", b =>
+                {
+                    b.HasOne("HotBooking.Data.Models.Room", "Room")
+                        .WithMany("RoomImages")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Room");
                 });
@@ -732,6 +1026,11 @@ namespace HotBooking.Data.Migrations
                     b.Navigation("Reviews");
                 });
 
+            modelBuilder.Entity("HotBooking.Data.Models.Booking", b =>
+                {
+                    b.Navigation("Review");
+                });
+
             modelBuilder.Entity("HotBooking.Data.Models.Facility", b =>
                 {
                     b.Navigation("HotelsFacilities");
@@ -744,16 +1043,20 @@ namespace HotBooking.Data.Migrations
 
             modelBuilder.Entity("HotBooking.Data.Models.Hotel", b =>
                 {
+                    b.Navigation("Bookings");
+
                     b.Navigation("Facilities");
 
                     b.Navigation("HotelImages");
+
+                    b.Navigation("Reviews");
 
                     b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Manager", b =>
                 {
-                    b.Navigation("Hotel");
+                    b.Navigation("Hotels");
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Room", b =>
@@ -761,8 +1064,6 @@ namespace HotBooking.Data.Migrations
                     b.Navigation("Booking");
 
                     b.Navigation("Features");
-
-                    b.Navigation("Reviews");
 
                     b.Navigation("RoomImages");
                 });
