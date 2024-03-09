@@ -10,7 +10,9 @@ public class Hotel
     {
         Facilities = new HashSet<Facility>();
         Rooms = new HashSet<Room>();
-        HotelImages = new HashSet<ImageUrl>();
+        HotelImages = new HashSet<HotelImageUrl>();
+        Reviews = new HashSet<Review>();
+        Bookings = new HashSet<Booking>();
     }
 
     [Key]
@@ -49,5 +51,9 @@ public class Hotel
 
     public ICollection<Room> Rooms { get; set; }
 
-    public ICollection<ImageUrl> HotelImages { get; set; }
+    public ICollection<HotelImageUrl> HotelImages { get; set; }
+
+    public ICollection<Review> Reviews { get; set; }
+
+    public ICollection<Booking> Bookings { get; set; }
 }
