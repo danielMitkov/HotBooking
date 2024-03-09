@@ -24,6 +24,8 @@ public static class ServiceCollectionExtension
             .AddDbContext<HotBookingDbContext>(options =>
             options.UseSqlServer(connectionString));
 
+        services.AddScoped<IRepository, Repository>();
+
         services.AddDatabaseDeveloperPageExceptionFilter();
 
         return services;
