@@ -17,14 +17,22 @@ public class Booking
     public int AdultsCount { get; set; }
 
     [Required]
+    public string UserId { get; set; } = null!;
+
+    [ForeignKey(nameof(UserId))]
+    public ApplicationUser User { get; set; } = null!;
+
+    [Required]
     public int RoomId { get; set; }
 
     [ForeignKey(nameof(RoomId))]
     public Room Room { get; set; } = null!;
 
     [Required]
-    public string UserId { get; set; } = null!;
+    public int HotelId { get; set; }
 
-    [ForeignKey(nameof(UserId))]
-    public ApplicationUser User { get; set; } = null!;
+    [ForeignKey(nameof(HotelId))]
+    public Hotel Hotel { get; set; } = null!;
+
+    public Review? Review { get; set; } = null!;
 }
