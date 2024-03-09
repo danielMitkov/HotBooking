@@ -8,10 +8,7 @@ public class Room
     public Room()
     {
         Features = new HashSet<Feature>();
-        RoomImages = new HashSet<ImageUrl>();
-        Reviews = new HashSet<Review>();
-
-        IsAvailable = true;
+        RoomImages = new HashSet<RoomImageUrl>();
     }
 
     [Key]
@@ -32,12 +29,8 @@ public class Room
     public int RoomSizeSquareMeters { get; set; }
 
     [Required]
+    [Column(TypeName = "decimal(18,2)")]
     public decimal PricePerNight { get; set; }
-
-    [Required]
-    public bool IsAvailable { get; set; }
-
-    public Booking? Booking { get; set; }
 
     [Required]
     public int HotelId { get; set; }
@@ -45,9 +38,9 @@ public class Room
     [ForeignKey(nameof(HotelId))]
     public Hotel Hotel { get; set; } = null!;
 
+    public Booking? Booking { get; set; }
+
     public ICollection<Feature> Features { get; set; }
 
-    public ICollection<ImageUrl> RoomImages { get; set; }
-
-    public ICollection<Review> Reviews { get; set; }
+    public ICollection<RoomImageUrl> RoomImages { get; set; }
 }
