@@ -5,6 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HotBooking.Data.Models;
 public class Manager
 {
+    public Manager()
+    {
+        Hotels = new HashSet<Hotel>();
+    }
+
     [Key]
     public int Id { get; set; }
 
@@ -18,5 +23,5 @@ public class Manager
     [ForeignKey(nameof(UserId))]
     public ApplicationUser User { get; set; } = null!;
 
-    public Hotel? Hotel { get; set; } = null!;
+    public ICollection<Hotel> Hotels { get; set; }
 }
