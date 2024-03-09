@@ -1,4 +1,5 @@
-﻿using HotBooking.Data.Models;
+﻿using HotBooking.Data.Configurations;
+using HotBooking.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +25,9 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Facility> Facilities { get; set; } = null!;
 
-    public DbSet<ImageUrl> ImageUrls { get; set; } = null!;
+    public DbSet<HotelImageUrl> HotelImageUrls { get; set; } = null!;
+
+    public DbSet<RoomImageUrl> RoomImageUrls { get; set; } = null!;
 
     public DbSet<RoomFeature> RoomsFeatures { get; set; } = null!;
 
@@ -47,6 +50,14 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser>
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
         }
+
+        modelBuilder.ApplyConfiguration(new ApplicationUserConfiguration());
+        modelBuilder.ApplyConfiguration(new ManagerConfiguration());
+        modelBuilder.ApplyConfiguration(new HotelConfiguration());
+        modelBuilder.ApplyConfiguration(new HotelImageUrlConfiguration());
+        modelBuilder.ApplyConfiguration(new RoomConfiguration());
+        modelBuilder.ApplyConfiguration(new BookingConfiguration());
+        modelBuilder.ApplyConfiguration(new ReviewConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }
