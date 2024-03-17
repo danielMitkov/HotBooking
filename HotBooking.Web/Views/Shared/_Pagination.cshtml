@@ -1,0 +1,66 @@
+﻿@model Pager<PreviewHotelDto>
+
+<div class="container">
+    @if (Model.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+
+            @if (Model.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="@Model.ControllerName"
+                       asp-action="@Model.ActionName"
+                       asp-route-page="1"
+                       asp-route-city="@Model.City">
+                        First
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="@Model.ControllerName"
+                       asp-action="@Model.ActionName"
+                       asp-route-page="@(Model.CurrentPage - 1)"
+                       asp-route-city="@Model.City">
+                        Previous
+                    </a>
+                </li>
+            }
+
+            @for (int page = Model.StartPage; page <= Model.EndPage; ++page)
+            {
+                <li class="page-item @(page == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link"
+                       asp-controller="@Model.ControllerName"
+                       asp-action="@Model.ActionName"
+                       asp-route-page="@(page)"
+                       asp-route-city="@Model.City">
+                        @(page)
+                    </a>
+                </li>
+            }
+
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="@Model.ControllerName"
+                       asp-action="@Model.ActionName"
+                       asp-route-page="@(Model.CurrentPage + 1)"
+                       asp-route-city="@Model.City">
+                        Next
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="@Model.ControllerName"
+                       asp-action="@Model.ActionName"
+                       asp-route-page="@(Model.TotalPages)"
+                       asp-route-city="@Model.City">
+                        Last
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+</div>
