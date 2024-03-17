@@ -9,11 +9,13 @@ public class PreviewHotelDto
 
     public string Description { get; set; } = null!;
 
-    public string FullAddress { get; set; } = null!;
+    public string StreetAddress { get; set; } = null!;
+
+    public string CityName { get; set; } = null!;
 
     public int StarRating { get; set; }
 
-    public double AverageRating  { get; set; }
+    public decimal AverageRating  { get; set; }
 
     public int ReviewsCount { get; set; }
 }
