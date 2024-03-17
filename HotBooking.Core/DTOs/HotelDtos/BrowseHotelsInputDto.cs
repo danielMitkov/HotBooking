@@ -1,4 +1,6 @@
-﻿namespace HotBooking.Core.DTOs.HotelDtos;
+﻿using HotBooking.Core.Enums;
+
+namespace HotBooking.Core.DTOs.HotelDtos;
 public class BrowseHotelsInputDto
 {
     public int CurrentPage { get; set; }
@@ -6,4 +8,6 @@ public class BrowseHotelsInputDto
     public int PageSize { get; set; }
 
     public string? City { get; set; }
+
+    public HotelSorting Sorting { get; set; }
 }
