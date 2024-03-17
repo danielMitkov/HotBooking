@@ -1,4 +1,4 @@
-﻿@model Pager<PreviewHotelDto>
+﻿@model Pager
 
 <div class="container">
     @if (Model.TotalPages > 0)
@@ -12,7 +12,8 @@
                        asp-controller="@Model.ControllerName"
                        asp-action="@Model.ActionName"
                        asp-route-page="1"
-                       asp-route-city="@Model.City">
+                       asp-route-city="@Model.City"
+                       asp-route-sorting="@Model.Sorting">
                         First
                     </a>
                 </li>
@@ -21,7 +22,8 @@
                        asp-controller="@Model.ControllerName"
                        asp-action="@Model.ActionName"
                        asp-route-page="@(Model.CurrentPage - 1)"
-                       asp-route-city="@Model.City">
+                       asp-route-city="@Model.City"
+                       asp-route-sorting="@Model.Sorting">
                         Previous
                     </a>
                 </li>
@@ -34,7 +36,8 @@
                        asp-controller="@Model.ControllerName"
                        asp-action="@Model.ActionName"
                        asp-route-page="@(page)"
-                       asp-route-city="@Model.City">
+                       asp-route-city="@Model.City"
+                       asp-route-sorting="@Model.Sorting">
                         @(page)
                     </a>
                 </li>
@@ -47,7 +50,8 @@
                        asp-controller="@Model.ControllerName"
                        asp-action="@Model.ActionName"
                        asp-route-page="@(Model.CurrentPage + 1)"
-                       asp-route-city="@Model.City">
+                       asp-route-city="@Model.City"
+                       asp-route-sorting="@Model.Sorting">
                         Next
                     </a>
                 </li>
@@ -56,7 +60,8 @@
                        asp-controller="@Model.ControllerName"
                        asp-action="@Model.ActionName"
                        asp-route-page="@(Model.TotalPages)"
-                       asp-route-city="@Model.City">
+                       asp-route-city="@Model.City"
+                       asp-route-sorting="@Model.Sorting">
                         Last
                     </a>
                 </li>
