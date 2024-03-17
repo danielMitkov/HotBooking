@@ -25,8 +25,9 @@ public class HotelsController : Controller
         };
 
         var outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
+        var cities = await hotelsService.GetHotelsCitiesAsync();
 
-        viewModel.CitiesJson = JsonSerializer.Serialize(new string[] { "Apple", "Banana", "Cherry", "Date", "Elderberry" });
+        viewModel.CitiesJson = JsonSerializer.Serialize(cities);
         viewModel.Hotels = outputDto.SelectedHotels;
         viewModel.Pager = new(outputDto.TotalPages, viewModel.Page, "Hotels", "List", viewModel.City);
 
