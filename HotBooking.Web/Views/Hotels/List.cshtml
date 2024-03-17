@@ -1,4 +1,5 @@
-﻿@model BrowseHotelsViewModel
+﻿
+@model BrowseHotelsViewModel
 
 @{
     ViewData["Title"] = "Explore Hotels";
@@ -15,6 +16,21 @@
                    value="@Model.City">
             <input type="hidden" id="citiesData" value="@Model.CitiesJson" />
             <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+    </form>
+</section>
+
+<section>
+    <form asp-action="List" method="get">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                Sort By
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" asp-route-city="@Model.City" asp-route-sorting="@HotelSorting.RatingDesc">Top Rated</a></li>
+                <li><a class="dropdown-item" asp-route-city="@Model.City" asp-route-sorting="@HotelSorting.PriceAsc">From Cheapest to Most Expensive</a></li>
+                <li><a class="dropdown-item" asp-route-city="@Model.City" asp-route-sorting="@HotelSorting.PriceDesc">From Most Expensive to Cheapest</a></li>
+            </ul>
         </div>
     </form>
 </section>
