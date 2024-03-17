@@ -17,19 +17,35 @@ public class HotelsController : Controller
 
     public async Task<IActionResult> List(BrowseHotelsViewModel viewModel)
     {
+        if (ModelState.IsValid == false)
+        {
+            return View(viewModel);
+        }
+
         var inputDto = new BrowseHotelsInputDto()
         {
             City = viewModel.City,
             CurrentPage = viewModel.Page,
-            PageSize = 1
+            PageSize = 2,
+            Sorting = viewModel.Sorting
         };
 
         var outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
         var cities = await hotelsService.GetHotelsCitiesAsync();
 
         viewModel.CitiesJson = JsonSerializer.Serialize(cities);
-        viewModel.Hotels = outputDto.SelectedHotels;
-        viewModel.Pager = new(outputDto.TotalPages, viewModel.Page, "Hotels", "List", viewModel.City);
+        viewModel.Pager = new(outputDto.TotalPages, viewModel.Page, "Hotels", "List", viewModel.City, viewModel.Sorting);
+        viewModel.Hotels = outputDto.SelectedHotels
+            .Select(h => new PreviewHotelViewModel()
+            {
+                Id = h.Id,
+                ImageUrl = h.ImageUrl,
+                HotelName = h.HotelName,
+                Description = h.Description,
+                FullAddress = h.StreetAddress + ", " + h.CityName,
+                StarRating = h.StarRating,
+                AverageRating = Math.Round(h.AverageRating, 2)
+            });
 
         return View(viewModel);
     }
