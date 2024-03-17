@@ -1,8 +1,10 @@
-﻿namespace HotBooking.Web.Models;
+﻿using HotBooking.Core.Enums;
 
-public class Pager<T>
+namespace HotBooking.Web.Models;
+
+public class Pager
 {
-    public Pager(int totalPages, int currentPage, string controllerName, string actionName, string? city)
+    public Pager(int totalPages, int currentPage, string controllerName, string actionName, string? city, HotelSorting sorting)
     {
         TotalPages = totalPages;
         CurrentPage = currentPage;
@@ -10,6 +12,7 @@ public class Pager<T>
         ControllerName = controllerName;
         ActionName = actionName;
         City = city;
+        Sorting = sorting;
 
         int startPage = CurrentPage - 1;
         int endPage = CurrentPage + 1;
@@ -34,6 +37,7 @@ public class Pager<T>
     public string ControllerName { get; set; }
     public string ActionName { get; set; }
     public string? City { get; set; }
+    public HotelSorting Sorting { get; set; }
 
     public int StartPage { get; set; }
     public int EndPage { get; set; }
