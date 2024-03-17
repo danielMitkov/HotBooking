@@ -1,4 +1,5 @@
 ﻿using HotBooking.Core.DTOs.HotelDtos;
+using HotBooking.Core.Enums;
 using HotBooking.Core.Interfaces;
 using HotBooking.Data.Common;
 using HotBooking.Data.Models;
@@ -18,28 +19,42 @@ public class HotelsService : IHotelsService
     {
         var queryHotels = repository.AllReadOnly<Hotel>();
 
-        if (!string.IsNullOrWhiteSpace(inputDto.City))
+        if (string.IsNullOrWhiteSpace(inputDto.City) == false)
         {
             queryHotels = queryHotels.Where(h => h.CityName == inputDto.City);
         }
 
         int allHotelsCount = await queryHotels.CountAsync();
 
-        PreviewHotelDto[] selectedHotels = await queryHotels
+        queryHotels = queryHotels
             .Skip((inputDto.CurrentPage - 1) * inputDto.PageSize)
-            .Take(inputDto.PageSize)
-            .Select(h => new PreviewHotelDto
-            {
-                Id = h.Id,
-                ImageUrl = h.HotelImages.First().Url,
-                HotelName = h.HotelName,
-                Description = h.Description,
-                FullAddress = h.StreetAddress + ", " + h.CityName,
-                StarRating = h.StarRating,
-                AverageRating = Math.Round(h.Reviews.Average(r => r.RatingScore), 2),
-                ReviewsCount = h.Reviews.Count()
-            })
-            .ToArrayAsync();
+            .Take(inputDto.PageSize);
+
+        queryHotels = inputDto.Sorting switch
+        {
+            HotelSorting.PriceAsc => queryHotels.OrderBy(h => h.Rooms.Min(r => r.PricePerNight)),
+
+            HotelSorting.PriceDesc => queryHotels.OrderByDescending(h => h.Rooms.Min(r => r.PricePerNight)),
+
+            _ => queryHotels.OrderByDescending(h => h.Reviews.Average(r => r.RatingScore))//HotelSorting.RatingDesc
+        };
+
+        PreviewHotelDto[] selectedHotels = await queryHotels
+                .Select(h => new PreviewHotelDto
+                {
+                    Id = h.Id,
+                    ImageUrl = h.HotelImages.First().Url,
+                    HotelName = h.HotelName,
+                    Description = h.Description,
+                    StreetAddress = h.StreetAddress,
+                    CityName = h.CityName,
+                    //FullAddress = h.StreetAddress + ", " + h.CityName,
+                    StarRating = h.StarRating,
+                    //AverageRating = Math.Round(h.Reviews.Average(r => r.RatingScore), 2),
+                    AverageRating = h.Reviews.Average(r => (decimal)r.RatingScore),
+                    ReviewsCount = h.Reviews.Count()
+                })
+                .ToArrayAsync();
 
         int totalPages = (int)Math.Ceiling(allHotelsCount / (decimal)inputDto.PageSize);
 
