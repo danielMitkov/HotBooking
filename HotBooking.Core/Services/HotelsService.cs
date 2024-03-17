@@ -14,11 +14,21 @@ public class HotelsService : IHotelsService
         this.repository = repository;
     }
 
-    public async Task<ICollection<AllHotelDto>> AllHotelsAsync()
+    public async Task<BrowseHotelsOutputDto> GetFilteredHotelsAsync(BrowseHotelsInputDto inputDto)
     {
-        var hotels = await repository
-            .AllReadOnly<Hotel>()
-            .Select(h => new AllHotelDto
+        var queryHotels = repository.AllReadOnly<Hotel>();
+
+        if (!string.IsNullOrWhiteSpace(inputDto.City))
+        {
+            queryHotels = queryHotels.Where(h => h.CityName == inputDto.City);
+        }
+
+        int allHotelsCount = await queryHotels.CountAsync();
+
+        PreviewHotelDto[] selectedHotels = await queryHotels
+            .Skip((inputDto.CurrentPage - 1) * inputDto.PageSize)
+            .Take(inputDto.PageSize)
+            .Select(h => new PreviewHotelDto
             {
                 Id = h.Id,
                 ImageUrl = h.HotelImages.First().Url,
@@ -31,6 +41,15 @@ public class HotelsService : IHotelsService
             })
             .ToArrayAsync();
 
-        return hotels;
+        int totalPages = (int)Math.Ceiling(allHotelsCount / (decimal)inputDto.PageSize);
+
+        var outputDto = new BrowseHotelsOutputDto()
+        {
+            SelectedHotels = selectedHotels,
+            TotalPages = totalPages
+        };
+
+        return outputDto;
+    }
     }
 }
