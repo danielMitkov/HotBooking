@@ -51,5 +51,13 @@ public class HotelsService : IHotelsService
 
         return outputDto;
     }
+
+    public async Task<ICollection<string>> GetHotelsCitiesAsync()
+    {
+        string[] cities = await repository.AllReadOnly<Hotel>()
+            .Select(h => h.CityName)
+            .ToArrayAsync();
+
+        return cities;
     }
 }
