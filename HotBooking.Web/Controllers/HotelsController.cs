@@ -1,6 +1,8 @@
-﻿using HotBooking.Core.Interfaces;
-using HotBooking.Web.Models;
+﻿using HotBooking.Core.DTOs.HotelDtos;
+using HotBooking.Core.Interfaces;
+using HotBooking.Web.Models.HotelViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace HotBooking.Web.Controllers;
 
@@ -13,28 +15,21 @@ public class HotelsController : Controller
         this.hotelsService = hotelsService;
     }
 
-    public async Task<IActionResult> List(int page = 1)
+    public async Task<IActionResult> List(BrowseHotelsViewModel viewModel)
     {
-        var hotels = await hotelsService.AllHotelsAsync();
-
-        const int pageSize = 1;
-
-        if (page < 1)
+        var inputDto = new BrowseHotelsInputDto()
         {
-            page = 1;
-        }
+            City = viewModel.City,
+            CurrentPage = viewModel.Page,
+            PageSize = 1
+        };
 
-        Pager pager = new Pager(hotels.Count(), page, pageSize);
+        var outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
 
-        int itemsToSkip = (page - 1) * pageSize;
+        viewModel.CitiesJson = JsonSerializer.Serialize(new string[] { "Apple", "Banana", "Cherry", "Date", "Elderberry" });
+        viewModel.Hotels = outputDto.SelectedHotels;
+        viewModel.Pager = new(outputDto.TotalPages, viewModel.Page, "Hotels", "List", viewModel.City);
 
-        var pageItems = hotels
-            .Skip(itemsToSkip)
-            .Take(pager.PageSize)
-            .ToArray();
-
-        ViewBag.Pager = pager;
-
-        return View(pageItems);
+        return View(viewModel);
     }
 }
