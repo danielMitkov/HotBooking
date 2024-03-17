@@ -1,44 +1,40 @@
 ﻿namespace HotBooking.Web.Models;
 
-public class Pager
+public class Pager<T>
 {
-    public Pager()
+    public Pager(int totalPages, int currentPage, string controllerName, string actionName, string? city)
     {
+        TotalPages = totalPages;
+        CurrentPage = currentPage;
 
-    }
+        ControllerName = controllerName;
+        ActionName = actionName;
+        City = city;
 
-    public Pager(int totalItems, int page, int pageSize)
-    {
-        int totalPages = (int)Math.Ceiling(totalItems / (decimal)pageSize);
-        int currentPage = page;
-
-        int startPage = currentPage - 1;
-        int endPage = currentPage + 1;
+        int startPage = CurrentPage - 1;
+        int endPage = CurrentPage + 1;
 
         if (startPage <= 0)
         {
             startPage = 1;
         }
 
-        if (endPage > totalPages)
+        if (endPage > TotalPages)
         {
-            endPage = totalPages;
+            endPage = TotalPages;
         }
 
-        TotalItems = totalItems;
-        CurrentPage = currentPage;
-        PageSize = pageSize;
-
-        TotalPages = totalPages;
         StartPage = startPage;
         EndPage = endPage;
     }
 
-    public int TotalItems { get; private set; }
-    public int CurrentPage { get; private set; }
-    public int PageSize { get; private set; }
+    public int TotalPages { get; set; }
+    public int CurrentPage { get; set; }
 
-    public int TotalPages { get; private set; }
-    public int StartPage { get; private set; }
-    public int EndPage { get; private set; }
+    public string ControllerName { get; set; }
+    public string ActionName { get; set; }
+    public string? City { get; set; }
+
+    public int StartPage { get; set; }
+    public int EndPage { get; set; }
 }
