@@ -10,4 +10,6 @@ public interface IRepository
     Task SaveChangesAsync();
 
     Task<T?> GetByIdAsync<T>(object id) where T : class;
+
+    Task<bool> DeleteAsync<T>(object id) where T : class;
 }
