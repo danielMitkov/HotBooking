@@ -3,11 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotBooking.Data.Models;
-public class RoomImageUrl
-{
-    [Key]
-    public int Id { get; set; }
 
+public class RoomImageUrl : BaseEntity
+{
     [Required]
     [MaxLength(RoomImageUrlConstants.UrlLengthMax)]
     public string Url { get; set; } = null!;

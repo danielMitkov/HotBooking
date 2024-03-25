@@ -2,15 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace HotBooking.Data.Models;
-public class Feature
+
+public class Feature : BaseEntity
 {
     public Feature()
     {
         RoomsFeatures = new HashSet<RoomFeature>();
     }
-
-    [Key]
-    public int Id { get; set; }
 
     [Required]
     [MaxLength(FeatureConstants.NameLengthMax)]

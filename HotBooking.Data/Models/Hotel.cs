@@ -4,7 +4,7 @@ using HotBooking.Data.Constants;
 
 namespace HotBooking.Data.Models;
 
-public class Hotel
+public class Hotel : BaseEntity
 {
     public Hotel()
     {
@@ -14,9 +14,6 @@ public class Hotel
         Reviews = new HashSet<Review>();
         Bookings = new HashSet<Booking>();
     }
-
-    [Key]
-    public int Id { get; set; }
 
     [Required]
     [MaxLength(HotelConstants.HotelNameLengthMax)]

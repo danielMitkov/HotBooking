@@ -3,16 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using HotBooking.Data.Constants;
 
 namespace HotBooking.Data.Models;
-public class Room
+
+public class Room : BaseEntity
 {
     public Room()
     {
         Features = new HashSet<Feature>();
         RoomImages = new HashSet<RoomImageUrl>();
     }
-
-    [Key]
-    public int Id { get; set; }
 
     [Required]
     [MaxLength(RoomConstants.TitleLengthMax)]
