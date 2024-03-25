@@ -12,8 +12,7 @@ public class Repository : IRepository
 
     public IQueryable<T> All<T>() where T : class
     {
-        return dbContext
-            .Set<T>();
+        return dbContext.Set<T>();
     }
 
     public IQueryable<T> AllReadOnly<T>() where T : class
@@ -40,5 +39,23 @@ public class Repository : IRepository
         return await dbContext
             .Set<T>()
             .FindAsync(id);
+    }
+
+    public async Task<bool> DeleteAsync<T>(object id) where T : class
+    {
+        T? entity = await dbContext
+            .Set<T>()
+            .FindAsync(id);
+
+        if (entity == null)
+        {
+            return false;
+        }
+
+        dbContext
+            .Set<T>()
+            .Remove(entity);
+
+        return true;
     }
 }
