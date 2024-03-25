@@ -7,7 +7,7 @@ public class BrowseHotelsInputDto
 
     public int PageSize { get; set; }
 
-    public string? City { get; set; }
+    public string City { get; set; } = null!;
 
     public HotelSorting Sorting { get; set; }
 }
