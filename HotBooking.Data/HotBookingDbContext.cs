@@ -1,10 +1,12 @@
 ﻿using HotBooking.Data.Configurations;
 using HotBooking.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotBooking.Data;
-public class HotBookingDbContext : IdentityDbContext<ApplicationUser>
+
+public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
 {
     public HotBookingDbContext(DbContextOptions<HotBookingDbContext> options)
         : base(options)
