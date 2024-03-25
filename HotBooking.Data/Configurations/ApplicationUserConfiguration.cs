@@ -4,8 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HotBooking.Data.Configurations;
+
 public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
 {
+    public const int NormalId = 1;
+    public const int SecondUserId = 2;
+    public const int TobeManagerId = 3;
+
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
         builder.HasData(GetApplicationUsers());
@@ -17,31 +22,34 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
 
         var normal = new ApplicationUser()
         {
-            Id = "49c62027-4afc-4a6f-89b4-58b946cc51a8",
+            Id = NormalId,
             UserName = "guest@mail.com",
             NormalizedUserName = "guest@mail.com",
             Email = "guest@mail.com",
-            NormalizedEmail = "guest@mail.com"
+            NormalizedEmail = "guest@mail.com",
+            EmailConfirmed = true
         };
         normal.PasswordHash = hasher.HashPassword(normal, "secretpass");
 
         var secondUser = new ApplicationUser()
         {
-            Id = "a9dbd6b4-a878-41a6-9da6-8fac71893547",
+            Id = SecondUserId,
             UserName = "two@mail.com",
             NormalizedUserName = "two@mail.com",
             Email = "two@mail.com",
-            NormalizedEmail = "two@mail.com"
+            NormalizedEmail = "two@mail.com",
+            EmailConfirmed = true
         };
         secondUser.PasswordHash = hasher.HashPassword(secondUser, "otherpass");
 
         var tobeManager = new ApplicationUser()
         {
-            Id = "409a1fe1-a017-4e11-94fb-7c638937c52d",
+            Id = TobeManagerId,
             UserName = "manager@mail.com",
             NormalizedUserName = "manager@mail.com",
             Email = "manager@mail.com",
-            NormalizedEmail = "manager@mail.com"
+            NormalizedEmail = "manager@mail.com",
+            EmailConfirmed = true
         };
         tobeManager.PasswordHash = hasher.HashPassword(tobeManager, "managerpass");
 

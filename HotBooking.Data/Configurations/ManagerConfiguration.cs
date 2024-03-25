@@ -3,8 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HotBooking.Data.Configurations;
+
 public class ManagerConfiguration : IEntityTypeConfiguration<Manager>
 {
+    public const int FirstId = 1;
+
     public void Configure(EntityTypeBuilder<Manager> builder)
     {
         builder.HasData(GetManagers());
@@ -16,9 +19,9 @@ public class ManagerConfiguration : IEntityTypeConfiguration<Manager>
         {
             new Manager()
             {
-                Id = 1,
+                Id = FirstId,
                 PhoneNumber = "08812345678",
-                UserId = "409a1fe1-a017-4e11-94fb-7c638937c52d"
+                UserId = ApplicationUserConfiguration.TobeManagerId
             }
         };
     }
