@@ -1,8 +1,14 @@
-﻿@{
+﻿@model SearchHotelsViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<form asp-controller="@HomeController.Name" asp-action="@nameof(HomeController.Index)" method="post">
+    <partial name="_SearchHotels" for="@Model" />
+</form>
+
+@section Scripts {
+    <partial name="_SearchHotelsScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
+}
