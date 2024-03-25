@@ -1,22 +1,22 @@
-﻿using HotBooking.Core.Enums;
+﻿using HotBooking.Core.DTOs.HotelDtos;
+using HotBooking.Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotBooking.Web.Models.HotelViewModels;
 
 public class BrowseHotelsViewModel
 {
-    public string? City { get; set; }
-
-    public int Page { get; set; } = 1;
+    [Required]
+    public SearchHotelsViewModel Search { get; set; } = null!;
 
     [Required]
     [EnumDataType(typeof(HotelSorting))]
     public HotelSorting Sorting { get; set; }
 
+    public int Page { get; set; } = 1;
 
-    public string? CitiesJson { get; set; }
 
-    public Pager? Pager { get; set; }
+    public PagerViewModel? Pager { get; set; }
 
-    public IEnumerable<PreviewHotelViewModel> Hotels { get; set; } = new List<PreviewHotelViewModel>();
+    public ICollection<PreviewHotelDto> Hotels { get; set; } = new List<PreviewHotelDto>();
 }
