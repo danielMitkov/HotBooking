@@ -26,8 +26,7 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
             UserName = "guest@mail.com",
             NormalizedUserName = "guest@mail.com",
             Email = "guest@mail.com",
-            NormalizedEmail = "guest@mail.com",
-            EmailConfirmed = true
+            NormalizedEmail = "guest@mail.com"
         };
         normal.PasswordHash = hasher.HashPassword(normal, "secretpass");
 
@@ -37,8 +36,7 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
             UserName = "two@mail.com",
             NormalizedUserName = "two@mail.com",
             Email = "two@mail.com",
-            NormalizedEmail = "two@mail.com",
-            EmailConfirmed = true
+            NormalizedEmail = "two@mail.com"
         };
         secondUser.PasswordHash = hasher.HashPassword(secondUser, "otherpass");
 
@@ -48,8 +46,7 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
             UserName = "manager@mail.com",
             NormalizedUserName = "manager@mail.com",
             Email = "manager@mail.com",
-            NormalizedEmail = "manager@mail.com",
-            EmailConfirmed = true
+            NormalizedEmail = "manager@mail.com"
         };
         tobeManager.PasswordHash = hasher.HashPassword(tobeManager, "managerpass");
 
