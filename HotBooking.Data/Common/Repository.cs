@@ -111,13 +111,6 @@ public class Repository : IRepository
         return true;
     }
 
-    public async Task<ICollection<T>> ToICollectionAsync<T>(IQueryable<T> query) where T : class
-    {
-        ICollection<T> collection = await query.ToListAsync();
-
-        return collection;
-    }
-
     public async Task<int> CountAsync<T>(IQueryable<T> query) where T : class
     {
         int count = await query.CountAsync();
