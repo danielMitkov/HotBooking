@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HotBooking.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotBooking.Data.Common;
 public class Repository : IRepository
@@ -10,16 +11,23 @@ public class Repository : IRepository
         dbContext = context;
     }
 
-    public IQueryable<T> All<T>() where T : class
+    public IQueryable<T> All<T>() where T : BaseEntity
     {
-        return dbContext.Set<T>();
+        var query = dbContext
+            .Set<T>()
+            .Where(t => t.IsActive);
+
+        return query;
     }
 
-    public IQueryable<T> AllReadOnly<T>() where T : class
+    public IQueryable<T> AllReadOnly<T>() where T : BaseEntity
     {
-        return dbContext
+        var query = dbContext
             .Set<T>()
+            .Where(t => t.IsActive)
             .AsNoTracking();
+
+        return query;
     }
 
     public async Task AddAsync<T>(T entity) where T : class
@@ -34,14 +42,26 @@ public class Repository : IRepository
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<T?> GetByIdAsync<T>(object id) where T : class
+    public async Task<T?> GetByIdAsync<T>(object id) where T : BaseEntity
     {
-        return await dbContext
+        T? entity = await dbContext
             .Set<T>()
             .FindAsync(id);
+
+        if (entity == null)
+        {
+            return null;
+        }
+
+        if (entity.IsActive)
+        {
+            return entity;
+        }
+
+        return null;
     }
 
-    public async Task<bool> DeleteAsync<T>(object id) where T : class
+    public async Task<bool> DeleteAsync<T>(object id) where T : BaseEntity
     {
         T? entity = await dbContext
             .Set<T>()
@@ -52,9 +72,41 @@ public class Repository : IRepository
             return false;
         }
 
-        dbContext
-            .Set<T>()
-            .Remove(entity);
+        if (entity.IsActive == false)
+        {
+            return false;
+        }
+
+        entity.IsActive = false;
+
+        await SaveChangesAsync();
+
+        return true;
+    }
+
+    public async Task<bool> DeleteUserAsync<T>(object id) where T : ApplicationUser
+    {
+        ApplicationUser? user = await dbContext
+            .Set<ApplicationUser>()
+            .FindAsync(id);
+
+        if (user == null)
+        {
+            return false;
+        }
+
+        if (user.IsDeleted)
+        {
+            return false;
+        }
+
+        user.UserName = null;
+        user.NormalizedUserName = null;
+        user.Email = null;
+        user.NormalizedEmail = null;
+        user.PhoneNumber = null;
+
+        user.IsDeleted = true;
 
         return true;
     }
