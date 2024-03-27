@@ -6,12 +6,6 @@ namespace HotBooking.Data.Models;
 
 public class Room : BaseEntity
 {
-    public Room()
-    {
-        Features = new HashSet<Feature>();
-        RoomImages = new HashSet<RoomImageUrl>();
-    }
-
     [Required]
     [MaxLength(RoomConstants.TitleLengthMax)]
     public string Title { get; set; } = null!;
@@ -38,7 +32,7 @@ public class Room : BaseEntity
 
     public Booking? Booking { get; set; }
 
-    public ICollection<Feature> Features { get; set; }
+    public ICollection<RoomFeature> RoomsFeatures { get; set; } = new HashSet<RoomFeature>();
 
-    public ICollection<RoomImageUrl> RoomImages { get; set; }
+    public ICollection<RoomImageUrl> RoomImages { get; set; } = new HashSet<RoomImageUrl>();
 }
