@@ -5,6 +5,7 @@ using HotBooking.Core.Exceptions;
 using HotBooking.Core.Interfaces;
 using HotBooking.Data.Common;
 using HotBooking.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace HotBooking.Core.Services;
@@ -29,12 +30,10 @@ public class HotelsService : IHotelsService
     {
         try
         {
-            //var allFacilities = await repository
-            //    .AllReadOnly<Facility>()
-            //    .ToListAsync();
+            ICollection<Facility> allFacilities = await repository
+                .AllReadOnly<Facility>()
+                .ToListAsync();
 
-            var allFacilities = await repository
-                .ToICollectionAsync(repository.AllReadOnly<Facility>());
 
             var selectedFacilities = allFacilities
                 .Where(f => inputDto.FacilitySelectedPublicIds.Contains(f.PublicId))
@@ -77,16 +76,22 @@ public class HotelsService : IHotelsService
 
             queryHotels = inputDto.Sorting switch
             {
-                HotelSorting.PriceAsc => queryHotels.OrderBy(h => h.Rooms.Min(r => r.PricePerNight)),
+                HotelSorting.PriceAsc => queryHotels
+                    .OrderBy(h => h.Rooms.Min(r => r.PricePerNight))
+                    .ThenBy(h => h.Id),
 
-                HotelSorting.PriceDesc => queryHotels.OrderByDescending(h => h.Rooms.Min(r => r.PricePerNight)),
+                HotelSorting.PriceDesc => queryHotels
+                    .OrderByDescending(h => h.Rooms.Min(r => r.PricePerNight))
+                    .ThenBy(h => h.Id),
 
-                _ => queryHotels.OrderByDescending(h => h.Reviews.Average(r => r.RatingScore))//RatingDesc
+                _ => queryHotels//RatingDesc
+                    .OrderByDescending(h => h.Reviews.Average(r => r.RatingScore))
+                    .ThenBy(h => h.Id)
             };
 
             queryHotels = paginationService.ApplyPagination(queryHotels, inputDto.PageSize, inputDto.CurrentPage);
 
-            var queryHotelDtos = queryHotels
+            var selectedHotels = await queryHotels
                 .Select(h => new PreviewHotelDto(
                     h.Id,
                     h.HotelImages.First().Url,
@@ -96,22 +101,8 @@ public class HotelsService : IHotelsService
                     h.CityName,
                     h.StarRating,
                     h.Reviews.Average(r => (decimal)r.RatingScore),
-                    h.Reviews.Count()));
-
-            var selectedHotels = await repository.ToICollectionAsync(queryHotelDtos);
-
-            //var selectedHotels = await queryHotels
-            //    .Select(h => new PreviewHotelDto(
-            //        h.Id,
-            //        h.HotelImages.First().Url,
-            //        h.HotelName,
-            //        h.Description,
-            //        h.StreetAddress,
-            //        h.CityName,
-            //        h.StarRating,
-            //        h.Reviews.Average(r => (decimal)r.RatingScore),
-            //        h.Reviews.Count()))
-            //    .ToArrayAsync();
+                    h.Reviews.Count()))
+                .ToListAsync();
 
             var outputDto = new BrowseHotelsOutputDto(selectedHotels, facilityDtos, totalPages);
 
@@ -127,12 +118,11 @@ public class HotelsService : IHotelsService
 
     public async Task<ICollection<string>> GetHotelsCitiesAsync(string searchTerm)
     {
-        var citiesQuery = repository
+        ICollection<string> cities = await repository
             .AllReadOnly<Hotel>()
             .Where(h => h.CityName.Contains(searchTerm))
-            .Select(h => h.CityName);
-
-        var cities = await repository.ToICollectionAsync(citiesQuery);
+            .Select(h => h.CityName)
+            .ToListAsync();
 
         return cities;
     }
