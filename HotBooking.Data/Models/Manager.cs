@@ -6,11 +6,6 @@ namespace HotBooking.Data.Models;
 
 public class Manager : BaseEntity
 {
-    public Manager()
-    {
-        Hotels = new HashSet<Hotel>();
-    }
-
     [Required]
     [MaxLength(ManagerConstants.PhoneNumberLengthMax)]
     public string PhoneNumber { get; set; } = null!;
@@ -21,5 +16,5 @@ public class Manager : BaseEntity
     [ForeignKey(nameof(UserId))]
     public ApplicationUser User { get; set; } = null!;
 
-    public ICollection<Hotel> Hotels { get; set; }
+    public ICollection<Hotel> Hotels { get; set; } = new HashSet<Hotel>();
 }
