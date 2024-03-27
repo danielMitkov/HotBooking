@@ -5,11 +5,6 @@ namespace HotBooking.Data.Models;
 
 public class Feature : BaseEntity
 {
-    public Feature()
-    {
-        RoomsFeatures = new HashSet<RoomFeature>();
-    }
-
     [Required]
     [MaxLength(FeatureConstants.NameLengthMax)]
     public string Name { get; set; } = null!;
@@ -18,5 +13,5 @@ public class Feature : BaseEntity
     [MaxLength(FeatureConstants.SvgTagLengthMax)]
     public string SvgTag { get; set; } = null!;
 
-    public ICollection<RoomFeature> RoomsFeatures { get; set; }
+    public ICollection<RoomFeature> RoomsFeatures { get; set; } = new HashSet<RoomFeature>();
 }
