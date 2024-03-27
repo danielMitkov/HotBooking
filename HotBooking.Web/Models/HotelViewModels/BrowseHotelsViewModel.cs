@@ -1,4 +1,5 @@
-﻿using HotBooking.Core.DTOs.HotelDtos;
+﻿using HotBooking.Core.DTOs.FacilityDtos;
+using HotBooking.Core.DTOs.HotelDtos;
 using HotBooking.Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,8 +16,12 @@ public class BrowseHotelsViewModel
 
     public int Page { get; set; } = 1;
 
+    public ICollection<Guid> SelectedFacilityIds { get; set; } = null!;
+
 
     public PagerViewModel? Pager { get; set; }
 
     public ICollection<PreviewHotelDto> Hotels { get; set; } = new List<PreviewHotelDto>();
+
+    public ICollection<FacilityDto> Facilities { get; set; } = new List<FacilityDto>();
 }
