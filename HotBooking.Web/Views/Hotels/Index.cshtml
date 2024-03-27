@@ -18,41 +18,65 @@
         </select>
         <button class="btn btn-outline-secondary" type="submit">Sort</button>
     </div>
+
+    <div class="container-fluid mt-3">
+        <div class="form-group">
+            <div>
+                @foreach (var facility in @Model.Facilities)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               value="@facility.PublicId"
+                               name="@nameof(BrowseHotelsViewModel.SelectedFacilityIds)"
+                               id="checkbox_@facility.PublicId"
+                               checked="@facility.IsChecked" />
+
+                        <label class="form-check-label" for="checkbox_@facility.PublicId">@facility.Name</label>
+                    </div>
+                }
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="hotel-item container-fluid">
+        @foreach (var hotel in Model.Hotels)
+        {
+            <div class="row border border-1 border-secondary rounded-3 mb-4">
+                <div class="col-12 col-md-4 p-0">
+                    <img class="img-fluid rounded-3" src="@hotel.ImageUrl" alt="no">
+                </div>
+                <div class="col-12 col-md-4 p-4">
+                    <h3>@hotel.HotelName</h3>
+                    <div class="d-flex gap-1">
+                        @for (int i = 0; i < hotel.StarRating; ++i)
+                        {
+                            <div class="svg-container svg-star">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gold">
+                                    <path d="M23.555 8.729a1.505 1.505 0 0 0-1.406-.98h-6.087a.5.5 0 0 1-.472-.334l-2.185-6.193a1.5 1.5 0 0 0-2.81 0l-.005.016-2.18 6.177a.5.5 0 0 1-.471.334H1.85A1.5 1.5 0 0 0 .887 10.4l5.184 4.3a.5.5 0 0 1 .155.543l-2.178 6.531a1.5 1.5 0 0 0 2.31 1.684l5.346-3.92a.5.5 0 0 1 .591 0l5.344 3.919a1.5 1.5 0 0 0 2.312-1.683l-2.178-6.535a.5.5 0 0 1 .155-.543l5.194-4.306a1.5 1.5 0 0 0 .433-1.661z"></path>
+                                </svg>
+                            </div>
+                        }
+                    </div>
+                    <p class="text-primary">@(hotel.StreetAddress + ", " + hotel.CityName)</p>
+                    <p>@hotel.Description</p>
+                </div>
+                <div class="col-12 col-md-4 p-4 d-flex flex-column justify-content-between">
+                    <div>
+                        <p class="text-end">@(Math.Round(hotel.AverageRating, 2))/10</p>
+                        <p class="text-end">@hotel.ReviewsCount reviews</p>
+                    </div>
+                    <button type="button" class="btn btn-outline-primary float-end mt-auto">Check Prices</button>
+                </div>
+            </div>
+        }
+    </div>
+
     <partial name="_Pagination" model="@Model.Pager" />
 </form>
 
-<div class="hotel-item container-fluid">
-    @foreach (var hotel in Model.Hotels)
-    {
-        <div class="row border border-1 border-secondary rounded-3 mb-4">
-            <div class="col-12 col-md-4 p-0">
-                <img class="img-fluid rounded-3" src="@hotel.ImageUrl" alt="no">
-            </div>
-            <div class="col-12 col-md-4 p-4">
-                <h3>@hotel.HotelName</h3>
-                <div class="d-flex gap-1">
-                    @for (int i = 0; i < hotel.StarRating; ++i)
-                    {
-                        <div class="svg-container svg-star">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gold">
-                                <path d="M23.555 8.729a1.505 1.505 0 0 0-1.406-.98h-6.087a.5.5 0 0 1-.472-.334l-2.185-6.193a1.5 1.5 0 0 0-2.81 0l-.005.016-2.18 6.177a.5.5 0 0 1-.471.334H1.85A1.5 1.5 0 0 0 .887 10.4l5.184 4.3a.5.5 0 0 1 .155.543l-2.178 6.531a1.5 1.5 0 0 0 2.31 1.684l5.346-3.92a.5.5 0 0 1 .591 0l5.344 3.919a1.5 1.5 0 0 0 2.312-1.683l-2.178-6.535a.5.5 0 0 1 .155-.543l5.194-4.306a1.5 1.5 0 0 0 .433-1.661z"></path>
-                            </svg>
-                        </div>
-                    }
-                </div>
-                <p class="text-primary">@(hotel.StreetAddress + ", " + hotel.CityName)</p>
-                <p>@hotel.Description</p>
-            </div>
-            <div class="col-12 col-md-4 p-4 d-flex flex-column justify-content-between">
-                <div>
-                    <p class="text-end">@(Math.Round(hotel.AverageRating, 2))/10</p>
-                    <p class="text-end">@hotel.ReviewsCount reviews</p>
-                </div>
-                <button type="button" class="btn btn-outline-primary float-end mt-auto">Check Prices</button>
-            </div>
-        </div>
-    }
-</div>
+
 
 @section Scripts {
     <partial name="_SearchHotelsScriptsPartial" />
