@@ -10,6 +10,5 @@ public interface IRepository
     Task<T?> GetByIdAsync<T>(object id) where T : BaseEntity;
     Task<bool> DeleteAsync<T>(object id) where T : BaseEntity;
     Task<bool> DeleteUserAsync<T>(object id) where T : ApplicationUser;
-    Task<ICollection<T>> ToICollectionAsync<T>(IQueryable<T> query) where T : class;
     Task<int> CountAsync<T>(IQueryable<T> query) where T : class;
 }
