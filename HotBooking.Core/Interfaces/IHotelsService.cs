@@ -3,6 +3,7 @@
 namespace HotBooking.Core.Interfaces;
 public interface IHotelsService
 {
-    Task<BrowseHotelsOutputDto> GetFilteredHotelsAsync(BrowseHotelsInputDto inputDto);
-    Task<ICollection<string>> GetHotelsCitiesAsync();
+    Task<BrowseHotelsOutputDto> GetFilteredHotelsAsync(BrowseHotelsInputDto inputDto, IDictionary<string, string> errors);
+    Task<ICollection<string>> GetHotelsCitiesAsync(string searchTerm);
+    //Task<string?> IsCityFoundAsync(string city);
 }
