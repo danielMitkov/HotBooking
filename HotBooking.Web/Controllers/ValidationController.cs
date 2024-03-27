@@ -27,22 +27,5 @@ public class ValidationController : Controller
         string? errorMsg = bookingValidationService.AreDatesValid(checkInDate, checkOutDate);
 
         return Json(errorMsg == null ? true : errorMsg);
-
-        //if (bookingValidationService.IsDateNotInThePast(checkInDate) == false)
-        //{
-        //    return Json(BookingErrors.CheckInDateInThePast);
-        //}
-
-        //if (bookingValidationService.IsDateNotInThePast(checkOutDate) == false)
-        //{
-        //    return Json(BookingErrors.CheckOutDateInThePast);
-        //}
-
-        //if (bookingValidationService.IsCheckOutAfterCheckIn(checkInDate, checkOutDate) == false)
-        //{
-        //    return Json(BookingErrors.CheckInDateAfterCheckOutDate);
-        //}
-
-        //return Json(true);
     }
 }
