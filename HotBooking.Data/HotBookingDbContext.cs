@@ -60,9 +60,11 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
             }
         }
 
+        modelBuilder.ApplyConfiguration(new FacilityConfiguration());
         modelBuilder.ApplyConfiguration(new ApplicationUserConfiguration());
         modelBuilder.ApplyConfiguration(new ManagerConfiguration());
         modelBuilder.ApplyConfiguration(new HotelConfiguration());
+        modelBuilder.ApplyConfiguration(new HotelFacilityConfiguration());
         modelBuilder.ApplyConfiguration(new HotelImageUrlConfiguration());
         modelBuilder.ApplyConfiguration(new RoomConfiguration());
         modelBuilder.ApplyConfiguration(new BookingConfiguration());
