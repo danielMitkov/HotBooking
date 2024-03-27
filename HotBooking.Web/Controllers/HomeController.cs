@@ -1,25 +1,82 @@
-﻿using HotBooking.Web.Models;
+﻿using HotBooking.Core.Interfaces;
+using HotBooking.Core.Interfaces.ValidationInterfaces;
+using HotBooking.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace HotBooking.Web.Controllers;
-public class HomeController:Controller
-{
-    private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+public class HomeController : Controller
+{
+    public const string Name = "Home";
+
+    private readonly IHotelsService hotelsService;
+    private readonly IHotelValidationService hotelValidationService;
+    private readonly IBookingValidationService bookingValidationService;
+
+    public HomeController(IHotelsService hotelsService,
+        IHotelValidationService hotelValidationService,
+        IBookingValidationService bookingValidationService)
     {
-        _logger = logger;
+        this.hotelsService = hotelsService;
+        this.hotelValidationService = hotelValidationService;
+        this.bookingValidationService = bookingValidationService;
     }
 
     public IActionResult Index()
     {
-        return View();
+        var viewModel = new SearchHotelsViewModel()
+        {
+            CheckInDate = DateTime.Today.AddDays(1),
+            CheckOutDate = DateTime.Today.AddDays(7)
+        };
+
+        return View(viewModel);
     }
 
-    [ResponseCache(Duration = 0,Location = ResponseCacheLocation.None,NoStore = true)]
-    public IActionResult Error()
+    [HttpPost]
+    public IActionResult Index(SearchHotelsViewModel viewModel)
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        if (ModelState.IsValid == false)
+        {
+            return View(viewModel);
+        }
+
+        var SearchObj = new
+        {
+            city = viewModel.City,
+            checkInDate = viewModel.CheckInDate,
+            checkOutDate = viewModel.CheckOutDate,
+            adultsCount = viewModel.AdultsCount
+        };
+
+        return RedirectToAction("Index", "Hotels", SearchObj);
+    }
+
+    public async Task<IActionResult> Cities(string searchTerm)
+    {
+        var cities = await hotelsService.GetHotelsCitiesAsync(searchTerm);
+
+        return Json(cities);
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error(int statusCode, string message)
+    {
+        if (statusCode == 404)
+        {
+            return View("Error404", message);
+        }
+
+        if (statusCode == 401)
+        {
+            return View("Error401", message);
+        }
+
+        if (statusCode == 400)
+        {
+            return View("Error400", message);
+        }
+
+        return View("Error", message);
     }
 }
