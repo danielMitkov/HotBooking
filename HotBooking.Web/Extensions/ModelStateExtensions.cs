@@ -32,4 +32,14 @@ public static class ModelStateExtensions
             modelState.AddModelError(nameof(viewModel.CheckOutDate), BookingErrors.CheckInDateAfterCheckOutDate);
         }
     }
+
+    public static bool IsValidAfterAddingErrors(this ModelStateDictionary modelState, IDictionary<string, string> modelErrors)
+    {
+        foreach ((string key, string errorMessage) in modelErrors)
+        {
+            modelState.AddModelError(key, errorMessage);
+        }
+
+        return modelState.IsValid;
+    }
 }
