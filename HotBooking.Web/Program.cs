@@ -1,5 +1,3 @@
-using HotBooking.Web.Extensions;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationDbContext(builder.Configuration);
@@ -11,6 +9,8 @@ builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -18,8 +18,8 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
+    //app.UseExceptionHandler("/Home/Error");
+    //app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
 
     app.UseHsts();
 }
