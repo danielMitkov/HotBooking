@@ -6,15 +6,6 @@ namespace HotBooking.Data.Models;
 
 public class Hotel : BaseEntity
 {
-    public Hotel()
-    {
-        Facilities = new HashSet<Facility>();
-        Rooms = new HashSet<Room>();
-        HotelImages = new HashSet<HotelImageUrl>();
-        Reviews = new HashSet<Review>();
-        Bookings = new HashSet<Booking>();
-    }
-
     [Required]
     [MaxLength(HotelConstants.HotelNameLengthMax)]
     public string HotelName { get; set; } = null!;
@@ -44,13 +35,13 @@ public class Hotel : BaseEntity
     [ForeignKey(nameof(ManagerId))]
     public Manager Manager { get; set; } = null!;
 
-    public ICollection<Facility> Facilities { get; set; }
+    public ICollection<HotelFacility> HotelsFacilities { get; set; } = new HashSet<HotelFacility>();
 
-    public ICollection<Room> Rooms { get; set; }
+    public ICollection<Room> Rooms { get; set; } = new HashSet<Room>();
 
-    public ICollection<HotelImageUrl> HotelImages { get; set; }
+    public ICollection<HotelImageUrl> HotelImages { get; set; } = new HashSet<HotelImageUrl>();
 
-    public ICollection<Review> Reviews { get; set; }
+    public ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
 
-    public ICollection<Booking> Bookings { get; set; }
+    public ICollection<Booking> Bookings { get; set; } = new HashSet<Booking>();
 }
