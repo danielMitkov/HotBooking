@@ -5,11 +5,6 @@ namespace HotBooking.Data.Models;
 
 public class Facility : BaseEntity
 {
-    public Facility()
-    {
-        HotelsFacilities = new HashSet<HotelFacility>();
-    }
-
     [Required]
     [MaxLength(FacilityConstants.NameLengthMax)]
     public string Name { get; set; } = null!;
@@ -18,5 +13,5 @@ public class Facility : BaseEntity
     [MaxLength(FacilityConstants.SvgTagLengthMax)]
     public string SvgTag { get; set; } = null!;
 
-    public ICollection<HotelFacility> HotelsFacilities { get; set; }
+    public ICollection<HotelFacility> HotelsFacilities { get; set; } = new HashSet<HotelFacility>();
 }
