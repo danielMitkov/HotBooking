@@ -1,7 +1,10 @@
-﻿namespace HotBooking.Core.DTOs.HotelDtos;
-public class BrowseHotelsOutputDto
-{
-    public ICollection<PreviewHotelDto> SelectedHotels { get; set; } = new List<PreviewHotelDto>();
+﻿using HotBooking.Core.DTOs.FacilityDtos;
 
-    public int TotalPages { get; set; }
-}
+namespace HotBooking.Core.DTOs.HotelDtos;
+
+public record BrowseHotelsOutputDto
+(
+    ICollection<PreviewHotelDto> SelectedHotels,
+    ICollection<FacilityDto> Facilities,
+    int TotalPages
+);
