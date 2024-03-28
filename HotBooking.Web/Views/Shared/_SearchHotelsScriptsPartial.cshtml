@@ -6,7 +6,7 @@
         source: function (request, response) {
             var searchTerm = $('#searchBar').val();
             $.ajax({
-                url: '/Home/Cities/',
+                url: '/@(HomeController.Name)/@(nameof(HomeController.Cities))/',
                 data: { searchTerm: searchTerm },
                 success: function (cities) {
                     response(cities);
