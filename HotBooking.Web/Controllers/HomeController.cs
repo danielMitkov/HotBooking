@@ -1,4 +1,5 @@
-﻿using HotBooking.Core.Interfaces;
+﻿using HotBooking.Core.Exceptions;
+using HotBooking.Core.Interfaces;
 using HotBooking.Core.Interfaces.ValidationInterfaces;
 using HotBooking.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -34,19 +35,20 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult Index(SearchHotelsViewModel viewModel)
+    public IActionResult Index(SearchHotelsViewModel model)
     {
         if (ModelState.IsValid == false)
         {
-            return View(viewModel);
+            return View(model);
         }
 
         var SearchObj = new
         {
-            city = viewModel.City,
-            checkInDate = viewModel.CheckInDate,
-            checkOutDate = viewModel.CheckOutDate,
-            adultsCount = viewModel.AdultsCount
+            city = model.City,
+            checkInDate = model.CheckInDate,
+            checkOutDate = model.CheckOutDate,
+            adultsCount = model.AdultsCount,
+            roomsCount = model.RoomsCount
         };
 
         return RedirectToAction("Index", "Hotels", SearchObj);
