@@ -4,9 +4,9 @@
     ViewData["Title"] = "Explore Hotels";
 }
 
-<div asp-validation-summary="All"></div>
-
 <form method="post">
+    <div asp-validation-summary="All"></div>
+
     <partial name="_SearchHotels" for="@Model.Search" />
 
     <div class="container-fluid mt-3">
