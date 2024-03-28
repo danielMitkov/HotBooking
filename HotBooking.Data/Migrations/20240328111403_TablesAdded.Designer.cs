@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotBooking.Data.Migrations
 {
     [DbContext(typeof(HotBookingDbContext))]
-    [Migration("20240327074219_TablesAdded")]
+    [Migration("20240328111403_TablesAdded")]
     partial class TablesAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,8 +137,7 @@ namespace HotBooking.Data.Migrations
                     b.HasIndex("PublicId")
                         .IsUnique();
 
-                    b.HasIndex("RoomId")
-                        .IsUnique();
+                    b.HasIndex("RoomId");
 
                     b.HasIndex("UserId");
 
@@ -636,8 +635,8 @@ namespace HotBooking.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("HotBooking.Data.Models.Room", "Room")
-                        .WithOne("Booking")
-                        .HasForeignKey("HotBooking.Data.Models.Booking", "RoomId")
+                        .WithMany("Bookings")
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -867,7 +866,7 @@ namespace HotBooking.Data.Migrations
 
             modelBuilder.Entity("HotBooking.Data.Models.Room", b =>
                 {
-                    b.Navigation("Booking");
+                    b.Navigation("Bookings");
 
                     b.Navigation("RoomImages");
 

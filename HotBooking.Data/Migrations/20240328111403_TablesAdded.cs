@@ -487,8 +487,7 @@ namespace HotBooking.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RoomId",
                 table: "Bookings",
-                column: "RoomId",
-                unique: true);
+                column: "RoomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_UserId",
