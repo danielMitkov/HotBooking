@@ -16,7 +16,7 @@ public class BrowseHotelsViewModel
 
     public int Page { get; set; } = 1;
 
-    public ICollection<Guid> SelectedFacilityIds { get; set; } = null!;
+    public ICollection<Guid> SelectedFacilityIds { get; set; } = new List<Guid>();
 
 
     public PagerViewModel? Pager { get; set; }
