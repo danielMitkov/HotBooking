@@ -21,5 +21,10 @@
         <input asp-for="@Model.AdultsCount" type="number" class="form-control" />
         <span asp-validation-for="@Model.AdultsCount" class="text-danger"></span>
     </div>
+    <div class="mb-3">
+        <label asp-for="@Model.RoomsCount" class="form-label">Rooms Count:</label>
+        <input asp-for="@Model.RoomsCount" type="number" class="form-control" />
+        <span asp-validation-for="@Model.RoomsCount" class="text-danger"></span>
+    </div>
     <button class="btn btn-outline-secondary" type="submit">Search</button>
 </div>
