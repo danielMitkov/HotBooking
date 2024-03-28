@@ -6,6 +6,7 @@ builder.Services.AddApplicationIdentity(builder.Configuration);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddApplicationServices();
+builder.Services.AddServiceConfigurations();
 
 var app = builder.Build();
 
@@ -39,4 +40,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
-await app.RunAsync();
+app.Run();
