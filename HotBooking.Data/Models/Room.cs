@@ -30,7 +30,7 @@ public class Room : BaseEntity
     [ForeignKey(nameof(HotelId))]
     public Hotel Hotel { get; set; } = null!;
 
-    public Booking? Booking { get; set; }
+    public ICollection<Booking> Bookings { get; set; } = new HashSet<Booking>();
 
     public ICollection<RoomFeature> RoomsFeatures { get; set; } = new HashSet<RoomFeature>();
 
