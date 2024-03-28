@@ -10,7 +10,7 @@ public class SearchHotelsViewModel
     [Required]
     [MinLength(HotelConstants.CityNameLengthMin)]
     [MaxLength(HotelConstants.CityNameLengthMax)]
-    //[Remote(nameof(ValidationController.CityExists), ValidationController.Name)]
+    [Remote(nameof(ValidationController.CityExists), ValidationController.Name)]
     public string City { get; set; } = null!;
 
     [Required]
@@ -24,4 +24,8 @@ public class SearchHotelsViewModel
     [Required]
     [Range(BookingConstants.AdultsCountMin, BookingConstants.AdultsCountMax)]
     public int AdultsCount { get; set; }
+
+    [Required]
+    [Range(BookingConstants.AdultsCountMin, BookingConstants.AdultsCountMax)]
+    public int RoomsCount { get; set; }
 }
