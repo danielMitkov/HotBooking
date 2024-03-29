@@ -2,8 +2,7 @@
 
 public class InternalServerException : Exception
 {
-    public InternalServerException(string restOfTheMessage)
-        : base("Unexpected error occured while trying to " + restOfTheMessage)
+    public InternalServerException() : base("Unexpected error occured.")
     {
     }
 }
