@@ -1,8 +1,11 @@
 ﻿using HotBooking.Core.ErrorMessages;
 using HotBooking.Core.Interfaces.ValidationInterfaces;
+using HotBooking.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotBooking.Web.Controllers;
+
+[ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
 public class ValidationController : Controller
 {
     private readonly IHotelValidationService hotelValidationService;
@@ -17,9 +20,9 @@ public class ValidationController : Controller
         this.bookingValidationService = bookingValidationService;
     }
 
-    public async Task<IActionResult> CityExists(string city)
+    public async Task<IActionResult> CityExists(SearchHotelsViewModel search)
     {
-        return Json((await hotelValidationService.IsCityFoundAsync(city)) ? true : HotelErrors.CityNotFound);
+        return Json((await hotelValidationService.IsCityFoundAsync(search.City)) ? true : HotelErrors.CityNotFound);
     }
 
     public IActionResult AreDatesValid(DateTime checkInDate, DateTime checkOutDate)
