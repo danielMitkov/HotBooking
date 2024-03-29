@@ -115,11 +115,15 @@ public class HotelsService : IHotelsService
 
             return outputDto;
         }
+        catch (KnownValidationException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
-            logger.LogError(ex, "While trying to get filtered hotels.");
+            logger.LogError(ex, $"Service: {nameof(HotelsService)}, Action: {nameof(GetFilteredHotelsAsync)}");
 
-            throw new InternalServerException("get filtered hotels.");
+            throw new InternalServerException();
         }
     }
 
