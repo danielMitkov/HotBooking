@@ -32,15 +32,14 @@ public class ExceptionHandlingMiddleware
 
     private async Task HandleInternalServerErrorAsync(HttpContext context, InternalServerException ex)
     {
-        _logger.LogError(ex, "Internal Server Error");
         context.Response.Redirect("/Home/Error?statusCode=500&message=" + WebUtility.UrlEncode(ex.Message));
         await context.Response.CompleteAsync();
     }
 
     private async Task HandleGeneralErrorAsync(HttpContext context, Exception ex)
     {
-        _logger.LogError(ex, "General Error");
-        context.Response.Redirect("/Home/Error?statusCode=400&message=" + WebUtility.UrlEncode(ex.Message));
+        _logger.LogError(ex, "Error in controller");
+        context.Response.Redirect("/Home/Error?statusCode=400");
         await context.Response.CompleteAsync();
     }
 }
