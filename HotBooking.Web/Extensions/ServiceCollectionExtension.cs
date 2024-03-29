@@ -24,16 +24,6 @@ public static class ServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddServiceConfigurations(this IServiceCollection services)
-    {
-        services.AddMvc(options =>
-        {
-            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-        });
-
-        return services;
-    }
-
     public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration config)
     {
         var connectionString = config.GetConnectionString("DefaultConnection");
