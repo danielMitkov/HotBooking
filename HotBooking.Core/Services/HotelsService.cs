@@ -51,7 +51,7 @@ public class HotelsService : IHotelsService
                 .AllReadOnly<Hotel>();
             //.Where(h => h.CityName == inputDto.City);
 
-            if (inputDto.FacilitySelectedPublicIds != null && inputDto.FacilitySelectedPublicIds.Any())
+            if (inputDto.FacilitySelectedPublicIds.Any())
             {
                 int selectedFacilitiesCount = selectedFacilities.Count;
 
@@ -60,10 +60,17 @@ public class HotelsService : IHotelsService
                     .ToArray();
 
                 queryHotels = queryHotels
-                    .Where(hotel => hotel.HotelsFacilities
+                    .Where(h => h.HotelsFacilities
                     .Count(hf => selectedFacilitiesPrimaryKeys
                     .Contains(hf.FacilityId)) == selectedFacilitiesCount);
             }
+
+            int peoplePerRoom = (int)Math.Ceiling(inputDto.AdultsCount / (decimal)inputDto.RoomsCount);
+
+            queryHotels = queryHotels
+                .Where(h => h.Rooms
+                .Count(r => (r.BedsCount >= peoplePerRoom) && r.Bookings
+                .All(b => (inputDto.CheckInDate > b.CheckOut) || (inputDto.CheckOutDate < b.CheckIn))) >= inputDto.RoomsCount);
 
             int allHotelsCount = await repository.CountAsync(queryHotels);
 
