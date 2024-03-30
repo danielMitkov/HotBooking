@@ -8,10 +8,10 @@ namespace HotBooking.Web.Controllers;
 [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
 public class ValidationController : Controller
 {
+    public const string Name = "Validation";
+
     private readonly IHotelValidationService hotelValidationService;
     private readonly IBookingValidationService bookingValidationService;
-
-    public const string Name = "Validation";
 
     public ValidationController(IHotelValidationService hotelValidationService,
         IBookingValidationService bookingValidationService)
