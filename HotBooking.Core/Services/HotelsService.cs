@@ -76,7 +76,7 @@ public class HotelsService : IHotelsService
 
             if (allHotelsCount == 0)
             {
-                return new BrowseHotelsOutputDto(new List<PreviewHotelDto>(), facilityDtos, 0);
+                return new BrowseHotelsOutputDto(new List<PreviewHotelDto>(), facilityDtos, 0, 0);
             }
 
             int totalPages = paginationService.GetTotalPages(allHotelsCount, inputDto.PageSize, inputDto.CurrentPage);
@@ -111,7 +111,7 @@ public class HotelsService : IHotelsService
                     h.Reviews.Count()))
                 .ToListAsync();
 
-            var outputDto = new BrowseHotelsOutputDto(selectedHotels, facilityDtos, totalPages);
+            var outputDto = new BrowseHotelsOutputDto(selectedHotels, facilityDtos, totalPages, allHotelsCount);
 
             return outputDto;
         }

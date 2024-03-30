@@ -6,5 +6,6 @@ public record BrowseHotelsOutputDto
 (
     ICollection<PreviewHotelDto> SelectedHotels,
     ICollection<FacilityDto> Facilities,
-    int TotalPages
+    int TotalPages,
+    int AllHotelsCount
 );

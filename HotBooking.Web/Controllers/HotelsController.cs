@@ -76,7 +76,8 @@ public class HotelsController : Controller
                 },
                 Pager = new(outputDto.TotalPages, 1, Name, nameof(Index)),
                 Hotels = outputDto.SelectedHotels,
-                Facilities = outputDto.Facilities
+                Facilities = outputDto.Facilities,
+                AllHotelsCount = outputDto.AllHotelsCount
             };
 
             return View(viewModel);
@@ -116,6 +117,7 @@ public class HotelsController : Controller
             model.Pager = new(outputDto.TotalPages, model.Page, "Hotels", "Index");
             model.Hotels = outputDto.SelectedHotels;
             model.Facilities = outputDto.Facilities;
+            model.AllHotelsCount = outputDto.AllHotelsCount;
 
             return View(model);
         }

@@ -24,4 +24,6 @@ public class BrowseHotelsViewModel
     public ICollection<PreviewHotelDto> Hotels { get; set; } = new List<PreviewHotelDto>();
 
     public ICollection<FacilityDto> Facilities { get; set; } = new List<FacilityDto>();
+
+    public int AllHotelsCount { get; set; }
 }
