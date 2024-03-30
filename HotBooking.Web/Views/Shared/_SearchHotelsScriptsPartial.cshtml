@@ -1,18 +1,8 @@
 ﻿<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-<script>
-    $("#searchBar").autocomplete({
-        source: function (request, response) {
-            var searchTerm = $('#searchBar').val();
-            $.ajax({
-                url: '/@(HomeController.Name)/@(nameof(HomeController.Cities))/',
-                data: { searchTerm: searchTerm },
-                success: function (cities) {
-                    response(cities);
-                }
-            });
-        },
-        minLength: 2
-    });
-</script>
+
+<div id="urlInfo" data-controllerName="@(HomeController.Name)" data-actionName="@(nameof(HomeController.Cities))"></div>
+
+<script src="~/js/autocomplete.js"></script>
