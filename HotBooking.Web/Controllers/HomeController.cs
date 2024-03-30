@@ -27,8 +27,8 @@ public class HomeController : Controller
     {
         var viewModel = new SearchHotelsViewModel()
         {
-            CheckInDate = DateTime.Today.AddDays(1),
-            CheckOutDate = DateTime.Today.AddDays(7)
+            CheckInDate = DateTime.Today.AddDays(1).AddHours(9),
+            CheckOutDate = DateTime.Today.AddDays(7).AddHours(10)
         };
 
         return View(viewModel);
