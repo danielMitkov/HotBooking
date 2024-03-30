@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace HotBooking.Data.Common;
-public class Repository : IRepository
+public class Repository : IDbContext
 {
     private readonly HotBookingDbContext dbContext;
 

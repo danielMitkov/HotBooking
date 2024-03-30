@@ -34,7 +34,7 @@ public static class ServiceCollectionExtension
             //options.EnableSensitiveDataLogging();
         });
 
-        services.AddScoped<IRepository, Repository>();
+        services.AddScoped<IDbContext, Repository>();
 
         services.AddDatabaseDeveloperPageExceptionFilter();
 

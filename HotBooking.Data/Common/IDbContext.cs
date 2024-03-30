@@ -1,7 +1,7 @@
 ﻿using HotBooking.Data.Models;
 
 namespace HotBooking.Data.Common;
-public interface IRepository
+public interface IDbContext
 {
     IQueryable<T> All<T>() where T : BaseEntity;
     IQueryable<T> AllReadOnly<T>() where T : BaseEntity;

@@ -13,12 +13,12 @@ namespace HotBooking.Core.Services;
 public class HotelsService : IHotelsService
 {
     private readonly ILogger<HotelsService> logger;
-    private readonly IRepository repository;
+    private readonly IDbContext repository;
     private readonly IPaginationService paginationService;
 
     public HotelsService(
         ILogger<HotelsService> logger,
-        IRepository repository,
+        IDbContext repository,
         IPaginationService paginationService)
     {
         this.logger = logger;

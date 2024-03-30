@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 namespace HotBooking.Core.Services.ValidationServices;
 public class HotelValidationService: IHotelValidationService
 {
-    private readonly IRepository repository;
+    private readonly IDbContext repository;
 
-    public HotelValidationService(IRepository repository)
+    public HotelValidationService(IDbContext repository)
     {
         this.repository = repository;
     }
