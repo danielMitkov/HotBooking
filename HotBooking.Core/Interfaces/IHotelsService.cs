@@ -1,9 +1,10 @@
 ﻿using HotBooking.Core.DTOs.HotelDtos;
 
 namespace HotBooking.Core.Interfaces;
-public interface IHotelsService
+
+public interface IHotelsService:IErrorMessageProp
 {
-    Task<BrowseHotelsOutputDto> GetFilteredHotelsAsync(BrowseHotelsInputDto inputDto, IDictionary<string, string> errors);
+    Task<BrowseHotelsOutputDto?> GetFilteredHotelsAsync(BrowseHotelsInputDto inputDto);
     Task<ICollection<string>> GetHotelsCitiesAsync(string searchTerm);
     //Task<string?> IsCityFoundAsync(string city);
 }

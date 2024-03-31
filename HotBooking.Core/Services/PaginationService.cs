@@ -1,19 +1,20 @@
-﻿using HotBooking.Core.Exceptions;
-using HotBooking.Core.Interfaces;
+﻿using HotBooking.Core.Interfaces;
 using HotBooking.Data.Models;
-using Microsoft.AspNetCore.Components.Forms;
 
 namespace HotBooking.Core.Services;
 
-public class PaginationService: IPaginationService
+public class PaginationService : IPaginationService
 {
-    public int GetTotalPages(int allHotelsCount, int pageSize, int currentPage)
+    public string ErrorMessage { get; private set; } = string.Empty;
+
+    public int? GetTotalPages(int allHotelsCount, int pageSize, int currentPage)
     {
         int totalPages = (int)Math.Ceiling(allHotelsCount / (decimal)pageSize);
 
         if (currentPage < 1 || currentPage > totalPages)
         {
-            throw new PageOutOfRangeException(totalPages);
+            ErrorMessage = $"The Page Number must be between 1 and {totalPages}";//extract message
+            return null;
         }
 
         return totalPages;
