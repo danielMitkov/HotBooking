@@ -8,6 +8,7 @@ using HotBooking.Web.Models;
 using HotBooking.Web.Models.HotelViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 
 namespace HotBooking.Web.Controllers;
@@ -39,91 +40,74 @@ public class HotelsController : Controller
     }
 
     [AllowAnonymous]
-    public async Task<IActionResult> Index(string city, DateTime checkInDate, DateTime checkOutDate, int adultsCount, int roomsCount)
+    public async Task<IActionResult> Index(SearchHotelsViewModel searchModel)
     {
-        try
+        BrowseHotelsViewModel browseModel = new()
         {
-            BrowseHotelsInputDto inputDto = new(
-                1,
-                2,
-                city,
-                checkInDate,
-                checkOutDate,
-                adultsCount,
-                roomsCount,
-                HotelSorting.RatingDesc,
-                new List<Guid>());
+            Search = searchModel,
+            Sorting = HotelSorting.RatingDesc
+        };
 
-            Dictionary<string, string> modelErrors = new();
+        BrowseHotelsInputDto inputDto = new(
+            browseModel.Page,
+            2,
+            searchModel.City,
+            searchModel.CheckInDate,
+            searchModel.CheckOutDate,
+            searchModel.AdultsCount,
+            searchModel.RoomsCount,
+            browseModel.Sorting,
+            browseModel.SelectedFacilityIds);
 
-            BrowseHotelsOutputDto outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto, modelErrors);
+        BrowseHotelsOutputDto? outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
 
-            if (!ModelState.IsValidAfterAddingErrors(modelErrors))
-            {
-                return View();
-            }
-
-            BrowseHotelsViewModel viewModel = new()
-            {
-                Sorting = HotelSorting.RatingDesc,
-                Search = new SearchHotelsViewModel()
-                {
-                    City = city,
-                    CheckInDate = checkInDate,
-                    CheckOutDate = checkOutDate,
-                    AdultsCount = adultsCount,
-                    RoomsCount = roomsCount
-                },
-                Pager = new(outputDto.TotalPages, 1, Name, nameof(Index)),
-                Hotels = outputDto.SelectedHotels,
-                Facilities = outputDto.Facilities,
-                AllHotelsCount = outputDto.AllHotelsCount
-            };
-
-            return View(viewModel);
-        }
-        catch (Exception)
+        if (outputDto == null)
         {
-            throw;
+            ModelState.AddModelError(string.Empty, hotelsService.ErrorMessage);
+            return View();
         }
+
+        browseModel.Pager = new(outputDto.TotalPages, 1, Name, nameof(Index));
+        browseModel.Hotels = outputDto.SelectedHotels;
+        browseModel.Facilities = outputDto.Facilities;
+        browseModel.AllHotelsCount = outputDto.AllHotelsCount;
+
+        return View(browseModel);
     }
 
     [AllowAnonymous]
-    [HttpPost]
-    public async Task<IActionResult> Index(BrowseHotelsViewModel model)
+    [HttpPost]//change this because its not changing db
+    public async Task<IActionResult> Index(BrowseHotelsViewModel model, int id)
     {
-        try
+        if (ModelState.IsValid == false)
         {
-            BrowseHotelsInputDto inputDto = new(
-                model.Page,
-                2,
-                model.Search.City,
-                model.Search.CheckInDate,
-                model.Search.CheckOutDate,
-                model.Search.AdultsCount,
-                model.Search.RoomsCount,
-                model.Sorting,
-                model.SelectedFacilityIds);
-
-            Dictionary<string, string> modelErrors = new();
-
-            BrowseHotelsOutputDto outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto, modelErrors);
-
-            if (!ModelState.IsValidAfterAddingErrors(modelErrors))
-            {
-                return View(model);
-            }
-
-            model.Pager = new(outputDto.TotalPages, model.Page, "Hotels", "Index");
-            model.Hotels = outputDto.SelectedHotels;
-            model.Facilities = outputDto.Facilities;
-            model.AllHotelsCount = outputDto.AllHotelsCount;
-
             return View(model);
         }
-        catch (Exception)
+
+        BrowseHotelsInputDto inputDto = new(
+            99,
+            2,
+            model.Search.City,
+            model.Search.CheckInDate,
+            model.Search.CheckOutDate,
+            model.Search.AdultsCount,
+            model.Search.RoomsCount,
+            model.Sorting,
+            model.SelectedFacilityIds);
+
+        BrowseHotelsOutputDto? outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
+
+        if (outputDto == null)
         {
-            throw;
+            ModelState.AddModelError(string.Empty, hotelsService.ErrorMessage);
+            return View(model);
         }
+
+        model.Pager = new(outputDto.TotalPages, model.Page, Name, nameof(Index));
+        model.Hotels = outputDto.SelectedHotels;
+        model.Facilities = outputDto.Facilities;
+        model.AllHotelsCount = outputDto.AllHotelsCount;
+
+        return View(model);
     }
 }
