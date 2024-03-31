@@ -4,6 +4,8 @@
     ViewData["Title"] = "Home Page";
 }
 
+<div asp-validation-summary="All"></div>
+
 <form asp-controller="@HomeController.Name" asp-action="@nameof(HomeController.Index)" method="post">
     <partial name="_SearchHotels" for="@Model" />
 </form>
