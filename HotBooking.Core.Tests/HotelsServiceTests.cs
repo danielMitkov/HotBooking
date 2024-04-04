@@ -1,13 +1,10 @@
 using HotBooking.Core.DTOs.HotelDtos;
 using HotBooking.Core.Enums;
 using HotBooking.Core.ErrorMessages;
-using HotBooking.Core.Interfaces;
 using HotBooking.Core.Services;
 using HotBooking.Data;
-using HotBooking.Data.Configurations;
 using HotBooking.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using MockQueryable.NSubstitute;
 using NSubstitute;
 
@@ -16,8 +13,6 @@ namespace HotBooking.Core.Tests;
 public class HotelsServiceTests
 {
     private readonly HotBookingDbContext _dbContext;
-    private readonly ILogger<HotelsService> _logger;
-    private readonly IPaginationService _paginationService;
     private readonly HotelsService _hotelsService;
     private readonly DataSeeder _seeder;
 
@@ -31,9 +26,7 @@ public class HotelsServiceTests
     public HotelsServiceTests()
     {
         _dbContext = Substitute.For<HotBookingDbContext>();
-        _logger = Substitute.For<ILogger<HotelsService>>();
-        _paginationService = Substitute.For<IPaginationService>();
-        _hotelsService = new HotelsService(_logger, _dbContext, _paginationService);
+        _hotelsService = new HotelsService(_dbContext);
         _seeder = new DataSeeder(true);
         _town = "London";
 
@@ -68,8 +61,6 @@ public class HotelsServiceTests
             .Take(2)
             .Select(f => f.PublicId)
             .ToList();
-
-        _paginationService.GetTotalPages(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>()).ReturnsForAnyArgs(1);
 
         BrowseHotelsInputDto inputDto = new(
             1,
@@ -202,10 +193,10 @@ public class HotelsServiceTests
         string searchTerm = "New York";
 
         // Act
-        ICollection<string> cities = await _hotelsService.GetMatchingCitiesAsync(searchTerm);
+        IEnumerable<string> cities = await _hotelsService.GetMatchingCitiesAsync(searchTerm);
 
         // Assert
-        Assert.Equal(1, cities.Count);
+        Assert.Single(cities);
         Assert.Equal(searchTerm, cities.First());
     }
 
@@ -217,7 +208,7 @@ public class HotelsServiceTests
         string searchTerm = "Fake Town";
 
         // Act
-        ICollection<string> cities = await _hotelsService.GetMatchingCitiesAsync(searchTerm);
+        IEnumerable<string> cities = await _hotelsService.GetMatchingCitiesAsync(searchTerm);
 
         // Assert
         Assert.Empty(cities);
@@ -231,10 +222,10 @@ public class HotelsServiceTests
         string searchTerm = "new";
 
         // Act
-        ICollection<string> cities = await _hotelsService.GetMatchingCitiesAsync(searchTerm);
+        IEnumerable<string> cities = await _hotelsService.GetMatchingCitiesAsync(searchTerm);
 
         // Assert
-        Assert.Equal(2, cities.Count);
+        Assert.Equal(2, cities.Count());
         Assert.Contains("New York", cities);
         Assert.Contains("New Orleans", cities);
     }
