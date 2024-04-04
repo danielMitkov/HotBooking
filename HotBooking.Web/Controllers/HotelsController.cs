@@ -1,15 +1,11 @@
 ﻿using HotBooking.Core.DTOs.HotelDtos;
 using HotBooking.Core.Enums;
-using HotBooking.Core.Exceptions;
 using HotBooking.Core.Interfaces;
 using HotBooking.Core.Interfaces.ValidationInterfaces;
-using HotBooking.Web.Extensions;
 using HotBooking.Web.Models;
 using HotBooking.Web.Models.HotelViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Collections.Generic;
 
 namespace HotBooking.Web.Controllers;
 
