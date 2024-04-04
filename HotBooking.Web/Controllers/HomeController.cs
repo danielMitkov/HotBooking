@@ -26,8 +26,8 @@ public class HomeController : Controller
     {
         var viewModel = new SearchHotelsViewModel()
         {
-            CheckInDate = DateTime.Today.AddDays(1).AddHours(9),
-            CheckOutDate = DateTime.Today.AddDays(7).AddHours(10)
+            CheckInDate = new DateTime(2024, 4, 5),
+            CheckOutDate = new DateTime(2024, 4, 11)
         };
 
         return View(viewModel);
@@ -46,7 +46,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Cities(string searchTerm)
     {
-        var cities = await hotelsService.GetHotelsCitiesAsync(searchTerm);
+        var cities = await hotelsService.GetMatchingCitiesAsync(searchTerm);
 
         return Json(cities);
     }
