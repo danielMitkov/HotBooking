@@ -7,7 +7,8 @@ namespace HotBooking.Data.Models;
 public class Review : BaseEntity
 {
     [Required]
-    public int RatingScore { get; set; }
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal RatingScore { get; set; }
 
     [Required]
     [MaxLength(ReviewConstants.TitleLengthMax)]
