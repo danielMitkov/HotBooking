@@ -1,5 +1,4 @@
-﻿using HotBooking.Data.Configurations;
-using HotBooking.Data.Models;
+﻿using HotBooking.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,32 +7,36 @@ namespace HotBooking.Data;
 
 public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
 {
+    public HotBookingDbContext()
+    {
+    }
+
     public HotBookingDbContext(DbContextOptions<HotBookingDbContext> options)
         : base(options)
     {
     }
 
-    public DbSet<Hotel> Hotels { get; set; } = null!;
+    public virtual DbSet<Hotel> Hotels { get; set; } = null!;
 
-    public DbSet<Room> Rooms { get; set; } = null!;
+    public virtual DbSet<Room> Rooms { get; set; } = null!;
 
-    public DbSet<Booking> Bookings { get; set; } = null!;
+    public virtual DbSet<Booking> Bookings { get; set; } = null!;
 
-    public DbSet<Review> Reviews { get; set; } = null!;
+    public virtual DbSet<Review> Reviews { get; set; } = null!;
 
-    public DbSet<Manager> Managers { get; set; } = null!;
+    public virtual DbSet<Manager> Managers { get; set; } = null!;
 
-    public DbSet<Feature> Features { get; set; } = null!;
+    public virtual DbSet<Feature> Features { get; set; } = null!;
 
-    public DbSet<Facility> Facilities { get; set; } = null!;
+    public virtual DbSet<Facility> Facilities { get; set; } = null!;
 
-    public DbSet<HotelImageUrl> HotelImageUrls { get; set; } = null!;
+    public virtual DbSet<HotelImageUrl> HotelImageUrls { get; set; } = null!;
 
-    public DbSet<RoomImageUrl> RoomImageUrls { get; set; } = null!;
+    public virtual DbSet<RoomImageUrl> RoomImageUrls { get; set; } = null!;
 
-    public DbSet<RoomFeature> RoomsFeatures { get; set; } = null!;
+    public virtual DbSet<RoomFeature> RoomsFeatures { get; set; } = null!;
 
-    public DbSet<HotelFacility> HotelsFacilities { get; set; } = null!;
+    public virtual DbSet<HotelFacility> HotelsFacilities { get; set; } = null!;
 
     override protected void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -60,15 +63,17 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
             }
         }
 
-        modelBuilder.ApplyConfiguration(new FacilityConfiguration());
-        modelBuilder.ApplyConfiguration(new ApplicationUserConfiguration());
-        modelBuilder.ApplyConfiguration(new ManagerConfiguration());
-        modelBuilder.ApplyConfiguration(new HotelConfiguration());
-        modelBuilder.ApplyConfiguration(new HotelFacilityConfiguration());
-        modelBuilder.ApplyConfiguration(new HotelImageUrlConfiguration());
-        modelBuilder.ApplyConfiguration(new RoomConfiguration());
-        modelBuilder.ApplyConfiguration(new BookingConfiguration());
-        modelBuilder.ApplyConfiguration(new ReviewConfiguration());
+        DataSeeder seeder = new DataSeeder();
+
+        modelBuilder.Entity<Facility>().HasData(seeder.Facilities);
+        modelBuilder.Entity<ApplicationUser>().HasData(seeder.ApplicationUsers);
+        modelBuilder.Entity<Manager>().HasData(seeder.Managers);
+        modelBuilder.Entity<Hotel>().HasData(seeder.Hotels);
+        modelBuilder.Entity<HotelFacility>().HasData(seeder.HotelFacilities);
+        modelBuilder.Entity<HotelImageUrl>().HasData(seeder.HotelImageUrls);
+        modelBuilder.Entity<Room>().HasData(seeder.Rooms);
+        modelBuilder.Entity<Booking>().HasData(seeder.Bookings);
+        modelBuilder.Entity<Review>().HasData(seeder.Reviews);
 
         base.OnModelCreating(modelBuilder);
     }
