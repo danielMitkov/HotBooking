@@ -1,11 +1,11 @@
 ﻿using HotBooking.Core.DTOs.FacilityDtos;
 using HotBooking.Core.DTOs.HotelDtos;
 using HotBooking.Core.Enums;
+using HotBooking.Core.ErrorMessages;
 using HotBooking.Core.Interfaces;
-using HotBooking.Data.Common;
+using HotBooking.Data;
 using HotBooking.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace HotBooking.Core.Services;
 
@@ -13,32 +13,21 @@ public class HotelsService : IHotelsService
 {
     public string ErrorMessage { get; private set; } = string.Empty;
 
-    private readonly ILogger<HotelsService> logger;
-    private readonly IDbContext repository;
-    private readonly IPaginationService paginationService;
+    private readonly HotBookingDbContext dbContext;
 
-    public HotelsService(
-        ILogger<HotelsService> logger,
-        IDbContext repository,
-        IPaginationService paginationService)
+    public HotelsService(HotBookingDbContext dbContext)
     {
-        this.logger = logger;
-        this.repository = repository;
-        this.paginationService = paginationService;
+        this.dbContext = dbContext;
     }
 
     public async Task<BrowseHotelsOutputDto?> GetFilteredHotelsAsync(BrowseHotelsInputDto inputDto)
     {
-        ICollection<Facility> allFacilities = await repository
-            .AllReadOnly<Facility>()
-            .ToListAsync();
+        IEnumerable<Facility> allFacilities = await dbContext.Facilities.ToListAsync();
 
+        IEnumerable<Facility> selectedFacilities = allFacilities
+            .Where(f => inputDto.FacilitySelectedPublicIds.Contains(f.PublicId));
 
-        var selectedFacilities = allFacilities
-            .Where(f => inputDto.FacilitySelectedPublicIds.Contains(f.PublicId))
-            .ToList();
-
-        var facilityDtos = allFacilities
+        IEnumerable<FacilityDto> facilityDtos = allFacilities
             .Select(f => new FacilityDto(
                 f.PublicId,
                 selectedFacilities.Contains(f),
@@ -46,13 +35,12 @@ public class HotelsService : IHotelsService
                 f.SvgTag))
             .ToList();
 
-        var queryHotels = repository
-            .AllReadOnly<Hotel>();
-        //.Where(h => h.CityName == inputDto.City);
+        IQueryable<Hotel> queryHotels = dbContext.Hotels
+            .Where(h => h.CityName == inputDto.City);
 
         if (inputDto.FacilitySelectedPublicIds.Any())
         {
-            int selectedFacilitiesCount = selectedFacilities.Count;
+            int selectedFacilitiesCount = selectedFacilities.Count();
 
             ICollection<int> selectedFacilitiesPrimaryKeys = selectedFacilities
                 .Select(f => f.Id)
@@ -71,19 +59,18 @@ public class HotelsService : IHotelsService
             .Count(r => (r.BedsCount >= peoplePerRoom) && r.Bookings
             .All(b => (inputDto.CheckInDate > b.CheckOut) || (inputDto.CheckOutDate < b.CheckIn))) >= inputDto.RoomsCount);
 
-        int allHotelsCount = await repository.CountAsync(queryHotels);
+        int allHotelsCount = await queryHotels.CountAsync();
 
         if (allHotelsCount == 0)
         {
-            ErrorMessage = "No Hotels Found!";
-            return null;
+            return new BrowseHotelsOutputDto(new List<PreviewHotelDto>(), facilityDtos, 0, allHotelsCount);
         }
 
-        int? totalPages = paginationService.GetTotalPages(allHotelsCount, inputDto.PageSize, inputDto.CurrentPage);
+        int totalPages = (int)Math.Ceiling(allHotelsCount / (decimal)inputDto.PageSize);
 
-        if (totalPages == null)
+        if (inputDto.CurrentPage < 1 || inputDto.CurrentPage > totalPages)
         {
-            ErrorMessage = paginationService.ErrorMessage;
+            ErrorMessage = string.Format(HotelErrors.PageNumberOutOfRange, totalPages);
             return null;
         }
 
@@ -102,33 +89,38 @@ public class HotelsService : IHotelsService
                 .ThenBy(h => h.Id)
         };
 
-        queryHotels = paginationService.ApplyPagination(queryHotels, inputDto.PageSize, inputDto.CurrentPage);
+        int skipAmount = (inputDto.CurrentPage - 1) * inputDto.PageSize;
 
-        var selectedHotels = await queryHotels
+        queryHotels = queryHotels
+            .Skip(skipAmount)
+            .Take(inputDto.PageSize);
+
+        IEnumerable<PreviewHotelDto> selectedHotels = await queryHotels
             .Select(h => new PreviewHotelDto(
-                h.Id,
+                h.PublicId,
                 h.HotelImages.First().Url,
                 h.HotelName,
                 h.Description,
                 h.StreetAddress,
                 h.CityName,
                 h.StarRating,
-                h.Reviews.Average(r => (decimal)r.RatingScore),
+                h.Reviews.Average(r => r.RatingScore),
                 h.Reviews.Count()))
             .ToListAsync();
 
-        var outputDto = new BrowseHotelsOutputDto(selectedHotels, facilityDtos, (int)totalPages, allHotelsCount);
+        var outputDto = new BrowseHotelsOutputDto(selectedHotels, facilityDtos, totalPages, allHotelsCount);
 
         return outputDto;
-
     }
 
-    public async Task<ICollection<string>> GetHotelsCitiesAsync(string searchTerm)
+    public async Task<IEnumerable<string>> GetMatchingCitiesAsync(string searchTerm)
     {
-        ICollection<string> cities = await repository
-            .AllReadOnly<Hotel>()
-            .Where(h => h.CityName.Contains(searchTerm))
+        searchTerm = searchTerm.ToLower();
+
+        IEnumerable<string> cities = await dbContext.Hotels
+            .Where(h => h.CityName.ToLower().Contains(searchTerm))
             .Select(h => h.CityName)
+            .Distinct()
             .ToListAsync();
 
         return cities;
