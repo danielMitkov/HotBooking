@@ -16,7 +16,6 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IHotelsService, HotelsService>();
-        services.AddScoped<IPaginationService, PaginationService>();
 
         services.AddScoped<IHotelValidationService, HotelValidationService>();
         services.AddScoped<IBookingValidationService, BookingValidationService>();
@@ -31,7 +30,7 @@ public static class ServiceCollectionExtension
         services.AddDbContext<HotBookingDbContext>(options =>
         {
             options.UseSqlServer(connectionString);
-            //options.EnableSensitiveDataLogging();
+            options.EnableSensitiveDataLogging();
         });
 
         services.AddScoped<IDbContext, Repository>();
