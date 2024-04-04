@@ -1,7 +1,7 @@
 ﻿namespace HotBooking.Core.DTOs.HotelDtos;
 
 public record PreviewHotelDto(
-    int Id,
+    Guid PublicId,
     string ImageUrl,
     string HotelName,
     string Description,
