@@ -14,25 +14,11 @@ public class HotelsController : Controller
 {
     public const string Name = "Hotels";
 
-    private readonly ILogger<HotelsController> logger;
-
     private readonly IHotelsService hotelsService;
 
-    private readonly IHotelValidationService hotelValidationService;
-    private readonly IBookingValidationService bookingValidationService;
-
-    public HotelsController(
-        ILogger<HotelsController> logger,
-        IHotelsService hotelsService,
-        IHotelValidationService hotelValidationService,
-        IBookingValidationService bookingValidationService)
+    public HotelsController(IHotelsService hotelsService)
     {
-        this.logger = logger;
-
         this.hotelsService = hotelsService;
-
-        this.hotelValidationService = hotelValidationService;
-        this.bookingValidationService = bookingValidationService;
     }
 
     [AllowAnonymous]
