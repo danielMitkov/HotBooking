@@ -1,3 +1,4 @@
+using HotBooking.Web.Middleware;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +22,10 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+    app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+    //app.UseExceptionHandler("/Home/Error");
+    //app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 
     app.UseHsts();
 }
