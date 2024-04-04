@@ -2,15 +2,14 @@
 
 namespace HotBooking.Core.DTOs.HotelDtos;
 
-public record BrowseHotelsInputDto
-(
+public record BrowseHotelsInputDto(
     int CurrentPage,
     int PageSize,
     string City,
-    DateTime CheckInDate, 
+    DateTime CheckInDate,
     DateTime CheckOutDate,
-    int AdultsCount, 
+    int AdultsCount,
     int RoomsCount,
     HotelSorting Sorting,
-    ICollection<Guid> FacilitySelectedPublicIds
+    IEnumerable<Guid> FacilitySelectedPublicIds
 );
