@@ -1,15 +1,10 @@
 ﻿using HotBooking.Core.DTOs.HotelDtos;
-using HotBooking.Core.Enums;
 using HotBooking.Core.Interfaces;
-using HotBooking.Core.Interfaces.ValidationInterfaces;
-using HotBooking.Web.Models;
 using HotBooking.Web.Models.HotelViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotBooking.Web.Controllers;
 
-[Authorize]
 public class HotelsController : Controller
 {
     public const string Name = "Hotels";
@@ -21,45 +16,7 @@ public class HotelsController : Controller
         this.hotelsService = hotelsService;
     }
 
-    [AllowAnonymous]
-    public async Task<IActionResult> Index(SearchHotelsViewModel searchModel)
-    {
-        BrowseHotelsViewModel browseModel = new()
-        {
-            Search = searchModel,
-            Sorting = HotelSorting.RatingDesc
-        };
-
-        BrowseHotelsInputDto inputDto = new(
-            browseModel.Page,
-            2,
-            searchModel.City,
-            searchModel.CheckInDate,
-            searchModel.CheckOutDate,
-            searchModel.AdultsCount,
-            searchModel.RoomsCount,
-            browseModel.Sorting,
-            browseModel.SelectedFacilityIds);
-
-        BrowseHotelsOutputDto? outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
-
-        if (outputDto == null)
-        {
-            ModelState.AddModelError(string.Empty, hotelsService.ErrorMessage);
-            return View();
-        }
-
-        browseModel.Pager = new(outputDto.TotalPages, 1, Name, nameof(Index));
-        browseModel.Hotels = outputDto.SelectedHotels;
-        browseModel.Facilities = outputDto.Facilities;
-        browseModel.AllHotelsCount = outputDto.AllHotelsCount;
-
-        return View(browseModel);
-    }
-
-    [AllowAnonymous]
-    [HttpPost]//change this because its not changing db
-    public async Task<IActionResult> Index(BrowseHotelsViewModel model, int id)
+    public async Task<IActionResult> Index(BrowseHotelsViewModel model)
     {
         if (ModelState.IsValid == false)
         {
@@ -67,8 +24,8 @@ public class HotelsController : Controller
         }
 
         BrowseHotelsInputDto inputDto = new(
-            99,
-            2,
+            model.Page,
+            1,
             model.Search.City,
             model.Search.CheckInDate,
             model.Search.CheckOutDate,
