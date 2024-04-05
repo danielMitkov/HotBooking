@@ -23,9 +23,9 @@ public class ValidationController : Controller
         return Json(errorMessage == null ? true : errorMessage);
     }
 
-    public IActionResult AreDatesValid(DateTime checkInDate, DateTime checkOutDate)
+    public IActionResult AreDatesValid(SearchHotelsViewModel search)
     {
-        string? errorMessage = validationService.AreDatesValid(checkInDate, checkOutDate);
+        string? errorMessage = validationService.AreDatesValid(search.CheckInDate, search.CheckOutDate);
 
         return Json(errorMessage == null ? true : errorMessage);
     }
