@@ -14,11 +14,11 @@ public class SearchHotelsViewModel
     public string City { get; set; } = null!;
 
     [Required]
-    //[Remote(nameof(ValidationController.AreDatesValid), ValidationController.Name, AdditionalFields = nameof(CheckOutDate))]
+    [Remote(nameof(ValidationController.AreDatesValid), ValidationController.Name, AdditionalFields = nameof(CheckOutDate))]
     public DateTime CheckInDate { get; set; }
 
     [Required]
-    //[Remote(nameof(ValidationController.AreDatesValid), ValidationController.Name, AdditionalFields = nameof(CheckInDate))]
+    [Remote(nameof(ValidationController.AreDatesValid), ValidationController.Name, AdditionalFields = nameof(CheckInDate))]
     public DateTime CheckOutDate { get; set; }
 
     [Required]

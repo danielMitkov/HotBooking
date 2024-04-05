@@ -1,6 +1,7 @@
 ﻿using HotBooking.Core.DTOs.FacilityDtos;
 using HotBooking.Core.DTOs.HotelDtos;
 using HotBooking.Core.Enums;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotBooking.Web.Models.HotelViewModels;
