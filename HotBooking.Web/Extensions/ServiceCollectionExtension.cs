@@ -1,12 +1,7 @@
 ﻿using HotBooking.Core.Interfaces;
-using HotBooking.Core.Interfaces.ValidationInterfaces;
 using HotBooking.Core.Services;
-using HotBooking.Core.Services.ValidationServices;
 using HotBooking.Data;
-using HotBooking.Data.Common;
 using HotBooking.Data.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -16,9 +11,7 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IHotelsService, HotelsService>();
-
-        services.AddScoped<IHotelValidationService, HotelValidationService>();
-        services.AddScoped<IBookingValidationService, BookingValidationService>();
+        services.AddScoped<IValidationService, ValidationService>();
 
         return services;
     }
@@ -32,8 +25,6 @@ public static class ServiceCollectionExtension
             options.UseSqlServer(connectionString);
             options.EnableSensitiveDataLogging();
         });
-
-        services.AddScoped<IDbContext, Repository>();
 
         services.AddDatabaseDeveloperPageExceptionFilter();
 

@@ -1,5 +1,4 @@
-﻿using HotBooking.Core.ErrorMessages;
-using HotBooking.Core.Interfaces.ValidationInterfaces;
+﻿using HotBooking.Core.Interfaces;
 using HotBooking.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,25 +9,24 @@ public class ValidationController : Controller
 {
     public const string Name = "Validation";
 
-    private readonly IHotelValidationService hotelValidationService;
-    private readonly IBookingValidationService bookingValidationService;
+    private readonly IValidationService validationService;
 
-    public ValidationController(IHotelValidationService hotelValidationService,
-        IBookingValidationService bookingValidationService)
+    public ValidationController(IValidationService validationService)
     {
-        this.hotelValidationService = hotelValidationService;
-        this.bookingValidationService = bookingValidationService;
+        this.validationService = validationService;
     }
 
     public async Task<IActionResult> CityExists(SearchHotelsViewModel search)
     {
-        return Json((await hotelValidationService.IsCityFoundAsync(search.City)) ? true : HotelErrors.CityNotFound);
+        string? errorMessage = await validationService.IsCityFoundAsync(search.City);
+
+        return Json(errorMessage == null ? true : errorMessage);
     }
 
     public IActionResult AreDatesValid(DateTime checkInDate, DateTime checkOutDate)
     {
-        string? errorMsg = bookingValidationService.AreDatesValid(checkInDate, checkOutDate);
+        string? errorMessage = validationService.AreDatesValid(checkInDate, checkOutDate);
 
-        return Json(errorMsg == null ? true : errorMsg);
+        return Json(errorMessage == null ? true : errorMessage);
     }
 }
