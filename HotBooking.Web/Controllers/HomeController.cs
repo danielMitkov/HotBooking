@@ -1,6 +1,6 @@
-﻿using HotBooking.Core.Interfaces;
-using HotBooking.Core.Interfaces.ValidationInterfaces;
-using HotBooking.Web.Models;
+﻿using HotBooking.Core.Enums;
+using HotBooking.Core.Interfaces;
+using HotBooking.Web.Models.HotelViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotBooking.Web.Controllers;
@@ -10,38 +10,25 @@ public class HomeController : Controller
     public const string Name = "Home";
 
     private readonly IHotelsService hotelsService;
-    private readonly IHotelValidationService hotelValidationService;
-    private readonly IBookingValidationService bookingValidationService;
 
-    public HomeController(IHotelsService hotelsService,
-        IHotelValidationService hotelValidationService,
-        IBookingValidationService bookingValidationService)
+    public HomeController(IHotelsService hotelsService)
     {
         this.hotelsService = hotelsService;
-        this.hotelValidationService = hotelValidationService;
-        this.bookingValidationService = bookingValidationService;
     }
 
     public IActionResult Index()
     {
-        var viewModel = new SearchHotelsViewModel()
+        BrowseHotelsViewModel model = new()
         {
-            CheckInDate = new DateTime(2024, 4, 5),
-            CheckOutDate = new DateTime(2024, 4, 11)
+            Search = new()
+            {
+                CheckInDate = new DateTime(2024, 4, 17),
+                CheckOutDate = new DateTime(2024, 4, 20)
+            },
+            Sorting = HotelSorting.RatingDesc
         };
 
-        return View(viewModel);
-    }
-
-    [HttpPost]//use only if it changes db data
-    public IActionResult Index(SearchHotelsViewModel model)
-    {
-        if (ModelState.IsValid == false)
-        {
-            return View(model);
-        }
-
-        return RedirectToAction(nameof(HotelsController.Index), HotelsController.Name, model);
+        return View(model);
     }
 
     public async Task<IActionResult> Cities(string searchTerm)
