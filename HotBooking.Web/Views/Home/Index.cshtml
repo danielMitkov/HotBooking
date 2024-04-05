@@ -1,4 +1,4 @@
-﻿@model SearchHotelsViewModel
+﻿@model BrowseHotelsViewModel
 
 @{
     ViewData["Title"] = "Home Page";
@@ -6,8 +6,8 @@
 
 <div asp-validation-summary="All"></div>
 
-<form asp-controller="@HomeController.Name" asp-action="@nameof(HomeController.Index)" method="post">
-    <partial name="_SearchHotels" for="@Model" />
+<form asp-controller="@HotelsController.Name" asp-action="@nameof(HotelsController.Index)" method="get">
+    <partial name="_SearchHotels" for="@Model.Search" />
 </form>
 
 @section Scripts {
