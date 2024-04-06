@@ -1,5 +1,7 @@
 ﻿using HotBooking.Core.DTOs.HotelDtos;
+using HotBooking.Core.Exceptions;
 using HotBooking.Core.Interfaces;
+using HotBooking.Web.Models;
 using HotBooking.Web.Models.HotelViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +18,7 @@ public class HotelsController : Controller
         this.hotelsService = hotelsService;
     }
 
+    [HttpPost]
     public async Task<IActionResult> Index(BrowseHotelsViewModel model)
     {
         if (ModelState.IsValid == false)
@@ -34,11 +37,15 @@ public class HotelsController : Controller
             model.Sorting,
             model.SelectedFacilityIds);
 
-        BrowseHotelsOutputDto? outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
+        BrowseHotelsOutputDto outputDto;
 
-        if (outputDto == null)
+        try
         {
-            ModelState.AddModelError(string.Empty, hotelsService.ErrorMessage);
+            outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
+        }
+        catch (PageOutOfRangeException ex)
+        {
+            ModelState.AddModelError(string.Empty, ex.Message);
             return View(model);
         }
 
@@ -48,5 +55,10 @@ public class HotelsController : Controller
         model.AllHotelsCount = outputDto.AllHotelsCount;
 
         return View(model);
+    }
+
+    public async Task<IActionResult> Details(string publidId, SearchHotelsViewModel search)
+    {
+        return View();
     }
 }
