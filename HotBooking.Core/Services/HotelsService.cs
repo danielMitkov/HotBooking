@@ -125,4 +125,14 @@ public class HotelsService : IHotelsService
 
         return cities;
     }
+
+    public async Task<bool> IsCityFoundAsync(string city)
+    {
+        city = city.ToLower();
+
+        bool isCityFound = await dbContext.Hotels
+            .AnyAsync(h => h.CityName.ToLower() == city);
+
+        return isCityFound;
+    }
 }
