@@ -1,6 +1,7 @@
 using HotBooking.Core.DTOs.HotelDtos;
 using HotBooking.Core.Enums;
 using HotBooking.Core.ErrorMessages;
+using HotBooking.Core.Exceptions;
 using HotBooking.Core.Services;
 using HotBooking.Data;
 using HotBooking.Data.Models;
@@ -82,7 +83,7 @@ public class HotelsServiceTests
     }
 
     [Fact]
-    public async Task GetFilteredHotelsAsync_Returns_ErrorMessage_For_ZeroTotalPages()
+    public async Task GetFilteredHotelsAsync_ThrowsFor_PageOutOfRange()
     {
         // Arrange
         _dbContext.Facilities.Returns(dbSetFacility);
@@ -99,12 +100,7 @@ public class HotelsServiceTests
             HotelSorting.RatingDesc,
             new List<Guid>());
 
-        // Act
-        BrowseHotelsOutputDto? outputDto = await _hotelsService.GetFilteredHotelsAsync(inputDto);
-
-        // Assert
-        Assert.Null(outputDto);
-        Assert.Equal(_hotelsService.ErrorMessage, string.Format(HotelErrors.PageNumberOutOfRange, 2));
+        await Assert.ThrowsAsync<PageOutOfRangeException>(() => _hotelsService.GetFilteredHotelsAsync(inputDto));
     }
 
     [Fact]
@@ -156,7 +152,7 @@ public class HotelsServiceTests
 
         // Assert
         Assert.NotNull(outputDto);
-        Assert.Equal(outputDto!.SelectedHotels.First().PublicId,_seeder.Hotel_StrandPalace.PublicId);
+        Assert.Equal(outputDto!.SelectedHotels.First().PublicId, _seeder.Hotel_StrandPalace.PublicId);
     }
 
     [Fact]
