@@ -1,7 +1,7 @@
 ﻿using HotBooking.Core.DTOs.FacilityDtos;
 using HotBooking.Core.DTOs.HotelDtos;
 using HotBooking.Core.Enums;
-using HotBooking.Core.ErrorMessages;
+using HotBooking.Core.Exceptions;
 using HotBooking.Core.Interfaces;
 using HotBooking.Data;
 using HotBooking.Data.Models;
@@ -11,8 +11,6 @@ namespace HotBooking.Core.Services;
 
 public class HotelsService : IHotelsService
 {
-    public string ErrorMessage { get; private set; } = string.Empty;
-
     private readonly HotBookingDbContext dbContext;
 
     public HotelsService(HotBookingDbContext dbContext)
@@ -20,7 +18,7 @@ public class HotelsService : IHotelsService
         this.dbContext = dbContext;
     }
 
-    public async Task<BrowseHotelsOutputDto?> GetFilteredHotelsAsync(BrowseHotelsInputDto inputDto)
+    public async Task<BrowseHotelsOutputDto> GetFilteredHotelsAsync(BrowseHotelsInputDto inputDto)
     {
         IEnumerable<Facility> allFacilities = await dbContext.Facilities.ToListAsync();
 
@@ -70,8 +68,7 @@ public class HotelsService : IHotelsService
 
         if (inputDto.CurrentPage < 1 || inputDto.CurrentPage > totalPages)
         {
-            ErrorMessage = string.Format(HotelErrors.PageNumberOutOfRange, totalPages);
-            return null;
+            throw new PageOutOfRangeException(totalPages);
         }
 
         queryHotels = inputDto.Sorting switch
