@@ -11,7 +11,6 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IHotelsService, HotelsService>();
-        services.AddScoped<IValidationService, ValidationService>();
 
         return services;
     }
