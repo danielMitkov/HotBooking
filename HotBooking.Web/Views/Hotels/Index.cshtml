@@ -4,7 +4,7 @@
     ViewData["Title"] = "Explore Hotels";
 }
 
-<form method="post">
+<form id="mainForm" method="post">
     <div asp-validation-summary="All"></div>
 
     <partial name="_SearchHotels" for="@Model.Search" />
