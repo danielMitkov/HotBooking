@@ -4,58 +4,63 @@
     ViewData["Title"] = "Explore Hotels";
 }
 
-<form id="mainForm" method="post">
+<form method="post" class="container-fluid mt-3">
+
     <div asp-validation-summary="All"></div>
 
-    <partial name="_SearchHotels" for="@Model.Search" />
+    <div class="row">
+        <partial name="_SearchHotels" for="@Model.Search" />
+    </div>
 
-    <div class="container-fluid mt-3">
+    @if (Model.Hotels.Any())
+    {
         <div class="row">
+
             <div class="col-2">
 
-                @if (Model.Hotels.Any())
-                {
-                    <div class="container-fluid">
-                        <select asp-for="@Model.Sorting" class="form-select mb-3">
+                <div class="container-fluid">
+                    <select asp-for="@Model.Sorting" class="form-select mb-3">
 
-                            <option value="@HotelSorting.RatingDesc">Top Rated</option>
-                            <option value="@HotelSorting.PriceAsc">From Cheapest to Most Expensive</option>
-                            <option value="@HotelSorting.PriceDesc">From Most Expensive to Cheapest</option>
-                        </select>
-                        <button class="btn btn-outline-secondary" type="submit">Sort</button>
-                    </div>
+                        <option value="@HotelSorting.RatingDesc">Top Rated</option>
+                        <option value="@HotelSorting.PriceAsc">From Cheapest to Most Expensive</option>
+                        <option value="@HotelSorting.PriceDesc">From Most Expensive to Cheapest</option>
+                    </select>
+                    <button class="btn btn-outline-secondary" type="submit">Sort</button>
+                </div>
 
-                    <div class="container-fluid mt-3">
-                        <div class="form-group">
-                            <div>
-                                <div class="mb-3">
-                                    @foreach (var facility in @Model.Facilities)
-                                    {
-                                        <div class="form-check">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   value="@facility.PublicId"
-                                                   name="@nameof(BrowseHotelsViewModel.SelectedFacilityIds)"
-                                                   id="checkbox_@facility.PublicId"
-                                                   checked="@facility.IsChecked" />
+                <div class="container-fluid mt-3">
+                    <div class="form-group">
+                        <div>
+                            <div class="mb-3">
+                                @foreach (var facility in @Model.Facilities)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               value="@facility.PublicId"
+                                               name="@nameof(BrowseHotelsViewModel.SelectedFacilityIds)"
+                                               id="checkbox_@facility.PublicId"
+                                               checked="@facility.IsChecked" />
 
-                                            <label class="form-check-label" for="checkbox_@facility.PublicId">@facility.Name</label>
-                                        </div>
-                                    }
-                                </div>
-                                <button type="submit" class="btn btn-primary">Filter</button>
+                                        <label class="form-check-label" for="checkbox_@facility.PublicId">@facility.Name</label>
+                                    </div>
+                                }
                             </div>
+                            <button type="submit" class="btn btn-primary">Filter</button>
                         </div>
                     </div>
-                }
+                </div>
+
             </div>
+
             <div class="col-10">
 
                 <div class="container-fluid">
-                    <h3>Matching Hotels Found: @Model.AllHotelsCount</h3>
+                    <h5>Matching Hotels Found: @Model.AllHotelsCount</h5>
                 </div>
 
                 <div class="hotel-item container-fluid">
+
                     @foreach (var hotel in Model.Hotels)
                     {
                         <div class="row border border-1 border-secondary rounded-3 mb-4">
@@ -82,18 +87,26 @@
                                     <p class="text-end">@(Math.Round(hotel.AverageRating, 2))/10</p>
                                     <p class="text-end">@hotel.ReviewsCount reviews</p>
                                 </div>
-                                <button type="button" class="btn btn-outline-primary float-end mt-auto">Check Prices</button>
+
+                                <input hidden name="publidId" value="@hotel.PublicId" />
+
+                                <button type="submit"
+                                        asp-action="@nameof(HotelsController.Details)"
+                                        class="btn btn-outline-primary float-end mt-auto">
+                                    Check Prices
+                                </button>
                             </div>
                         </div>
                     }
                 </div>
 
             </div>
+
         </div>
-    </div>
-    @if (Model.Pager != null)
-    {
-        <partial name="_Pagination" model="@Model.Pager" />
+
+        <div class="row">
+            <partial name="_Pagination" model="@Model.Pager" />
+        </div>
     }
 </form>
 
