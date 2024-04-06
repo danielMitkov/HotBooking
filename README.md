@@ -1,2 +1,2 @@
 # HotBooking
-5 X CRUD
+Website for booking hotel reservations.
