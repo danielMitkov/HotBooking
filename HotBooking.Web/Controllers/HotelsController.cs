@@ -43,9 +43,9 @@ public class HotelsController : Controller
         {
             outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
         }
-        catch (PageOutOfRangeException ex)
+        catch(CityNotFound ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(nameof(model.Search.City), ex.Message);
             return View(model);
         }
 
