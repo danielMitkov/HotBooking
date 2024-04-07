@@ -1,6 +1,7 @@
 ﻿using HotBooking.Core.DTOs.FacilityDtos;
 using HotBooking.Core.DTOs.HotelDtos;
 using HotBooking.Core.Enums;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotBooking.Web.Models.HotelViewModels;
@@ -16,14 +17,14 @@ public class BrowseHotelsViewModel
 
     public int Page { get; set; } = 1;
 
-    public IEnumerable<Guid> SelectedFacilityIds { get; set; } = new List<Guid>();
+    public ICollection<Guid> SelectedFacilityIds { get; set; } = new List<Guid>();
 
 
     public PagerViewModel? Pager { get; set; }
 
-    public IEnumerable<PreviewHotelDto> Hotels { get; set; } = new List<PreviewHotelDto>();
+    public ICollection<PreviewHotelDto> Hotels { get; set; } = new List<PreviewHotelDto>();
 
-    public IEnumerable<FacilityDto> Facilities { get; set; } = new List<FacilityDto>();
+    public ICollection<FacilityDto> Facilities { get; set; } = new List<FacilityDto>();
 
     public int AllHotelsCount { get; set; }
 }
