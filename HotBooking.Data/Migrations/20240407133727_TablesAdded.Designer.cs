@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotBooking.Data.Migrations
 {
     [DbContext(typeof(HotBookingDbContext))]
-    [Migration("20240328111403_TablesAdded")]
+    [Migration("20240407133727_TablesAdded")]
     partial class TablesAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -367,8 +367,8 @@ namespace HotBooking.Data.Migrations
                     b.Property<Guid>("PublicId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("RatingScore")
-                        .HasColumnType("int");
+                    b.Property<decimal>("RatingScore")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("ReviewedOn")
                         .HasColumnType("datetime2");

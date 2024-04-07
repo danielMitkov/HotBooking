@@ -343,21 +343,32 @@ public class DataSeeder
     }
 
     public HotelImageUrl HotelImageUrl_ThreeWhiteHouses { get; set; } = null!;
+    public HotelImageUrl HotelImageUrl_NightLights { get; set; } = null!;
     public HotelImageUrl HotelImageUrl_MultiHotels { get; set; } = null!;
     public HotelImageUrl HotelImageUrl_OldCentral { get; set; } = null!;
     private void SeedHotelImageUrls()
     {
+        int id = 0;
+
         HotelImageUrl_ThreeWhiteHouses = new HotelImageUrl()
         {
-            Id = 1,
+            Id = ++id,
             Url = "https://www.w3schools.com/html/pic_trulli.jpg",
             HotelId = Hotel_ChilworthLondonPaddington.Id
         };
         HotelImageUrls.Add(HotelImageUrl_ThreeWhiteHouses);
 
+        HotelImageUrl_NightLights = new HotelImageUrl()
+        {
+            Id = ++id,
+            Url = "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+            HotelId = Hotel_ChilworthLondonPaddington.Id
+        };
+        HotelImageUrls.Add(HotelImageUrl_NightLights);
+
         HotelImageUrl_MultiHotels = new HotelImageUrl()
         {
-            Id = 2,
+            Id = ++id,
             Url = "https://pix8.agoda.net/hotelImages/182146/-1/112f1fa0f38baf10800569462deb46cd.jpg",
             HotelId = Hotel_KempinskiHotelGrandArena.Id
         };
@@ -365,7 +376,7 @@ public class DataSeeder
 
         HotelImageUrl_OldCentral = new HotelImageUrl()
         {
-            Id = 3,
+            Id = ++id,
             Url = "https://cf.bstatic.com/xdata/images/hotel/max1024x768/260560238.jpg?k=1d14eb111d6a58d373d4139792c8c0545ec7014527bab0c00a98945e8df46879&o=&hp=1",
             HotelId = Hotel_StrandPalace.Id
         };
@@ -374,6 +385,8 @@ public class DataSeeder
     private void FillCollectionsHotelImageUrls()
     {
         HotelImageUrl_ThreeWhiteHouses.Hotel = Hotel_ChilworthLondonPaddington;
+
+        HotelImageUrl_NightLights.Hotel = Hotel_ChilworthLondonPaddington;
 
         HotelImageUrl_MultiHotels.Hotel = Hotel_KempinskiHotelGrandArena;
 

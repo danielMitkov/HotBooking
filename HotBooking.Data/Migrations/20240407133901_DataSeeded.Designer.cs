@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotBooking.Data.Migrations
 {
     [DbContext(typeof(HotBookingDbContext))]
-    [Migration("20240404075815_DataSeeded")]
+    [Migration("20240407133901_DataSeeded")]
     partial class DataSeeded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,16 +102,16 @@ namespace HotBooking.Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2dbc401f-3534-48f0-9935-26186ab4a8e2",
+                            ConcurrencyStamp = "1bffc4bf-6d03-4f84-8635-eb69ff302594",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBwdWIrkc0VeUVYy8z1dX0JwrvCT3YKOMo55pRrvRheBu6SHv5wg4D2wvGtaBSZtaw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG5Jxf15s8J+7VU/TJjML/7wKKky+iGNBil6H+BpRYEAT9cohGtLEDlFhgQsFqRKyw==",
                             PhoneNumberConfirmed = false,
-                            PublicId = new Guid("1d1d65f8-045b-42f0-8250-84b3e99a52bf"),
+                            PublicId = new Guid("4823a6bc-e196-433e-aa50-e69228e8b2e9"),
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -119,16 +119,16 @@ namespace HotBooking.Data.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8b613347-29f4-442d-9e80-3ebaceeafded",
+                            ConcurrencyStamp = "7edd94e8-5ba6-4295-9063-2f5ba1498055",
                             Email = "two@mail.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "two@mail.com",
                             NormalizedUserName = "two@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGJL3xT3HbpqL7UP6j5PS0B4kgh0T3ZM1HhsaR9tQnbry6QW8VmsUeRO7cjI8Yzs5g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOeS7TkARcSKXO4BT/W/MlJSyoAsaIWxneEAF13Yj1aGVvu32UXH9NhBpXYwgRtyTw==",
                             PhoneNumberConfirmed = false,
-                            PublicId = new Guid("a7a7ef8a-b7a8-4666-8531-1a055549a966"),
+                            PublicId = new Guid("4977dfbd-c073-478d-9583-d95ad17240e8"),
                             TwoFactorEnabled = false,
                             UserName = "two@mail.com"
                         },
@@ -136,16 +136,16 @@ namespace HotBooking.Data.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "57774020-d008-45ac-87e8-86940ac3a6d2",
+                            ConcurrencyStamp = "709ddde9-66e9-4beb-bedf-4e12a7590d5d",
                             Email = "manager@mail.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "manager@mail.com",
                             NormalizedUserName = "manager@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFcxYcRWDTfCKjJoetsUURHMqKPWNRr3n5UowONTdDo09o6dvRPvV0ZzN+lRsVAwuA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENPcRz++E4LsikpE1r8txei4GZZB4KWiyUAB9miDonnD0AUk5XcjHG3oFoPj2q2fyQ==",
                             PhoneNumberConfirmed = false,
-                            PublicId = new Guid("3257d0d3-0edc-48b9-a6b8-14abbf63b911"),
+                            PublicId = new Guid("bb7fab7f-4ac2-4d0e-954e-c71be2c47968"),
                             TwoFactorEnabled = false,
                             UserName = "manager@mail.com"
                         });
@@ -205,7 +205,7 @@ namespace HotBooking.Data.Migrations
                             CheckOut = new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HotelId = 1,
                             IsActive = true,
-                            PublicId = new Guid("56310414-420a-48ba-abf1-2b47729eca70"),
+                            PublicId = new Guid("1f4a06b2-e132-48ed-a8c4-6d31aab2b53e"),
                             RoomId = 1,
                             UserId = 1
                         },
@@ -217,7 +217,7 @@ namespace HotBooking.Data.Migrations
                             CheckOut = new DateTime(2023, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HotelId = 1,
                             IsActive = true,
-                            PublicId = new Guid("1563c027-e405-4cc1-89ec-e72ddc5725dc"),
+                            PublicId = new Guid("0a960c44-a8f9-4995-9525-0748115f1a19"),
                             RoomId = 2,
                             UserId = 1
                         },
@@ -229,7 +229,7 @@ namespace HotBooking.Data.Migrations
                             CheckOut = new DateTime(2023, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HotelId = 2,
                             IsActive = true,
-                            PublicId = new Guid("2498284a-2835-4009-96ae-152becb5cf43"),
+                            PublicId = new Guid("3f02eceb-3558-45b3-b4e3-ff1761ebfc33"),
                             RoomId = 3,
                             UserId = 2
                         },
@@ -241,7 +241,7 @@ namespace HotBooking.Data.Migrations
                             CheckOut = new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HotelId = 2,
                             IsActive = true,
-                            PublicId = new Guid("6ceb67a5-ce24-429d-abb7-69670ba96c5c"),
+                            PublicId = new Guid("8df4a75a-fd84-4d05-8ceb-2cdca4e94dd3"),
                             RoomId = 4,
                             UserId = 2
                         },
@@ -253,7 +253,7 @@ namespace HotBooking.Data.Migrations
                             CheckOut = new DateTime(2023, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HotelId = 2,
                             IsActive = true,
-                            PublicId = new Guid("536ad6d2-af47-42c2-8891-26b0da9dd599"),
+                            PublicId = new Guid("e319af01-74d5-4c58-b507-0b6ce8ff494f"),
                             RoomId = 5,
                             UserId = 2
                         },
@@ -265,7 +265,7 @@ namespace HotBooking.Data.Migrations
                             CheckOut = new DateTime(2023, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             HotelId = 3,
                             IsActive = true,
-                            PublicId = new Guid("a1e4c88c-a92c-4138-8ec9-b37fac319e73"),
+                            PublicId = new Guid("56fb5472-bf37-45ad-b3f3-68235e7ae10a"),
                             RoomId = 6,
                             UserId = 3
                         });
@@ -308,7 +308,7 @@ namespace HotBooking.Data.Migrations
                             Id = 1,
                             IsActive = true,
                             Name = "Spa",
-                            PublicId = new Guid("758cfaee-4fb0-4168-bf3d-2ea25be57b98"),
+                            PublicId = new Guid("e745ca21-923b-496d-840c-8e9046663f19"),
                             SvgTag = ""
                         },
                         new
@@ -316,7 +316,7 @@ namespace HotBooking.Data.Migrations
                             Id = 2,
                             IsActive = true,
                             Name = "Parking",
-                            PublicId = new Guid("c9b9ca82-db23-4b4a-898f-f7711c3ea90a"),
+                            PublicId = new Guid("9f6c0145-bdac-48d0-9c2a-aa2f74ea6e64"),
                             SvgTag = ""
                         },
                         new
@@ -324,7 +324,7 @@ namespace HotBooking.Data.Migrations
                             Id = 3,
                             IsActive = true,
                             Name = "WiFi",
-                            PublicId = new Guid("0f4edc7f-a1bf-4425-b9f0-93a2cc023876"),
+                            PublicId = new Guid("d3cbb5ac-41c6-41f4-91e9-0dd98353273e"),
                             SvgTag = ""
                         },
                         new
@@ -332,7 +332,7 @@ namespace HotBooking.Data.Migrations
                             Id = 4,
                             IsActive = true,
                             Name = "Restaurant",
-                            PublicId = new Guid("bb6fcb42-3cfe-46c2-80c4-388038fce88d"),
+                            PublicId = new Guid("2246cb4e-5919-4ab6-ada7-2590ee62a791"),
                             SvgTag = ""
                         },
                         new
@@ -340,7 +340,7 @@ namespace HotBooking.Data.Migrations
                             Id = 5,
                             IsActive = true,
                             Name = "Fitness",
-                            PublicId = new Guid("769a1864-5e7c-49c9-8a84-b23bd5050659"),
+                            PublicId = new Guid("ca915cc1-49be-4c60-847b-d59115fa8d65"),
                             SvgTag = ""
                         });
                 });
@@ -441,7 +441,7 @@ namespace HotBooking.Data.Migrations
                             HotelName = "The Chilworth London Paddington",
                             IsActive = true,
                             ManagerId = 1,
-                            PublicId = new Guid("85c2b324-8da1-4993-b556-7a526cba8d4e"),
+                            PublicId = new Guid("61959e3f-aefa-4117-81d3-11ab916cd5c1"),
                             StarRating = 5,
                             StreetAddress = "Westminster Borough"
                         },
@@ -454,7 +454,7 @@ namespace HotBooking.Data.Migrations
                             HotelName = "Kempinski Hotel Grand Arena Bansko",
                             IsActive = true,
                             ManagerId = 1,
-                            PublicId = new Guid("69b9111a-0709-4c3d-8efb-aca1152c25ca"),
+                            PublicId = new Guid("96f2838d-ec7f-4e95-a41f-eca927a9c02b"),
                             StarRating = 4,
                             StreetAddress = "#96 Pirin Street"
                         },
@@ -467,7 +467,7 @@ namespace HotBooking.Data.Migrations
                             HotelName = "Strand Palace Hotel",
                             IsActive = true,
                             ManagerId = 1,
-                            PublicId = new Guid("3233d5b7-5624-404d-a581-0bd5d0d86ea6"),
+                            PublicId = new Guid("f16558d1-191e-4e00-91da-6508d099c999"),
                             StarRating = 4,
                             StreetAddress = "Westminster Borough"
                         });
@@ -572,23 +572,31 @@ namespace HotBooking.Data.Migrations
                             Id = 1,
                             HotelId = 1,
                             IsActive = true,
-                            PublicId = new Guid("2fc03ead-386c-4ef1-8912-f3aa1f0d289e"),
+                            PublicId = new Guid("7c439f28-8384-44b7-9edc-5148410e83a1"),
                             Url = "https://www.w3schools.com/html/pic_trulli.jpg"
                         },
                         new
                         {
                             Id = 2,
-                            HotelId = 2,
+                            HotelId = 1,
                             IsActive = true,
-                            PublicId = new Guid("b4b542de-b4ae-4f2a-ba7a-e03b1d3e6750"),
-                            Url = "https://pix8.agoda.net/hotelImages/182146/-1/112f1fa0f38baf10800569462deb46cd.jpg"
+                            PublicId = new Guid("513c36e1-dea8-4a0d-9087-77448f72ff42"),
+                            Url = "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                         },
                         new
                         {
                             Id = 3,
+                            HotelId = 2,
+                            IsActive = true,
+                            PublicId = new Guid("20092997-90bc-4b1f-ae0c-2356099c69d8"),
+                            Url = "https://pix8.agoda.net/hotelImages/182146/-1/112f1fa0f38baf10800569462deb46cd.jpg"
+                        },
+                        new
+                        {
+                            Id = 4,
                             HotelId = 3,
                             IsActive = true,
-                            PublicId = new Guid("c7966147-fa29-4128-9ec6-69b1370eca73"),
+                            PublicId = new Guid("dbd84e87-864c-4627-b7b9-1c10b5e2c6c0"),
                             Url = "https://cf.bstatic.com/xdata/images/hotel/max1024x768/260560238.jpg?k=1d14eb111d6a58d373d4139792c8c0545ec7014527bab0c00a98945e8df46879&o=&hp=1"
                         });
                 });
@@ -630,7 +638,7 @@ namespace HotBooking.Data.Migrations
                             Id = 1,
                             IsActive = true,
                             PhoneNumber = "08812345678",
-                            PublicId = new Guid("a1bb9592-1b0d-43bc-81ca-05e770e7db8a"),
+                            PublicId = new Guid("c8301e1c-2010-4b5e-87bd-4dd566848e3b"),
                             UserId = 3
                         });
                 });
@@ -696,7 +704,7 @@ namespace HotBooking.Data.Migrations
                             Comment = "I love this product! It's exactly what I needed.",
                             HotelId = 1,
                             IsActive = true,
-                            PublicId = new Guid("dab5b49a-f5fd-4044-ab52-c5d24fd63b0e"),
+                            PublicId = new Guid("a5ea06ee-13a1-4779-96c6-068ea1db1840"),
                             RatingScore = 5m,
                             ReviewedOn = new DateTime(2023, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Excellent Product",
@@ -709,7 +717,7 @@ namespace HotBooking.Data.Migrations
                             Comment = "The product was okay, but could be better.",
                             HotelId = 1,
                             IsActive = true,
-                            PublicId = new Guid("272c24c0-c8f4-4c4f-ba14-77dd6a50fae4"),
+                            PublicId = new Guid("1ccfc161-2375-4f40-a076-cd0e143cba37"),
                             RatingScore = 3m,
                             ReviewedOn = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Average Experience",
@@ -722,7 +730,7 @@ namespace HotBooking.Data.Migrations
                             Comment = "I was very disappointed with this product.",
                             HotelId = 2,
                             IsActive = true,
-                            PublicId = new Guid("2c2ffa58-fa6b-4f98-a9f2-c84653c1a051"),
+                            PublicId = new Guid("d68e27f7-bc87-40ea-8f1e-081f4246626e"),
                             RatingScore = 1m,
                             ReviewedOn = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Poor Quality",
@@ -735,7 +743,7 @@ namespace HotBooking.Data.Migrations
                             Comment = "I got my money's worth with this product.",
                             HotelId = 2,
                             IsActive = true,
-                            PublicId = new Guid("aa083d76-3bad-467e-8284-a8518195eb62"),
+                            PublicId = new Guid("5604afe4-b8e8-4740-b077-e4e9e354f41d"),
                             RatingScore = 4m,
                             ReviewedOn = new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Good Value",
@@ -748,7 +756,7 @@ namespace HotBooking.Data.Migrations
                             Comment = "This product is amazing! Highly recommended.",
                             HotelId = 2,
                             IsActive = true,
-                            PublicId = new Guid("555d43d3-0aab-4aa5-a48a-444e3c220ac9"),
+                            PublicId = new Guid("9a222254-cdf8-4c21-8bd5-dfc2047546a2"),
                             RatingScore = 5m,
                             ReviewedOn = new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Best Product Ever",
@@ -761,7 +769,7 @@ namespace HotBooking.Data.Migrations
                             Comment = "Great room and service overall!",
                             HotelId = 3,
                             IsActive = true,
-                            PublicId = new Guid("26df34f5-5f71-4817-9d2b-20d2dfe1b29b"),
+                            PublicId = new Guid("481b03c9-3242-42d9-8542-270162ea8bdc"),
                             RatingScore = 4.5m,
                             ReviewedOn = new DateTime(2023, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Satisfactory",
@@ -823,7 +831,7 @@ namespace HotBooking.Data.Migrations
                             HotelId = 1,
                             IsActive = true,
                             PricePerNight = 75.50m,
-                            PublicId = new Guid("a4b7f3c0-509a-4322-9f7b-ad27f2542b61"),
+                            PublicId = new Guid("e6ee3f3d-52d4-4b73-8513-deb0f71b1cab"),
                             RoomSizeSquareMeters = 25,
                             Title = "Cozy Retreat"
                         },
@@ -835,7 +843,7 @@ namespace HotBooking.Data.Migrations
                             HotelId = 1,
                             IsActive = true,
                             PricePerNight = 120.75m,
-                            PublicId = new Guid("ad9fc692-b274-4062-82a4-4f7f8838ae50"),
+                            PublicId = new Guid("30d75410-b2a9-47e0-a65e-f5d9fb70c2dc"),
                             RoomSizeSquareMeters = 40,
                             Title = "Executive Suite"
                         },
@@ -847,7 +855,7 @@ namespace HotBooking.Data.Migrations
                             HotelId = 2,
                             IsActive = true,
                             PricePerNight = 95.25m,
-                            PublicId = new Guid("ea28e856-c46d-420c-a232-0ee5f965bef1"),
+                            PublicId = new Guid("351ae91e-f260-41f3-998a-32e933042d28"),
                             RoomSizeSquareMeters = 35,
                             Title = "Family Getaway"
                         },
@@ -859,7 +867,7 @@ namespace HotBooking.Data.Migrations
                             HotelId = 2,
                             IsActive = true,
                             PricePerNight = 110.00m,
-                            PublicId = new Guid("b5f60b6d-17ab-45c9-a451-2a1c615662ee"),
+                            PublicId = new Guid("91fee146-77ea-4907-ac6a-c271dff7154c"),
                             RoomSizeSquareMeters = 30,
                             Title = "Ocean View Paradise"
                         },
@@ -871,7 +879,7 @@ namespace HotBooking.Data.Migrations
                             HotelId = 2,
                             IsActive = true,
                             PricePerNight = 85.80m,
-                            PublicId = new Guid("73bcad48-004d-4b11-aaca-16fcb93fe35e"),
+                            PublicId = new Guid("65e8e85f-637a-4fad-a855-de0fac4536cd"),
                             RoomSizeSquareMeters = 28,
                             Title = "Mountain Lodge"
                         },
@@ -883,7 +891,7 @@ namespace HotBooking.Data.Migrations
                             HotelId = 3,
                             IsActive = true,
                             PricePerNight = 250.00m,
-                            PublicId = new Guid("c0bf47ac-d9a9-45a5-9853-470866cd585f"),
+                            PublicId = new Guid("cda0a01f-7707-4d51-9992-d1be1661284e"),
                             RoomSizeSquareMeters = 50,
                             Title = "Luxury Suite"
                         });
