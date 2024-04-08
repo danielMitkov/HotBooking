@@ -18,8 +18,8 @@ public class HotelsController : Controller
         this.hotelsService = hotelsService;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Index(BrowseHotelsViewModel model)
+    [Route("Hotels/List/{page?}")]
+    public async Task<IActionResult> List(BrowseHotelsViewModel model)
     {
         if (ModelState.IsValid == false)
         {
@@ -43,13 +43,13 @@ public class HotelsController : Controller
         {
             outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
         }
-        catch(CityNotFound ex)
+        catch (CityNotFound ex)
         {
             ModelState.AddModelError(nameof(model.Search.City), ex.Message);
             return View(model);
         }
 
-        model.Pager = new(outputDto.TotalPages, model.Page, Name, nameof(Index));
+        model.Pager = new(outputDto.TotalPages, model.Page);
         model.Hotels = outputDto.SelectedHotels;
         model.Facilities = outputDto.Facilities;
         model.AllHotelsCount = outputDto.AllHotelsCount;
