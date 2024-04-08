@@ -39,23 +39,23 @@ public class HomeController : Controller
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error(int statusCode, string message)
+    public IActionResult Error(int statusCode)
     {
         if (statusCode == 404)
         {
-            return View("Error404", message);
+            return View("Error404");
         }
 
         if (statusCode == 401)
         {
-            return View("Error401", message);
+            return View("Error401");
         }
 
         if (statusCode == 400)
         {
-            return View("Error400", message);
+            return View("Error400");
         }
 
-        return View("Error", message);
+        return View("Error500");
     }
 }

@@ -1,9 +1,8 @@
-﻿@model string
-
-@{
+﻿@{
     ViewData["Title"] = "Error";
 }
-<h1 class="text-danger">@Model</h1>
+
+<h1 class="text-danger">@TempData["Error"]</h1>
 <h2 class="text-danger">500 status code - An unexpected error occurred while processing your request.</h2>
 <div>
     <img src="https://sitechecker.pro/wp-content/uploads/2023/07/500-status-code.png" alt="500error" class="img-thumbnail" />
