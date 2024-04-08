@@ -57,8 +57,22 @@ public class HotelsController : Controller
         return View(model);
     }
 
-    public async Task<IActionResult> Details(string publidId, SearchHotelsViewModel search)
+    public async Task<IActionResult> Details(Guid id, SearchHotelsViewModel search)
     {
-        return View();
+        HotelDetailsDto? hotelDto = await hotelsService.GetHotelDetailsAsync(id);
+
+        if (hotelDto == null)
+        {
+            TempData["Error"] = "Invalid Hotel Id!";
+            return BadRequest();
+        }
+
+        HotelDetailsViewModel model = new()
+        {
+            Search = search,
+            Hotel = hotelDto
+        };
+
+        return View(model);
     }
 }
