@@ -131,6 +131,30 @@ public class HotelsService : IHotelsService
         return cities;
     }
 
+    public async Task<HotelDetailsDto?> GetHotelDetailsAsync(Guid PublicId)
+    {
+        HotelDetailsDto? hotelDto = await dbContext.Hotels
+            .Where(h => h.PublicId == PublicId)
+            .Select(h => new HotelDetailsDto(
+                h.HotelName,
+                h.Description,
+                h.StreetAddress,
+                h.CityName,
+                h.CountryName,
+                h.StarRating,
+                h.Reviews.Average(r => r.RatingScore),
+                h.Reviews.Count(),
+                h.HotelsFacilities.Select(hf => new FacilityPreviewDto(
+                    hf.Facility.Name,
+                    hf.Facility.SvgTag
+                )).ToList(),
+                h.HotelImages.Select(i => i.Url).ToList()
+            ))
+            .SingleOrDefaultAsync();
+
+        return hotelDto;
+    }
+
     public async Task<bool> IsCityFoundAsync(string city)
     {
         city = city.ToLower();
