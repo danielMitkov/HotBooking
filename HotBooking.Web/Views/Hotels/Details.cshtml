@@ -1,0 +1,58 @@
+﻿@model HotelDetailsViewModel
+
+<div class="row">
+    <partial name="_SearchHotels" model="@Model.Search" />
+</div>
+
+
+<div id="carouselExampleIndicators" class="container carousel slide col col-md-8" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+
+        @for (int i = 0; i < @Model.Hotel.ImagesUrls.Count; ++i)
+        {
+            <button type="button"
+                    data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide-to="@i"
+                    class="@(i == 0 ? "active" : string.Empty)">
+            </button>
+        }
+    </div>
+    <div class="carousel-inner">
+        @foreach (string url in @Model.Hotel.ImagesUrls)
+        {
+            <div class="carousel-item @(url == Model.Hotel.ImagesUrls.FirstOrDefault() ? "active" : string.Empty)">
+
+                <img src="@url" class="img-fluid d-block w-100" alt="hotel image">
+            </div>
+        }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<div class="d-flex gap-1">
+    @for (int i = 0; i < @Model.Hotel.StarRating; ++i)
+    {
+        <div class="svg-container svg-star">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gold">
+                <path d="M23.555 8.729a1.505 1.505 0 0 0-1.406-.98h-6.087a.5.5 0 0 1-.472-.334l-2.185-6.193a1.5 1.5 0 0 0-2.81 0l-.005.016-2.18 6.177a.5.5 0 0 1-.471.334H1.85A1.5 1.5 0 0 0 .887 10.4l5.184 4.3a.5.5 0 0 1 .155.543l-2.178 6.531a1.5 1.5 0 0 0 2.31 1.684l5.346-3.92a.5.5 0 0 1 .591 0l5.344 3.919a1.5 1.5 0 0 0 2.312-1.683l-2.178-6.535a.5.5 0 0 1 .155-.543l5.194-4.306a1.5 1.5 0 0 0 .433-1.661z"></path>
+            </svg>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_SearchHotelsScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
+}
+
+@* hotel info with carousel images
+facilities
+rooms
+reviews *@
