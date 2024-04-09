@@ -59,11 +59,18 @@ public class HotelsController : Controller
 
     public async Task<IActionResult> Details(Guid id, SearchHotelsViewModel search)
     {
-        HotelDetailsDto? hotelDto = await hotelsService.GetHotelDetailsAsync(id);
+        HotelDetailsDtoInput inputDto = new(
+            id,
+            search.AdultsCount,
+            search.RoomsCount,
+            search.CheckInDate,
+            search.CheckOutDate);
+
+        HotelDetailsDtoOutput? hotelDto = await hotelsService.GetHotelDetailsAsync(inputDto);
 
         if (hotelDto == null)
         {
-            TempData["Error"] = "Invalid Hotel Id!";
+            TempData["Error"] = "Hotel Not Found!";
             return BadRequest();
         }
 
