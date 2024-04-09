@@ -22,8 +22,8 @@ public class HomeController : Controller
         {
             Search = new()
             {
-                CheckInDate = new DateTime(2024, 4, 17),
-                CheckOutDate = new DateTime(2024, 4, 20)
+                CheckInDate = new DateTime(2024, 6, 17),
+                CheckOutDate = new DateTime(2024, 6, 20)
             },
             Sorting = HotelSorting.RatingDesc
         };
