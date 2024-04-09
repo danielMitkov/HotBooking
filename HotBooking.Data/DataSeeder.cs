@@ -401,9 +401,11 @@ public class DataSeeder
     public Room Room_LuxurySuite { get; set; } = null!;
     private void SeedRooms()
     {
+        int id = 0;
+
         Room_CozyRetreat = new Room
         {
-            Id = 1,
+            Id = ++id,
             Title = "Cozy Retreat",
             Description = "A comfortable room for a relaxing stay.",
             BedsCount = 2,
@@ -415,7 +417,7 @@ public class DataSeeder
 
         Room_ExecutiveSuite = new Room
         {
-            Id = 2,
+            Id = ++id,
             Title = "Executive Suite",
             Description = "Luxurious suite with modern amenities.",
             BedsCount = 1,
@@ -427,7 +429,7 @@ public class DataSeeder
 
         Room_FamilyGetaway = new Room
         {
-            Id = 3,
+            Id = ++id,
             Title = "Family Getaway",
             Description = "Spacious room suitable for families.",
             BedsCount = 3,
@@ -439,7 +441,7 @@ public class DataSeeder
 
         Room_OceanViewParadise = new Room
         {
-            Id = 4,
+            Id = ++id,
             Title = "Ocean View Paradise",
             Description = "Enjoy breathtaking views of the ocean.",
             BedsCount = 1,
@@ -451,7 +453,7 @@ public class DataSeeder
 
         Room_MountainLodge = new Room
         {
-            Id = 5,
+            Id = ++id,
             Title = "Mountain Lodge",
             Description = "Escape to a cozy lodge in the mountains.",
             BedsCount = 2,
@@ -463,7 +465,7 @@ public class DataSeeder
 
         Room_LuxurySuite = new Room
         {
-            Id = 6,
+            Id = ++id,
             Title = "Luxury Suite",
             Description = "Luxurious room with a panoramic view.",
             BedsCount = 3,
