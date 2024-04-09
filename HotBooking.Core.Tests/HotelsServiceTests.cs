@@ -12,24 +12,40 @@ namespace HotBooking.Core.Tests;
 
 public class HotelsServiceTests
 {
-    private readonly HotBookingDbContext _dbContext;
-    private readonly HotelsService _hotelsService;
+    private readonly static HotBookingDbContext _dbContext = Substitute.For<HotBookingDbContext>();
+    private readonly static HotelsService _hotelsService = new HotelsService(_dbContext);
     private readonly DataSeeder _seeder;
 
-    private readonly string _town;
+    private readonly string _town = "London";
+    private readonly DateTime _checkInDate = new DateTime(2024, 6, 17);
+    private readonly DateTime _checkOutDate = new DateTime(2024, 6, 20);
 
     public HotelsServiceTests()
     {
-        _dbContext = Substitute.For<HotBookingDbContext>();
-        _hotelsService = new HotelsService(_dbContext);
         _seeder = new DataSeeder(true);
-        _town = "London";
 
         DbSet<Hotel> dbSetHotel = _seeder.Hotels.BuildMock().BuildMockDbSet();
         _dbContext.Hotels.Returns(dbSetHotel);
 
         DbSet<Facility> dbSetFacility = _seeder.Facilities.BuildMock().BuildMockDbSet();
         _dbContext.Facilities.Returns(dbSetFacility);
+    }
+
+    [Fact]
+    public async Task GetHotelDetailsAsync_Returns_CorrectRooms()
+    {
+        HotelDetailsDtoInput inputDto = new(
+            _seeder.Hotel_KempinskiHotelGrandArena.PublicId,
+            2,
+            1,
+            _checkInDate,
+            _checkOutDate);
+
+        HotelDetailsDtoOutput? outputDto = await _hotelsService.GetHotelDetailsAsync(inputDto);
+
+        Assert.NotNull(outputDto);
+        Assert.Contains(outputDto!.Rooms, r => r.PublicId == _seeder.Room_FamilyGetaway.PublicId);
+        Assert.Contains(outputDto!.Rooms, r => r.PublicId == _seeder.Room_MountainLodge.PublicId);
     }
 
     [Fact]
@@ -44,8 +60,8 @@ public class HotelsServiceTests
             1,
             2,
             _town,
-            new DateTime(2024, 4, 5),
-            new DateTime(2024, 4, 11),
+            _checkInDate,
+            _checkOutDate,
             2,
             1,
             HotelSorting.RatingDesc,
@@ -66,8 +82,8 @@ public class HotelsServiceTests
             currentPage,
             2,
             _town,
-            new DateTime(2024, 4, 5),
-            new DateTime(2024, 4, 11),
+            _checkInDate,
+            _checkOutDate,
             2,
             1,
             HotelSorting.RatingDesc,
@@ -87,8 +103,8 @@ public class HotelsServiceTests
             1,
             1,
             "Fake Town",
-            new DateTime(2024, 4, 5),
-            new DateTime(2024, 4, 11),
+            _checkInDate,
+            _checkOutDate,
             2,
             1,
             HotelSorting.RatingDesc,
@@ -104,9 +120,9 @@ public class HotelsServiceTests
             1,
             1,
             _town,
-            new DateTime(1, 4, 5),
-            new DateTime(9998, 4, 11),
-            2,
+            _checkInDate,
+            _checkOutDate,
+            99,
             1,
             HotelSorting.RatingDesc,
             new List<Guid>());
@@ -125,8 +141,8 @@ public class HotelsServiceTests
             1,
             2,
             _town,
-            new DateTime(2024, 4, 5),
-            new DateTime(2024, 4, 11),
+            _checkInDate,
+            _checkOutDate,
             2,
             1,
             HotelSorting.PriceDesc,
@@ -144,8 +160,8 @@ public class HotelsServiceTests
             1,
             2,
             _town,
-            new DateTime(2024, 4, 5),
-            new DateTime(2024, 4, 11),
+            _checkInDate,
+            _checkOutDate,
             2,
             1,
             HotelSorting.PriceAsc,
