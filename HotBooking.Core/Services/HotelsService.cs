@@ -1,5 +1,6 @@
 ﻿using HotBooking.Core.DTOs.FacilityDtos;
 using HotBooking.Core.DTOs.HotelDtos;
+using HotBooking.Core.DTOs.RoomDtos;
 using HotBooking.Core.Enums;
 using HotBooking.Core.Exceptions;
 using HotBooking.Core.Interfaces;
@@ -52,16 +53,16 @@ public class HotelsService : IHotelsService
 
             queryHotels = queryHotels
                 .Where(h => h.HotelsFacilities
-                .Count(hf => selectedFacilitiesPrimaryKeys
-                .Contains(hf.FacilityId)) == selectedFacilitiesCount);
+                    .Count(hf => selectedFacilitiesPrimaryKeys
+                        .Contains(hf.FacilityId)) == selectedFacilitiesCount);
         }
 
         int peoplePerRoom = (int)Math.Ceiling(inputDto.AdultsCount / (decimal)inputDto.RoomsCount);
 
         queryHotels = queryHotels
             .Where(h => h.Rooms
-            .Count(r => (r.BedsCount >= peoplePerRoom) && r.Bookings
-            .All(b => (inputDto.CheckInDate > b.CheckOut) || (inputDto.CheckOutDate < b.CheckIn))) >= inputDto.RoomsCount);
+                .Count(r => (r.BedsCount >= peoplePerRoom) && r.Bookings
+                    .All(b => (inputDto.CheckInDate > b.CheckOut) || (inputDto.CheckOutDate < b.CheckIn))) >= inputDto.RoomsCount);
 
         int allHotelsCount = await queryHotels.CountAsync();
 
@@ -131,11 +132,13 @@ public class HotelsService : IHotelsService
         return cities;
     }
 
-    public async Task<HotelDetailsDto?> GetHotelDetailsAsync(Guid PublicId)
+    public async Task<HotelDetailsDtoOutput?> GetHotelDetailsAsync(HotelDetailsDtoInput inputDto)
     {
-        HotelDetailsDto? hotelDto = await dbContext.Hotels
-            .Where(h => h.PublicId == PublicId)
-            .Select(h => new HotelDetailsDto(
+        int peoplePerRoom = (int)Math.Ceiling(inputDto.AdultsCount / (decimal)inputDto.RoomsCount);
+
+        HotelDetailsDtoOutput? hotelDto = await dbContext.Hotels
+            .Where(h => h.PublicId == inputDto.PublicId)
+            .Select(h => new HotelDetailsDtoOutput(
                 h.HotelName,
                 h.Description,
                 h.StreetAddress,
@@ -144,11 +147,24 @@ public class HotelsService : IHotelsService
                 h.StarRating,
                 h.Reviews.Average(r => r.RatingScore),
                 h.Reviews.Count(),
-                h.HotelsFacilities.Select(hf => new FacilityPreviewDto(
-                    hf.Facility.Name,
-                    hf.Facility.SvgTag
-                )).ToList(),
-                h.HotelImages.Select(i => i.Url).ToList()
+                h.HotelsFacilities
+                    .Select(hf => new FacilityPreviewDto(
+                        hf.Facility.Name,
+                        hf.Facility.SvgTag
+                    ))
+                    .ToList(),
+                h.HotelImages.Select(i => i.Url).ToList(),
+                h.Rooms
+                    .Where(r => (r.BedsCount >= peoplePerRoom) && r.Bookings
+                        .All(b => (inputDto.CheckInDate > b.CheckOut) || (inputDto.CheckOutDate < b.CheckIn)))
+                    .Select(r => new RoomPreviewDto(
+                        r.PublicId,
+                        r.Title,
+                        r.BedsCount,
+                        r.RoomSizeSquareMeters,
+                        r.PricePerNight
+                    ))
+                    .ToList()
             ))
             .SingleOrDefaultAsync();
 
