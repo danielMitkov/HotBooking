@@ -1,6 +1,6 @@
 ﻿namespace HotBooking.Core.DTOs.FacilityDtos;
 
-public record FacilityPreviewDto(
+public record FacilityDetailsDto(
     string Name,
     string SvgTag
 );
