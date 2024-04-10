@@ -6,13 +6,15 @@
     </div>
 </form>
 
-<div id="carouselExampleIndicators" class="container carousel slide col col-md-8" data-bs-ride="carousel">
+<div id="carouselHotelImages" class="container carousel slide col col-md-8" data-bs-ride="carousel">
     <div class="carousel-indicators">
-
-        @for (int i = 0; i < @Model.Hotel.ImagesUrls.Count; ++i)
+        @{
+            int hotelImagesUrlsCount = Model.Hotel.ImagesUrls.Count();
+        }
+        @for (int i = 0; i < hotelImagesUrlsCount; ++i)
         {
             <button type="button"
-                    data-bs-target="#carouselExampleIndicators"
+                    data-bs-target="#carouselHotelImages"
                     data-bs-slide-to="@i"
                     class="@(i == 0 ? "active" : string.Empty)">
             </button>
@@ -27,11 +29,11 @@
             </div>
         }
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselHotelImages" data-bs-slide="prev">
         <span class="carousel-control-prev-icon"></span>
         <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselHotelImages" data-bs-slide="next">
         <span class="carousel-control-next-icon"></span>
         <span class="visually-hidden">Next</span>
     </button>
@@ -47,38 +49,146 @@
         </div>
     }
 </div>
-<h3>@Model.Hotel.Name</h3>
-<p class="text-secondary">@(Model.Hotel.StreetAddress + ", " + Model.Hotel.CityName)</p>
 
-<h4>Description</h4>
-<p>@Model.Hotel.Description</p>
-
-<h4>Facilities</h4>
 <div class="row">
-    @foreach (var facility in Model.Hotel.Facilities)
-    {
-        <div class="col-auto">
-            <p>@facility.Name</p>
-        </div>
-    }
+
+    <h3>@Model.Hotel.Name</h3>
+</div>
+<div class="row"
+
+    <p class="text-secondary">@(Model.Hotel.StreetAddress + ", " + Model.Hotel.CityName)</p>
+</div>
+<div class="row">
+
+    <h4>Description</h4>
+
+    <p>@Model.Hotel.Description</p>
+</div>
+<div class="row">
+
+    <h4>Facilities</h4>
+
+    <div class="row">
+
+        @foreach (var facility in Model.Hotel.Facilities)
+        {
+            <div class="col-auto">
+
+                <p>@facility.Name</p>
+            </div>
+        }
+    </div>
+</div>
+<div class="row">
+
+    <h4>Reviews</h4>
+    <h5>@(Math.Round(Model.Hotel.AverageRating, 2))/10 - @Model.Hotel.ReviewsCount reviews</h5>
+    
+    <a asp-controller="@ReviewController.Name"
+       asp-action="@nameof(ReviewController.All)"
+       asp-route-hotelId="@Model.HotelId">
+        Check Reviews
+    </a>
 </div>
 
-<h4>Reviews</h4>
-<h5>@(Math.Round(Model.Hotel.AverageRating, 2))/10 - @Model.Hotel.ReviewsCount reviews</h5>
 
-<div class="row">
+
+
+
+
+
+
+
+<div class="container-fluid">
+
     @foreach (var room in Model.Hotel.Rooms)
     {
-        <h4>@room.Title</h4>
+        <div class="row">
+            <div class="col-12 col-md-5">
 
-        <label>Beds:</label>
-        <p>@room.BedsCount</p>
+                <div id="carouselRoom@(room.PublicId)" class="container carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        @{
+                            int roomImagesUrlsCount = room.ImagesUrls.Count();
+                        }
+                        @for (int i = 0; i < roomImagesUrlsCount; ++i)
+                        {
+                            <button type="button"
+                                    data-bs-target="#carouselRoom@(room.PublicId)"
+                                    data-bs-slide-to="@i"
+                                    class="@(i == 0 ? "active" : string.Empty)">
+                            </button>
+                        }
+                    </div>
+                    <div class="carousel-inner">
+                        @foreach (string url in room.ImagesUrls)
+                        {
+                            <div class="carousel-item @(url == room.ImagesUrls.FirstOrDefault() ? "active" : string.Empty)">
 
-        <label>Size:</label>
-        <p>@room.SizeSquareMeters m²</p>
+                                <img src="@url" class="img-fluid d-block w-100" alt="hotel image">
+                            </div>
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselRoom@(room.PublicId)" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselRoom@(room.PublicId)" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
 
-        <label>Price per night:</label>
-        <p>@room.PricePerNight $</p>
+            </div>
+
+            <div class="col-12 col-md-5">
+
+                <div class="row">
+                    <div class="col-8">
+                        <h4>@room.Title</h4>
+                    </div>
+
+                    <div class="col-2">
+                        <label>Size:</label>
+                        <p>@room.SizeSquareMeters m²</p>
+                    </div>
+
+                    <div class="col-2">
+                        <label>Beds:</label>
+                        <p>@room.BedsCount</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label>Description:</label>
+                    <p>@room.Description</p>
+                </div>
+
+                <div class="row">
+                    @foreach (string feature in room.Features)
+                    {
+                        <div class="col-auto row">
+
+                            <div class="col pe-1">
+
+                                <svg class="bk-icon -streamline-checkmark" fill="#008009" height="14" width="14" viewBox="0 0 128 128" role="presentation" aria-hidden="true" focusable="false" data-darkreader-inline-fill="" style="--darkreader-inline-fill: #72ff7c;">
+                                    <path d="M56.33 100a4 4 0 0 1-2.82-1.16L20.68 66.12a4 4 0 1 1 5.64-5.65l29.57 29.46 45.42-60.33a4 4 0 1 1 6.38 4.8l-48.17 64a4 4 0 0 1-2.91 1.6z"></path>
+                                </svg>
+                            </div>
+                            <div class="col px-0">
+
+                                <p>@feature</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-12 col-md-2">
+                <label>Price per night:</label>
+                <p>@room.PricePerNight $</p>
+            </div>
+        </div>
     }
 </div>
 
@@ -89,5 +199,5 @@
 
 @* hotel info with carousel images
 facilities
-rooms
-reviews *@
+reviews
+rooms*@
