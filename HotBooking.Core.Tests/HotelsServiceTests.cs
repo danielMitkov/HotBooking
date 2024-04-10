@@ -44,8 +44,8 @@ public class HotelsServiceTests
         HotelDetailsDtoOutput? outputDto = await _hotelsService.GetHotelDetailsAsync(inputDto);
 
         Assert.NotNull(outputDto);
-        Assert.Contains(outputDto!.Rooms, r => r.PublicId == _seeder.Room_FamilyGetaway.PublicId);
-        Assert.Contains(outputDto!.Rooms, r => r.PublicId == _seeder.Room_MountainLodge.PublicId);
+        Assert.Contains(outputDto!.Rooms, r => r.PublicId == _seeder.Room_KempinskiHotelGrandArena_FamilyGetaway.PublicId);
+        Assert.Contains(outputDto!.Rooms, r => r.PublicId == _seeder.Room_KempinskiHotelGrandArena_MountainLodge.PublicId);
     }
 
     [Fact]
