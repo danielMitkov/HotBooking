@@ -51,10 +51,9 @@ public class HotelsServiceTests
     [Fact]
     public async Task GetFilteredHotelsAsync_Returns_Hotel_ChilworthLondonPaddington()
     {
-        ICollection<Guid> selectedFacilitiesGuids = _seeder.Facilities
+        IEnumerable<Guid> selectedFacilitiesGuids = _seeder.Facilities
             .Where(f => f.Name == "Spa" || f.Name == "Parking")
-            .Select(f => f.PublicId)
-            .ToList();
+            .Select(f => f.PublicId);
 
         BrowseHotelsInputDto inputDto = new(
             1,
@@ -194,9 +193,9 @@ public class HotelsServiceTests
 
         string searchTerm = "New";
 
-        ICollection<string> cities = await _hotelsService.GetMatchingCitiesAsync(searchTerm);
+        IEnumerable<string> cities = await _hotelsService.GetMatchingCitiesAsync(searchTerm);
 
-        Assert.Equal(2, cities.Count);
+        Assert.Equal(2, cities.Count());
         Assert.Contains("New York", cities);
         Assert.Contains("New Orleans", cities);
     }
@@ -206,7 +205,7 @@ public class HotelsServiceTests
     {
         string searchTerm = "Fake Town";
 
-        ICollection<string> cities = await _hotelsService.GetMatchingCitiesAsync(searchTerm);
+        IEnumerable<string> cities = await _hotelsService.GetMatchingCitiesAsync(searchTerm);
 
         Assert.Empty(cities);
     }

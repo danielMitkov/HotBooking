@@ -12,7 +12,7 @@ public record HotelDetailsDtoOutput(
     int StarRating,
     decimal AverageRating,
     int ReviewsCount,
-    ICollection<FacilityPreviewDto> Facilities,
-    ICollection<string> ImagesUrls,
-    ICollection<RoomPreviewDto> Rooms
+    IEnumerable<FacilityPreviewDto> Facilities,
+    IEnumerable<string> ImagesUrls,
+    IEnumerable<RoomPreviewDto> Rooms
 );

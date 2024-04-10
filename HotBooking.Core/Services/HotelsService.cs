@@ -26,19 +26,17 @@ public class HotelsService : IHotelsService
             throw new CityNotFound();
         }
 
-        ICollection<Facility> allFacilities = await dbContext.Facilities.ToListAsync();
+        IEnumerable<Facility> allFacilities = await dbContext.Facilities.ToListAsync();
 
-        ICollection<Facility> selectedFacilities = allFacilities
-            .Where(f => inputDto.FacilitySelectedPublicIds.Contains(f.PublicId))
-            .ToList();
+        IEnumerable<Facility> selectedFacilities = allFacilities
+            .Where(f => inputDto.FacilitySelectedPublicIds.Contains(f.PublicId));
 
-        ICollection<FacilityDto> facilityDtos = allFacilities
+        IEnumerable<FacilityDto> facilityDtos = allFacilities
             .Select(f => new FacilityDto(
                 f.PublicId,
                 selectedFacilities.Contains(f),
                 f.Name,
-                f.SvgTag))
-            .ToList();
+                f.SvgTag));
 
         IQueryable<Hotel> queryHotels = dbContext.Hotels
             .Where(h => h.CityName == inputDto.City);
@@ -47,9 +45,8 @@ public class HotelsService : IHotelsService
         {
             int selectedFacilitiesCount = selectedFacilities.Count();
 
-            ICollection<int> selectedFacilitiesPrimaryKeys = selectedFacilities
-                .Select(f => f.Id)
-                .ToArray();
+            IEnumerable<int> selectedFacilitiesPrimaryKeys = selectedFacilities
+                .Select(f => f.Id);
 
             queryHotels = queryHotels
                 .Where(h => h.HotelsFacilities
@@ -101,7 +98,7 @@ public class HotelsService : IHotelsService
             .Skip(skipAmount)
             .Take(inputDto.PageSize);
 
-        ICollection<PreviewHotelDto> selectedHotels = await queryHotels
+        IEnumerable<PreviewHotelDto> selectedHotels = await queryHotels
             .Select(h => new PreviewHotelDto(
                 h.PublicId,
                 h.HotelImages.First().Url,
@@ -119,11 +116,11 @@ public class HotelsService : IHotelsService
         return outputDto;
     }
 
-    public async Task<ICollection<string>> GetMatchingCitiesAsync(string searchTerm)
+    public async Task<IEnumerable<string>> GetMatchingCitiesAsync(string searchTerm)
     {
         searchTerm = searchTerm.ToLower();
 
-        ICollection<string> cities = await dbContext.Hotels
+        IEnumerable<string> cities = await dbContext.Hotels
             .Where(h => h.CityName.ToLower().Contains(searchTerm))
             .Select(h => h.CityName)
             .Distinct()
@@ -151,20 +148,21 @@ public class HotelsService : IHotelsService
                     .Select(hf => new FacilityPreviewDto(
                         hf.Facility.Name,
                         hf.Facility.SvgTag
-                    ))
-                    .ToList(),
-                h.HotelImages.Select(i => i.Url).ToList(),
+                    )),
+                h.HotelImages.Select(i => i.Url),
                 h.Rooms
                     .Where(r => (r.BedsCount >= peoplePerRoom) && r.Bookings
                         .All(b => (inputDto.CheckInDate > b.CheckOut) || (inputDto.CheckOutDate < b.CheckIn)))
                     .Select(r => new RoomPreviewDto(
                         r.PublicId,
                         r.Title,
+                        r.Description,
                         r.BedsCount,
                         r.RoomSizeSquareMeters,
-                        r.PricePerNight
+                        r.PricePerNight,
+                        r.RoomsFeatures.Select(rf => rf.Feature.Name),
+                        r.RoomImages.Select(i => i.Url)
                     ))
-                    .ToList()
             ))
             .SingleOrDefaultAsync();
 

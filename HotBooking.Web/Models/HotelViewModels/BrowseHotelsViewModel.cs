@@ -17,14 +17,14 @@ public class BrowseHotelsViewModel
 
     public int Page { get; set; } = 1;
 
-    public ICollection<Guid> SelectedFacilityIds { get; set; } = new List<Guid>();
+    public IEnumerable<Guid> SelectedFacilityIds { get; set; } = new List<Guid>();
 
 
     public PagerViewModel? Pager { get; set; }
 
-    public ICollection<PreviewHotelDto> Hotels { get; set; } = new List<PreviewHotelDto>();
+    public IEnumerable<PreviewHotelDto> Hotels { get; set; } = new List<PreviewHotelDto>();
 
-    public ICollection<FacilityDto> Facilities { get; set; } = new List<FacilityDto>();
+    public IEnumerable<FacilityDto> Facilities { get; set; } = new List<FacilityDto>();
 
     public int AllHotelsCount { get; set; }
 }

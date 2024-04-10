@@ -3,8 +3,10 @@
 public record RoomPreviewDto(
     Guid PublicId,
     string Title,
-    //desc
+    string Description,
     int BedsCount,
     int SizeSquareMeters,
-    decimal PricePerNight
+    decimal PricePerNight,
+    IEnumerable<string> Features,
+    IEnumerable<string> ImagesUrls
 );
