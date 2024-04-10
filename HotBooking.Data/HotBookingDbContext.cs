@@ -65,10 +65,10 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
 
         DataSeeder seeder = new DataSeeder();
 
-        modelBuilder.Entity<Facility>().HasData(seeder.Facilities);
         modelBuilder.Entity<ApplicationUser>().HasData(seeder.ApplicationUsers);
         modelBuilder.Entity<Manager>().HasData(seeder.Managers);
         modelBuilder.Entity<Hotel>().HasData(seeder.Hotels);
+        modelBuilder.Entity<Facility>().HasData(seeder.Facilities);
         modelBuilder.Entity<HotelFacility>().HasData(seeder.HotelFacilities);
         modelBuilder.Entity<HotelImageUrl>().HasData(seeder.HotelImageUrls);
         modelBuilder.Entity<Room>().HasData(seeder.Rooms);

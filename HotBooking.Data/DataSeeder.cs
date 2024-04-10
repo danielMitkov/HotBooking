@@ -5,23 +5,24 @@ namespace HotBooking.Data;
 
 public class DataSeeder
 {
-    public ICollection<Facility> Facilities { get; set; } = new List<Facility>();
     public ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
     public ICollection<Manager> Managers { get; set; } = new List<Manager>();
     public ICollection<Hotel> Hotels { get; set; } = new List<Hotel>();
+    public ICollection<Facility> Facilities { get; set; } = new List<Facility>();
     public ICollection<HotelFacility> HotelFacilities { get; set; } = new List<HotelFacility>();
     public ICollection<HotelImageUrl> HotelImageUrls { get; set; } = new List<HotelImageUrl>();
     public ICollection<Room> Rooms { get; set; } = new List<Room>();
     public ICollection<RoomImageUrl> RoomImageUrls { get; set; } = new List<RoomImageUrl>();
+    public ICollection<Feature> Features { get; set; } = new List<Feature>();
     public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
     public DataSeeder(bool fillObjectReferences = false)
     {
-        SeedFacilities();
         SeedApplicationUsers();
         SeedManagers();
         SeedHotels();
+        SeedFacilities();
         SeedHotelFacilities();
         SeedHotelImageUrls();
         SeedRooms();
@@ -31,10 +32,10 @@ public class DataSeeder
 
         if (fillObjectReferences)
         {
-            FillCollectionsFacilities();
             FillCollectionsApplicationUsers();
             FillCollectionsManagers();
             FillCollectionsHotels();
+            FillCollectionsFacilities();
             FillCollectionsHotelFacilities();
             FillCollectionsHotelImageUrls();
             FillCollectionsRooms();
@@ -42,66 +43,6 @@ public class DataSeeder
             FillCollectionsBookings();
             FillCollectionsReviews();
         }
-    }
-
-    public Facility Facility_Spa { get; set; } = null!;
-    public Facility Facility_Parking { get; set; } = null!;
-    public Facility Facility_WiFi { get; set; } = null!;
-    public Facility Facility_Restaurant { get; set; } = null!;
-    public Facility Facility_Fitness { get; set; } = null!;
-    private void SeedFacilities()
-    {
-        Facility_Spa = new Facility()
-        {
-            Id = 1,
-            Name = "Spa",
-            SvgTag = string.Empty
-        };
-        Facilities.Add(Facility_Spa);
-
-        Facility_Parking = new Facility()
-        {
-            Id = 2,
-            Name = "Parking",
-            SvgTag = string.Empty
-        };
-        Facilities.Add(Facility_Parking);
-
-        Facility_WiFi = new Facility()
-        {
-            Id = 3,
-            Name = "WiFi",
-            SvgTag = string.Empty
-        };
-        Facilities.Add(Facility_WiFi);
-
-        Facility_Restaurant = new Facility()
-        {
-            Id = 4,
-            Name = "Restaurant",
-            SvgTag = string.Empty
-        };
-        Facilities.Add(Facility_Restaurant);
-
-        Facility_Fitness = new Facility()
-        {
-            Id = 5,
-            Name = "Fitness",
-            SvgTag = string.Empty
-        };
-        Facilities.Add(Facility_Fitness);
-    }
-    private void FillCollectionsFacilities()
-    {
-        Facility_Spa.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Spa.Id).ToList();
-
-        Facility_Parking.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Parking.Id).ToList();
-
-        Facility_WiFi.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_WiFi.Id).ToList();
-
-        Facility_Restaurant.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Restaurant.Id).ToList();
-
-        Facility_Fitness.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Fitness.Id).ToList();
     }
 
     public ApplicationUser User_Normal { get; set; } = null!;
@@ -239,6 +180,66 @@ public class DataSeeder
         Hotel_StrandPalace.HotelImages = HotelImageUrls.Where(i => i.HotelId == Hotel_StrandPalace.Id).ToList();
         Hotel_StrandPalace.Reviews = Reviews.Where(r => r.HotelId == Hotel_StrandPalace.Id).ToList();
         Hotel_StrandPalace.Bookings = Bookings.Where(b => b.HotelId == Hotel_StrandPalace.Id).ToList();
+    }
+
+    public Facility Facility_Spa { get; set; } = null!;
+    public Facility Facility_Parking { get; set; } = null!;
+    public Facility Facility_WiFi { get; set; } = null!;
+    public Facility Facility_Restaurant { get; set; } = null!;
+    public Facility Facility_Fitness { get; set; } = null!;
+    private void SeedFacilities()
+    {
+        Facility_Spa = new Facility()
+        {
+            Id = 1,
+            Name = "Spa",
+            SvgTag = string.Empty
+        };
+        Facilities.Add(Facility_Spa);
+
+        Facility_Parking = new Facility()
+        {
+            Id = 2,
+            Name = "Parking",
+            SvgTag = string.Empty
+        };
+        Facilities.Add(Facility_Parking);
+
+        Facility_WiFi = new Facility()
+        {
+            Id = 3,
+            Name = "WiFi",
+            SvgTag = string.Empty
+        };
+        Facilities.Add(Facility_WiFi);
+
+        Facility_Restaurant = new Facility()
+        {
+            Id = 4,
+            Name = "Restaurant",
+            SvgTag = string.Empty
+        };
+        Facilities.Add(Facility_Restaurant);
+
+        Facility_Fitness = new Facility()
+        {
+            Id = 5,
+            Name = "Fitness",
+            SvgTag = string.Empty
+        };
+        Facilities.Add(Facility_Fitness);
+    }
+    private void FillCollectionsFacilities()
+    {
+        Facility_Spa.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Spa.Id).ToList();
+
+        Facility_Parking.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Parking.Id).ToList();
+
+        Facility_WiFi.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_WiFi.Id).ToList();
+
+        Facility_Restaurant.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Restaurant.Id).ToList();
+
+        Facility_Fitness.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Fitness.Id).ToList();
     }
 
     public HotelFacility HotelFacility_ChilworthLondonPaddington_WiFi { get; set; } = null!;
@@ -572,6 +573,25 @@ public class DataSeeder
         RoomImageUrl_MountainLodge_MountainResort.Room = Room_KempinskiHotelGrandArena_MountainLodge;
 
         RoomImageUrl_MountainLodge_CabinInterior.Room = Room_KempinskiHotelGrandArena_MountainLodge;
+    }
+
+    public Feature Feature_TV { get; set; } = null!;
+    public Feature Feature_Refrigerator { get; set; } = null!;
+    public Feature Feature_Hairdryer { get; set; } = null!;
+    public Feature Feature_Towels { get; set; } = null!;
+    public Feature Feature_Slippers { get; set; } = null!;
+    public Feature Feature_Bathtub { get; set; } = null!;
+    private void SeedFeatures()
+    {
+        int id = 0;
+
+        Feature_TV = new Feature
+        {
+            Id = ++id,
+            Name = "TV"
+        };
+        Features.Add(Feature_TV);
+
     }
 
     public Booking Booking_ChilworthLondonPaddington_CozyRetreat { get; set; } = null!;
