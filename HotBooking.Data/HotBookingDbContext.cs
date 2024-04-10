@@ -72,6 +72,7 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
         modelBuilder.Entity<HotelFacility>().HasData(seeder.HotelFacilities);
         modelBuilder.Entity<HotelImageUrl>().HasData(seeder.HotelImageUrls);
         modelBuilder.Entity<Room>().HasData(seeder.Rooms);
+        modelBuilder.Entity<RoomImageUrl>().HasData(seeder.RoomImageUrls);
         modelBuilder.Entity<Booking>().HasData(seeder.Bookings);
         modelBuilder.Entity<Review>().HasData(seeder.Reviews);
 
