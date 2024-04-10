@@ -22,9 +22,9 @@ public class BrowseHotelsViewModel
 
     public PagerViewModel? Pager { get; set; }
 
-    public IEnumerable<PreviewHotelDto> Hotels { get; set; } = new List<PreviewHotelDto>();
+    public IEnumerable<HotelPreviewDto> Hotels { get; set; } = new List<HotelPreviewDto>();
 
-    public IEnumerable<FacilityDto> Facilities { get; set; } = new List<FacilityDto>();
+    public IEnumerable<FacilityChecksDto> Facilities { get; set; } = new List<FacilityChecksDto>();
 
     public int AllHotelsCount { get; set; }
 }

@@ -31,8 +31,8 @@ public class HotelsService : IHotelsService
         IEnumerable<Facility> selectedFacilities = allFacilities
             .Where(f => inputDto.FacilitySelectedPublicIds.Contains(f.PublicId));
 
-        IEnumerable<FacilityDto> facilityDtos = allFacilities
-            .Select(f => new FacilityDto(
+        IEnumerable<FacilityChecksDto> facilityDtos = allFacilities
+            .Select(f => new FacilityChecksDto(
                 f.PublicId,
                 selectedFacilities.Contains(f),
                 f.Name,
@@ -65,7 +65,7 @@ public class HotelsService : IHotelsService
 
         if (allHotelsCount == 0)
         {
-            return new BrowseHotelsOutputDto(new List<PreviewHotelDto>(), facilityDtos, 0, allHotelsCount);
+            return new BrowseHotelsOutputDto(new List<HotelPreviewDto>(), facilityDtos, 0, allHotelsCount);
         }
 
         int totalPages = (int)Math.Ceiling(allHotelsCount / (decimal)inputDto.PageSize);
@@ -98,8 +98,8 @@ public class HotelsService : IHotelsService
             .Skip(skipAmount)
             .Take(inputDto.PageSize);
 
-        IEnumerable<PreviewHotelDto> selectedHotels = await queryHotels
-            .Select(h => new PreviewHotelDto(
+        IEnumerable<HotelPreviewDto> selectedHotels = await queryHotels
+            .Select(h => new HotelPreviewDto(
                 h.PublicId,
                 h.HotelImages.First().Url,
                 h.HotelName,
@@ -145,7 +145,7 @@ public class HotelsService : IHotelsService
                 h.Reviews.Average(r => r.RatingScore),
                 h.Reviews.Count(),
                 h.HotelsFacilities
-                    .Select(hf => new FacilityPreviewDto(
+                    .Select(hf => new FacilityDetailsDto(
                         hf.Facility.Name,
                         hf.Facility.SvgTag
                     )),
@@ -153,7 +153,7 @@ public class HotelsService : IHotelsService
                 h.Rooms
                     .Where(r => (r.BedsCount >= peoplePerRoom) && r.Bookings
                         .All(b => (inputDto.CheckInDate > b.CheckOut) || (inputDto.CheckOutDate < b.CheckIn)))
-                    .Select(r => new RoomPreviewDto(
+                    .Select(r => new RoomDetailsDto(
                         r.PublicId,
                         r.Title,
                         r.Description,
