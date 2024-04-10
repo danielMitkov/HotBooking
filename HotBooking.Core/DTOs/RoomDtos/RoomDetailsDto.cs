@@ -1,6 +1,6 @@
 ﻿namespace HotBooking.Core.DTOs.RoomDtos;
 
-public record RoomPreviewDto(
+public record RoomDetailsDto(
     Guid PublicId,
     string Title,
     string Description,
