@@ -1,6 +1,6 @@
 ﻿namespace HotBooking.Core.DTOs.FacilityDtos;
 
-public record FacilityDto(
+public record FacilityChecksDto(
     Guid PublicId, 
     bool IsChecked, 
     string Name, 
