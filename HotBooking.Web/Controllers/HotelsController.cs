@@ -76,6 +76,7 @@ public class HotelsController : Controller
 
         HotelDetailsViewModel model = new()
         {
+            HotelId = id,
             Search = search,
             Hotel = hotelDto
         };
