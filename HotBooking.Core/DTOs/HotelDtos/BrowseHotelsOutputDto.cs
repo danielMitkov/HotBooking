@@ -3,8 +3,8 @@
 namespace HotBooking.Core.DTOs.HotelDtos;
 
 public record BrowseHotelsOutputDto(
-    IEnumerable<PreviewHotelDto> SelectedHotels,
-    IEnumerable<FacilityDto> Facilities,
+    IEnumerable<HotelPreviewDto> SelectedHotels,
+    IEnumerable<FacilityChecksDto> Facilities,
     int TotalPages,
     int AllHotelsCount
 );
