@@ -14,6 +14,7 @@ public class DataSeeder
     public ICollection<Room> Rooms { get; set; } = new List<Room>();
     public ICollection<RoomImageUrl> RoomImageUrls { get; set; } = new List<RoomImageUrl>();
     public ICollection<Feature> Features { get; set; } = new List<Feature>();
+    public ICollection<RoomFeature> RoomFeatures { get; set; } = new List<RoomFeature>();
     public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
@@ -26,22 +27,26 @@ public class DataSeeder
         SeedHotelFacilities();
         SeedHotelImageUrls();
         SeedRooms();
+        SeedFeatures();
+        SeedRoomFeatures();
         SeedRoomImageUrls();
         SeedBookings();
         SeedReviews();
 
         if (fillObjectReferences)
         {
-            FillCollectionsApplicationUsers();
-            FillCollectionsManagers();
-            FillCollectionsHotels();
-            FillCollectionsFacilities();
-            FillCollectionsHotelFacilities();
-            FillCollectionsHotelImageUrls();
-            FillCollectionsRooms();
-            FillCollectionsRoomImageUrls();
-            FillCollectionsBookings();
-            FillCollectionsReviews();
+            SetReferencesApplicationUsers();
+            SetReferencesManagers();
+            SetReferencesHotels();
+            SetReferencesFacilities();
+            SetReferencesHotelFacilities();
+            SetReferencesHotelImageUrls();
+            SetReferencesRooms();
+            SetReferencesFeatures();
+            SetReferencesRoomFeatures();
+            SetReferencesRoomImageUrls();
+            SetReferencesBookings();
+            SetReferencesReviews();
         }
     }
 
@@ -85,7 +90,7 @@ public class DataSeeder
         User_TobeManager.PasswordHash = hasher.HashPassword(User_TobeManager, "managerpass");
         ApplicationUsers.Add(User_TobeManager);
     }
-    private void FillCollectionsApplicationUsers()
+    private void SetReferencesApplicationUsers()
     {
         User_Normal.Bookings = Bookings.Where(b => b.UserId == User_Normal.Id).ToList();
         User_Normal.Reviews = Reviews.Where(r => r.UserId == User_Normal.Id).ToList();
@@ -108,7 +113,7 @@ public class DataSeeder
         };
         Managers.Add(Manager_First);
     }
-    private void FillCollectionsManagers()
+    private void SetReferencesManagers()
     {
         Manager_First.User = User_TobeManager;
         Manager_First.Hotels = Hotels.Where(h => h.ManagerId == Manager_First.Id).ToList();
@@ -158,7 +163,7 @@ public class DataSeeder
         };
         Hotels.Add(Hotel_StrandPalace);
     }
-    private void FillCollectionsHotels()
+    private void SetReferencesHotels()
     {
         Hotel_ChilworthLondonPaddington.Manager = Manager_First;
         Hotel_ChilworthLondonPaddington.HotelsFacilities = HotelFacilities.Where(hf => hf.HotelId == Hotel_ChilworthLondonPaddington.Id).ToList();
@@ -229,7 +234,7 @@ public class DataSeeder
         };
         Facilities.Add(Facility_Fitness);
     }
-    private void FillCollectionsFacilities()
+    private void SetReferencesFacilities()
     {
         Facility_Spa.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Spa.Id).ToList();
 
@@ -316,7 +321,7 @@ public class DataSeeder
         };
         HotelFacilities.Add(HotelFacility_StrandPalace_Parking);
     }
-    private void FillCollectionsHotelFacilities()
+    private void SetReferencesHotelFacilities()
     {
         HotelFacility_ChilworthLondonPaddington_WiFi.Hotel = Hotel_ChilworthLondonPaddington;
         HotelFacility_ChilworthLondonPaddington_WiFi.Facility = Facility_WiFi;
@@ -386,7 +391,7 @@ public class DataSeeder
         };
         HotelImageUrls.Add(HotelImageUrl_OldCentral);
     }
-    private void FillCollectionsHotelImageUrls()
+    private void SetReferencesHotelImageUrls()
     {
         HotelImageUrl_ThreeWhiteHouses.Hotel = Hotel_ChilworthLondonPaddington;
 
@@ -479,7 +484,7 @@ public class DataSeeder
         };
         Rooms.Add(Room_StrandPalace_LuxurySuite);
     }
-    private void FillCollectionsRooms()
+    private void SetReferencesRooms()
     {
         Room_ChilworthLondonPaddington_CozyRetreat.Hotel = Hotel_ChilworthLondonPaddington;
         Room_ChilworthLondonPaddington_CozyRetreat.Bookings = Bookings
@@ -524,6 +529,134 @@ public class DataSeeder
             .Where(i => i.RoomId == Room_StrandPalace_LuxurySuite.Id).ToList();
     }
 
+    public Feature Feature_TV { get; set; } = null!;
+    public Feature Feature_Refrigerator { get; set; } = null!;
+    public Feature Feature_Hairdryer { get; set; } = null!;
+    public Feature Feature_Towels { get; set; } = null!;
+    public Feature Feature_Slippers { get; set; } = null!;
+    public Feature Feature_Bathtub { get; set; } = null!;
+    private void SeedFeatures()
+    {
+        int id = 0;
+
+        Feature_TV = new Feature
+        {
+            Id = ++id,
+            Name = "TV",
+            SvgTag = string.Empty
+        };
+        Features.Add(Feature_TV);
+
+        Feature_Refrigerator = new Feature
+        {
+            Id = ++id,
+            Name = "Refrigerator",
+            SvgTag = string.Empty
+        };
+        Features.Add(Feature_Refrigerator);
+
+        Feature_Hairdryer = new Feature
+        {
+            Id = ++id,
+            Name = "Hairdryer",
+            SvgTag = string.Empty
+        };
+        Features.Add(Feature_Hairdryer);
+
+        Feature_Towels = new Feature
+        {
+            Id = ++id,
+            Name = "Towels",
+            SvgTag = string.Empty
+        };
+        Features.Add(Feature_Towels);
+
+        Feature_Slippers = new Feature
+        {
+            Id = ++id,
+            Name = "Slippers",
+            SvgTag = string.Empty
+        };
+        Features.Add(Feature_Slippers);
+
+        Feature_Bathtub = new Feature
+        {
+            Id = ++id,
+            Name = "Bathtub",
+            SvgTag = string.Empty
+        };
+        Features.Add(Feature_Bathtub);
+    }
+    private void SetReferencesFeatures()
+    {
+        Feature_TV.RoomsFeatures = RoomFeatures
+            .Where(rf => rf.FeatureId == Feature_TV.Id).ToList();
+
+        Feature_Refrigerator.RoomsFeatures = RoomFeatures
+            .Where(rf => rf.FeatureId == Feature_Refrigerator.Id).ToList();
+
+        Feature_Hairdryer.RoomsFeatures = RoomFeatures
+            .Where(rf => rf.FeatureId == Feature_Hairdryer.Id).ToList();
+
+        Feature_Towels.RoomsFeatures = RoomFeatures
+            .Where(rf => rf.FeatureId == Feature_Towels.Id).ToList();
+
+        Feature_Slippers.RoomsFeatures = RoomFeatures
+            .Where(rf => rf.FeatureId == Feature_Slippers.Id).ToList();
+
+        Feature_Bathtub.RoomsFeatures = RoomFeatures
+            .Where(rf => rf.FeatureId == Feature_Bathtub.Id).ToList();
+    }
+
+    public RoomFeature RoomFeature_FamilyGetaway_Bathtub { get; set; } = null!;
+    public RoomFeature RoomFeature_FamilyGetaway_Slippers { get; set; } = null!;
+    public RoomFeature RoomFeature_MountainLodge_TV { get; set; } = null!;
+    public RoomFeature RoomFeature_MountainLodge_Refrigerator { get; set; } = null!;
+    private void SeedRoomFeatures()
+    {
+        RoomFeature_FamilyGetaway_Bathtub = new RoomFeature
+        {
+            FeatureId = Feature_Bathtub.Id,
+            RoomId = Room_KempinskiHotelGrandArena_FamilyGetaway.Id
+        };
+        RoomFeatures.Add(RoomFeature_FamilyGetaway_Bathtub);
+
+        RoomFeature_FamilyGetaway_Slippers = new RoomFeature
+        {
+            FeatureId = Feature_Slippers.Id,
+            RoomId = Room_KempinskiHotelGrandArena_FamilyGetaway.Id
+        };
+        RoomFeatures.Add(RoomFeature_FamilyGetaway_Slippers);
+
+        RoomFeature_MountainLodge_TV = new RoomFeature
+        {
+            FeatureId = Feature_TV.Id,
+            RoomId = Room_KempinskiHotelGrandArena_MountainLodge.Id
+        };
+        RoomFeatures.Add(RoomFeature_MountainLodge_TV);
+
+        RoomFeature_MountainLodge_Refrigerator = new RoomFeature
+        {
+            FeatureId = Feature_Refrigerator.Id,
+            RoomId = Room_KempinskiHotelGrandArena_MountainLodge.Id
+        };
+        RoomFeatures.Add(RoomFeature_MountainLodge_Refrigerator);
+    }
+    private void SetReferencesRoomFeatures()
+    {
+        RoomFeature_FamilyGetaway_Bathtub.Feature = Feature_Bathtub;
+        RoomFeature_FamilyGetaway_Bathtub.Room = Room_KempinskiHotelGrandArena_FamilyGetaway;
+
+        RoomFeature_FamilyGetaway_Slippers.Feature = Feature_Slippers;
+        RoomFeature_FamilyGetaway_Slippers.Room = Room_KempinskiHotelGrandArena_FamilyGetaway;
+
+        RoomFeature_MountainLodge_TV.Feature = Feature_TV;
+        RoomFeature_MountainLodge_TV.Room = Room_KempinskiHotelGrandArena_MountainLodge;
+
+        RoomFeature_MountainLodge_Refrigerator.Feature = Feature_Refrigerator;
+        RoomFeature_MountainLodge_Refrigerator.Room = Room_KempinskiHotelGrandArena_MountainLodge;
+    }
+
     public RoomImageUrl RoomImageUrl_FamilyGetaway_LuxuryClassicModern { get; set; } = null!;
     public RoomImageUrl RoomImageUrl_FamilyGetaway_BlueView { get; set; } = null!;
     public RoomImageUrl RoomImageUrl_MountainLodge_MountainResort { get; set; } = null!;
@@ -564,7 +697,7 @@ public class DataSeeder
         };
         RoomImageUrls.Add(RoomImageUrl_MountainLodge_CabinInterior);
     }
-    private void FillCollectionsRoomImageUrls()
+    private void SetReferencesRoomImageUrls()
     {
         RoomImageUrl_FamilyGetaway_LuxuryClassicModern.Room = Room_KempinskiHotelGrandArena_FamilyGetaway;
 
@@ -573,25 +706,6 @@ public class DataSeeder
         RoomImageUrl_MountainLodge_MountainResort.Room = Room_KempinskiHotelGrandArena_MountainLodge;
 
         RoomImageUrl_MountainLodge_CabinInterior.Room = Room_KempinskiHotelGrandArena_MountainLodge;
-    }
-
-    public Feature Feature_TV { get; set; } = null!;
-    public Feature Feature_Refrigerator { get; set; } = null!;
-    public Feature Feature_Hairdryer { get; set; } = null!;
-    public Feature Feature_Towels { get; set; } = null!;
-    public Feature Feature_Slippers { get; set; } = null!;
-    public Feature Feature_Bathtub { get; set; } = null!;
-    private void SeedFeatures()
-    {
-        int id = 0;
-
-        Feature_TV = new Feature
-        {
-            Id = ++id,
-            Name = "TV"
-        };
-        Features.Add(Feature_TV);
-
     }
 
     public Booking Booking_ChilworthLondonPaddington_CozyRetreat { get; set; } = null!;
@@ -674,7 +788,7 @@ public class DataSeeder
         };
         Bookings.Add(Booking_StrandPalace_LuxurySuite);
     }
-    private void FillCollectionsBookings()
+    private void SetReferencesBookings()
     {
         Booking_ChilworthLondonPaddington_CozyRetreat.User = User_Normal;
         Booking_ChilworthLondonPaddington_CozyRetreat.Room = Room_ChilworthLondonPaddington_CozyRetreat;
@@ -787,7 +901,7 @@ public class DataSeeder
         };
         Reviews.Add(Review_Satisfactory);
     }
-    private void FillCollectionsReviews()
+    private void SetReferencesReviews()
     {
         Review_ExcellentProduct.Hotel = Hotel_ChilworthLondonPaddington;
         Review_ExcellentProduct.Booking = Booking_ChilworthLondonPaddington_CozyRetreat;
