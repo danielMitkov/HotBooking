@@ -63,7 +63,8 @@ public class DataSeeder
             UserName = "guest@mail.com",
             NormalizedUserName = "guest@mail.com",
             Email = "guest@mail.com",
-            NormalizedEmail = "guest@mail.com"
+            NormalizedEmail = "guest@mail.com",
+            SecurityStamp = Guid.NewGuid().ToString()
         };
         User_Normal.PasswordHash = hasher.HashPassword(User_Normal, "secretpass");
         ApplicationUsers.Add(User_Normal);
@@ -74,7 +75,8 @@ public class DataSeeder
             UserName = "two@mail.com",
             NormalizedUserName = "two@mail.com",
             Email = "two@mail.com",
-            NormalizedEmail = "two@mail.com"
+            NormalizedEmail = "two@mail.com",
+            SecurityStamp = Guid.NewGuid().ToString()
         };
         User_Second.PasswordHash = hasher.HashPassword(User_Second, "otherpass");
         ApplicationUsers.Add(User_Second);
@@ -85,7 +87,8 @@ public class DataSeeder
             UserName = "manager@mail.com",
             NormalizedUserName = "manager@mail.com",
             Email = "manager@mail.com",
-            NormalizedEmail = "manager@mail.com"
+            NormalizedEmail = "manager@mail.com",
+            SecurityStamp = Guid.NewGuid().ToString()
         };
         User_TobeManager.PasswordHash = hasher.HashPassword(User_TobeManager, "managerpass");
         ApplicationUsers.Add(User_TobeManager);
