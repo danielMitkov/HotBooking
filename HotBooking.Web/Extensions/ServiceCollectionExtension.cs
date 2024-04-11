@@ -37,6 +37,8 @@ public static class ServiceCollectionExtension
             .AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
             })
             .AddEntityFrameworkStores<HotBookingDbContext>();
 
