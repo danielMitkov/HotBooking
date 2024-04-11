@@ -19,7 +19,7 @@ public class Review : BaseEntity
     public string Comment { get; set; } = null!;
 
     [Required]
-    public DateTime ReviewedOn { get; set; }
+    public DateTime ReviewedOn { get; set; } = DateTime.Now;
 
     [Required]
     public int HotelId { get; set; }
