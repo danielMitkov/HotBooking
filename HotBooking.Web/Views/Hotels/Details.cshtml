@@ -83,11 +83,11 @@
 
     <h4>Reviews</h4>
     <h5>@(Math.Round(Model.Hotel.AverageRating, 2))/10 - @Model.Hotel.ReviewsCount reviews</h5>
-    
+
     <a asp-controller="@ReviewController.Name"
        asp-action="@nameof(ReviewController.All)"
        asp-route-hotelId="@Model.HotelId">
-        Check Reviews
+        View Reviews
     </a>
 </div>
 
