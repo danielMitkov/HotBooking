@@ -16,6 +16,12 @@
                 <p>Adults: @review.AdultsCount</p>
 
                 <p>Reviewed On @review.ReviewedOnDate.ToString("MMMM dd, yyyy")</p>
+                
+                @if (review.IsAuthor)
+                {
+                    <a>Edit</a>
+                    <a>Delete</a>
+                }
             </div>
             <div class="col-8">
                 <h6>@review.Title</h6>
