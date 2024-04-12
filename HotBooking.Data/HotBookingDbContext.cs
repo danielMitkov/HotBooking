@@ -17,25 +17,15 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
     }
 
     public virtual DbSet<Hotel> Hotels { get; set; } = null!;
-
     public virtual DbSet<Room> Rooms { get; set; } = null!;
-
     public virtual DbSet<Booking> Bookings { get; set; } = null!;
-
     public virtual DbSet<Review> Reviews { get; set; } = null!;
-
     public virtual DbSet<Manager> Managers { get; set; } = null!;
-
     public virtual DbSet<Feature> Features { get; set; } = null!;
-
     public virtual DbSet<Facility> Facilities { get; set; } = null!;
-
     public virtual DbSet<HotelImageUrl> HotelImageUrls { get; set; } = null!;
-
     public virtual DbSet<RoomImageUrl> RoomImageUrls { get; set; } = null!;
-
     public virtual DbSet<RoomFeature> RoomsFeatures { get; set; } = null!;
-
     public virtual DbSet<HotelFacility> HotelsFacilities { get; set; } = null!;
 
     override protected void OnModelCreating(ModelBuilder modelBuilder)
