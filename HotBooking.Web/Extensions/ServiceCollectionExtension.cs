@@ -18,7 +18,7 @@ public static class ServiceCollectionExtension
 
     public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration config)
     {
-        var connectionString = config.GetConnectionString("DefaultConnection");
+        var connectionString = config.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'HotBookingDbContextConnection' not found.");
 
         services.AddDbContext<HotBookingDbContext>(options =>
         {
