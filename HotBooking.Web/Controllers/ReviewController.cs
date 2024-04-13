@@ -23,7 +23,7 @@ public class ReviewController : Controller
     [Route("Review/All/{page?}")]
     public async Task<IActionResult> All(Guid hotelId, int page = 1)
     {
-        BrowseReviewsInputDto inputDto = new(User.GetUserId(), hotelId, page, 2);
+        BrowseReviewsInputDto inputDto = new(User.GetId(), hotelId, page, 2);
 
         BrowseReviewsOutputDto? outputDto = await reviewService.GetReviewsForHotel(inputDto);
 
@@ -45,7 +45,7 @@ public class ReviewController : Controller
         return View(model);
     }
 
-    public async Task<IActionResult> Add(Guid hotelId)
+    public IActionResult Add(Guid hotelId)
     {
         FormReviewViewModel model = new()
         {
@@ -64,7 +64,7 @@ public class ReviewController : Controller
         }
 
         AddReviewInputDto inputDto = new(
-            User.GetUserId(),
+            User.GetId(),
             model.HotelId,
             model.RatingScore,
             model.Title,
