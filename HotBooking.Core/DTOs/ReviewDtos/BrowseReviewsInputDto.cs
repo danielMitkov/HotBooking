@@ -1,7 +1,7 @@
 ﻿namespace HotBooking.Core.DTOs.ReviewDtos;
 
 public record BrowseReviewsInputDto(
-string? UserId,
+int UserId,
 Guid HotelId,
 int CurrentPage,
 int PageSize
