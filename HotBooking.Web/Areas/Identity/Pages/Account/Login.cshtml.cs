@@ -65,17 +65,6 @@ namespace HotBooking.Web.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, Input.Email),
-                    };
-
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity));
-
                     return LocalRedirect(returnUrl);
                 }
                 else
