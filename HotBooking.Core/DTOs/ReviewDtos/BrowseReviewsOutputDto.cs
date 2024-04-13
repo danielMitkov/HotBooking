@@ -3,5 +3,6 @@
 public record BrowseReviewsOutputDto(
 IEnumerable<ReviewDetailsDto> Reviews,
 int TotalPagesCount,
-int ReviewsCount
+int ReviewsCount,
+bool CanAddReview
 );

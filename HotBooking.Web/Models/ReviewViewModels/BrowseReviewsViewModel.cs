@@ -12,5 +12,7 @@ public class BrowseReviewsViewModel
 
     public PagerViewModel? Pager { get; set; }
 
+    public bool CanAddReview { get; set; }
+
     public IEnumerable<ReviewDetailsDto> Reviews { get; set; } = new List<ReviewDetailsDto>();
 }
