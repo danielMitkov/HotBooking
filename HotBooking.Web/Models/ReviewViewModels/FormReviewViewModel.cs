@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HotBooking.Web.Models.ReviewViewModels;
 
-public class AddReviewViewModel
+public class FormReviewViewModel
 {
     [Required]
     public Guid HotelId { get; set; }

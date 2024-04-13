@@ -47,7 +47,7 @@ public class ReviewController : Controller
 
     public async Task<IActionResult> Add(Guid hotelId)
     {
-        AddReviewViewModel model = new()
+        FormReviewViewModel model = new()
         {
             HotelId = hotelId
         };
@@ -56,7 +56,7 @@ public class ReviewController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(AddReviewViewModel model)
+    public async Task<IActionResult> Add(FormReviewViewModel model)
     {
         if (ModelState.IsValid == false)
         {
