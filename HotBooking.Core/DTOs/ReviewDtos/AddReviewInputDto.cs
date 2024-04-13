@@ -1,7 +1,7 @@
 ﻿namespace HotBooking.Core.DTOs.ReviewDtos;
 
 public record AddReviewInputDto(
-string UserId,
+int UserId,
 Guid HotelId,
 decimal RatingScore,
 string Title,
