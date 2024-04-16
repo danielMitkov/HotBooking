@@ -56,8 +56,8 @@
 </div>
 <div class="row"
 
-    <p class="text-secondary">@(Model.Hotel.StreetAddress + ", " + Model.Hotel.CityName)</p>
-</div>
+            <p class="text-secondary">@(Model.Hotel.StreetAddress + ", " + Model.Hotel.CityName)</p>
+        </div>
 <div class="row">
 
     <h4>Description</h4>
@@ -86,18 +86,10 @@
 
     <a asp-controller="@ReviewController.Name"
        asp-action="@nameof(ReviewController.All)"
-       asp-route-hotelId="@Model.HotelId">
+       asp-route-hotelPublicId="@Model.HotelId">
         View Reviews
     </a>
 </div>
-
-
-
-
-
-
-
-
 
 <div class="container-fluid">
 
@@ -196,8 +188,3 @@
     <partial name="_SearchHotelsScriptsPartial" />
     <partial name="_ValidationScriptsPartial" />
 }
-
-@* hotel info with carousel images
-facilities
-reviews
-rooms*@
