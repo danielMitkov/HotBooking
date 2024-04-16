@@ -1,17 +1,23 @@
-﻿@model BrowseHotelsViewModel
+﻿@model SearchHotelsViewModel
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<form method="get" asp-controller="@HotelsController.Name" asp-action="@nameof(HotelsController.List)">
-    
+@if (TempData["Error"] != null)
+{
+    <p class="alert-danger">@TempData["Error"]</p>
+}
+
+<form method="post">
+
     <div asp-validation-summary="All"></div>
 
-    <partial name="_SearchHotels" for="@Model.Search" />
+    <partial name="_SearchHotels" for="@Model" />
 </form>
 
 @section Scripts {
+
     <partial name="_SearchHotelsScriptsPartial" />
     <partial name="_ValidationScriptsPartial" />
 }
