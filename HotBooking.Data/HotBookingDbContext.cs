@@ -16,17 +16,17 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
     {
     }
 
-    public virtual DbSet<Hotel> Hotels { get; set; } = null!;
-    public virtual DbSet<Room> Rooms { get; set; } = null!;
-    public virtual DbSet<Booking> Bookings { get; set; } = null!;
-    public virtual DbSet<Review> Reviews { get; set; } = null!;
-    public virtual DbSet<Manager> Managers { get; set; } = null!;
-    public virtual DbSet<Feature> Features { get; set; } = null!;
-    public virtual DbSet<Facility> Facilities { get; set; } = null!;
-    public virtual DbSet<HotelImageUrl> HotelImageUrls { get; set; } = null!;
-    public virtual DbSet<RoomImageUrl> RoomImageUrls { get; set; } = null!;
-    public virtual DbSet<RoomFeature> RoomsFeatures { get; set; } = null!;
-    public virtual DbSet<HotelFacility> HotelsFacilities { get; set; } = null!;
+    public DbSet<Hotel> Hotels { get; set; } = null!;
+    public DbSet<Room> Rooms { get; set; } = null!;
+    public DbSet<Booking> Bookings { get; set; } = null!;
+    public DbSet<Review> Reviews { get; set; } = null!;
+    public DbSet<Manager> Managers { get; set; } = null!;
+    public DbSet<Feature> Features { get; set; } = null!;
+    public DbSet<Facility> Facilities { get; set; } = null!;
+    public DbSet<HotelImageUrl> HotelImageUrls { get; set; } = null!;
+    public DbSet<RoomImageUrl> RoomImageUrls { get; set; } = null!;
+    public DbSet<RoomFeature> RoomsFeatures { get; set; } = null!;
+    public DbSet<HotelFacility> HotelsFacilities { get; set; } = null!;
 
     override protected void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,7 +55,7 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
 
         DataSeeder seeder = new DataSeeder();
 
-        modelBuilder.Entity<ApplicationUser>().HasData(seeder.ApplicationUsers);
+        modelBuilder.Entity<ApplicationUser>().HasData(seeder.Users);
         modelBuilder.Entity<Manager>().HasData(seeder.Managers);
         modelBuilder.Entity<Hotel>().HasData(seeder.Hotels);
         modelBuilder.Entity<Facility>().HasData(seeder.Facilities);
