@@ -1,6 +1,5 @@
-﻿using HotBooking.Core.Enums;
-using HotBooking.Core.Interfaces;
-using HotBooking.Web.Models.HotelViewModels;
+﻿using HotBooking.Core.Interfaces;
+using HotBooking.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotBooking.Web.Controllers;
@@ -18,17 +17,26 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        BrowseHotelsViewModel model = new()
+        var searchModel = new SearchHotelsViewModel()
         {
-            Search = new()
-            {
-                CheckInDate = new DateTime(2024, 6, 17),
-                CheckOutDate = new DateTime(2024, 6, 20)
-            },
-            Sorting = HotelSorting.RatingDesc
+            CheckInDate = new DateTime(2024, 6, 17),
+            CheckOutDate = new DateTime(2024, 6, 20),
+            AdultsCount = 2,
+            RoomsCount = 1
         };
 
-        return View(model);
+        return View(searchModel);
+    }
+
+    [HttpPost]
+    public IActionResult Index(SearchHotelsViewModel searchModel)
+    {
+        if (ModelState.IsValid == false)
+        {
+            return View(searchModel);
+        }
+
+        return RedirectToAction(nameof(HotelsController.List), HotelsController.Name, searchModel);
     }
 
     public async Task<IActionResult> Cities(string searchTerm)
