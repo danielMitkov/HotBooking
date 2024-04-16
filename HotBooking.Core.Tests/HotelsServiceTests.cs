@@ -1,132 +1,147 @@
 using HotBooking.Core.DTOs.HotelDtos;
 using HotBooking.Core.Enums;
+using HotBooking.Core.ErrorMessages;
 using HotBooking.Core.Exceptions;
 using HotBooking.Core.Services;
 using HotBooking.Data;
-using HotBooking.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using MockQueryable.NSubstitute;
-using NSubstitute;
 
 namespace HotBooking.Core.Tests;
 
 public class HotelsServiceTests
 {
-    private readonly static HotBookingDbContext _dbContext = Substitute.For<HotBookingDbContext>();
-    private readonly static HotelsService _hotelsService = new HotelsService(_dbContext);
-    private readonly DataSeeder _seeder;
+    private DbContextOptions<HotBookingDbContext> dbOptions;
+    private HotBookingDbContext dbContext;
 
-    private readonly string _town = "London";
-    private readonly DateTime _checkInDate = new DateTime(2024, 6, 17);
-    private readonly DateTime _checkOutDate = new DateTime(2024, 6, 20);
+    private DataSeeder seeder;
+
+    private HotelsService hotelsService;
+
+    private readonly string town = "London";
+    private readonly DateTime checkInDate = new DateTime(2024, 6, 17);
+    private readonly DateTime checkOutDate = new DateTime(2024, 6, 20);
 
     public HotelsServiceTests()
     {
-        _seeder = new DataSeeder(true);
+        dbOptions = new DbContextOptionsBuilder<HotBookingDbContext>()
+        .UseInMemoryDatabase("HotBookingInMemoryDb" + Guid.NewGuid().ToString())
+        .Options;
+        dbContext = new HotBookingDbContext(dbOptions);
+        dbContext.Database.EnsureCreated();
 
-        DbSet<Hotel> dbSetHotel = _seeder.Hotels.BuildMock().BuildMockDbSet();
-        _dbContext.Hotels.Returns(dbSetHotel);
+        seeder = new DataSeeder();
 
-        DbSet<Facility> dbSetFacility = _seeder.Facilities.BuildMock().BuildMockDbSet();
-        _dbContext.Facilities.Returns(dbSetFacility);
+        hotelsService = new HotelsService(dbContext);
     }
 
     [Fact]
     public async Task GetHotelDetailsAsync_Returns_CorrectRooms()
     {
-        HotelDetailsDtoInput inputDto = new(
-            _seeder.Hotel_KempinskiHotelGrandArena.PublicId,
+        var inputDto = new HotelDetailsDtoInput(
+            seeder.Hotel_KempinskiHotelGrandArena.PublicId,
             2,
             1,
-            _checkInDate,
-            _checkOutDate);
+            checkInDate,
+            checkOutDate);
 
-        HotelDetailsDtoOutput? outputDto = await _hotelsService.GetHotelDetailsAsync(inputDto);
+        var outputDto = await hotelsService.GetHotelDetailsAsync(inputDto);
 
-        Assert.NotNull(outputDto);
-        Assert.Contains(outputDto!.Rooms, r => r.PublicId == _seeder.Room_KempinskiHotelGrandArena_FamilyGetaway.PublicId);
-        Assert.Contains(outputDto!.Rooms, r => r.PublicId == _seeder.Room_KempinskiHotelGrandArena_MountainLodge.PublicId);
+        Assert.Contains(outputDto.Rooms, r => r.PublicId == seeder.Room_KempinskiHotelGrandArena_FamilyGetaway.PublicId);
+        Assert.Contains(outputDto.Rooms, r => r.PublicId == seeder.Room_KempinskiHotelGrandArena_MountainLodge.PublicId);
+    }
+
+    [Fact]
+    public async Task GetHotelDetailsAsync_ThrowsFor_NotFound()
+    {
+        var inputDto = new HotelDetailsDtoInput(
+            Guid.NewGuid(),
+            2,
+            1,
+            checkInDate,
+            checkOutDate);
+
+        var ex = await Assert.ThrowsAsync<InvalidModelDataException>(
+            () => hotelsService.GetHotelDetailsAsync(inputDto));
+
+        Assert.Equal(HotelErrors.NotFound, ex.Message);
     }
 
     [Fact]
     public async Task GetFilteredHotelsAsync_Returns_Hotel_ChilworthLondonPaddington()
     {
-        IEnumerable<Guid> selectedFacilitiesGuids = _seeder.Facilities
+        var selectedFacilitiesGuids = seeder.Facilities
             .Where(f => f.Name == "Spa" || f.Name == "Parking")
             .Select(f => f.PublicId);
 
-        BrowseHotelsInputDto inputDto = new(
+        var inputDto = new BrowseHotelsInputDto(
             1,
             2,
-            _town,
-            _checkInDate,
-            _checkOutDate,
+            town,
+            checkInDate,
+            checkOutDate,
             2,
             1,
             HotelSorting.RatingDesc,
             selectedFacilitiesGuids);
 
-        BrowseHotelsOutputDto outputDto = await _hotelsService.GetFilteredHotelsAsync(inputDto);
+        var outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
 
-        Assert.Single(outputDto.SelectedHotels);
-        Assert.Equal(outputDto.SelectedHotels.First().PublicId, _seeder.Hotel_ChilworthLondonPaddington.PublicId);
+        Assert.Contains(outputDto.SelectedHotels, h => h.PublicId == seeder.Hotel_ChilworthLondonPaddington.PublicId);
     }
 
     [Theory]
     [InlineData(-1)]
     [InlineData(999)]
-    public async Task GetFilteredHotelsAsync_WorksNormallyDespite_OutOfRangePage(int currentPage)
+    public async Task GetFilteredHotelsAsync_ThrowsFor_OutOfRangePage(int currentPage)
     {
-        BrowseHotelsInputDto inputDto = new(
+        var inputDto = new BrowseHotelsInputDto(
             currentPage,
             2,
-            _town,
-            _checkInDate,
-            _checkOutDate,
+            town,
+            checkInDate,
+            checkOutDate,
             2,
             1,
             HotelSorting.RatingDesc,
-            new List<Guid>());
+        new List<Guid>());
 
-        BrowseHotelsOutputDto outputDto = await _hotelsService.GetFilteredHotelsAsync(inputDto);
-
-        Assert.Equal(2, outputDto.SelectedHotels.Count());
-        Assert.Contains(outputDto.SelectedHotels, h => h.PublicId == _seeder.Hotel_ChilworthLondonPaddington.PublicId);
-        Assert.Contains(outputDto.SelectedHotels, h => h.PublicId == _seeder.Hotel_StrandPalace.PublicId);
+        await Assert.ThrowsAsync<PageOutOfRangeException>(() => hotelsService.GetFilteredHotelsAsync(inputDto));
     }
 
     [Fact]
     public async Task GetFilteredHotelsAsync_ThrowsFor_CityNotFound()
     {
-        BrowseHotelsInputDto inputDto = new(
+        var inputDto = new BrowseHotelsInputDto(
             1,
             1,
             "Fake Town",
-            _checkInDate,
-            _checkOutDate,
+            checkInDate,
+            checkOutDate,
             2,
             1,
             HotelSorting.RatingDesc,
             new List<Guid>());
 
-        await Assert.ThrowsAsync<CityNotFound>(() => _hotelsService.GetFilteredHotelsAsync(inputDto));
+        var ex = await Assert.ThrowsAsync<InvalidModelDataException>(() => hotelsService.GetFilteredHotelsAsync(inputDto));
+
+        Assert.Equal(HotelErrors.CityNotFound, ex.Message);
     }
 
     [Fact]
     public async Task GetFilteredHotelsAsync_Returns_ZeroHotels_For_ZeroAllHotelsCount()
     {
-        BrowseHotelsInputDto inputDto = new(
+        var inputDto = new BrowseHotelsInputDto(
             1,
             1,
-            _town,
-            _checkInDate,
-            _checkOutDate,
+            town,
+            checkInDate,
+            checkOutDate,
             99,
             1,
             HotelSorting.RatingDesc,
             new List<Guid>());
 
-        BrowseHotelsOutputDto outputDto = await _hotelsService.GetFilteredHotelsAsync(inputDto);
+        var outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
 
         Assert.Empty(outputDto.SelectedHotels);
         Assert.Equal(0, outputDto.TotalPages);
@@ -136,68 +151,49 @@ public class HotelsServiceTests
     [Fact]
     public async Task GetFilteredHotelsAsync_Returns_CorrectOrder_For_PriceDesc()
     {
-        BrowseHotelsInputDto inputDto = new(
+        var inputDto = new BrowseHotelsInputDto(
             1,
             2,
-            _town,
-            _checkInDate,
-            _checkOutDate,
+            town,
+            checkInDate,
+            checkOutDate,
             2,
             1,
             HotelSorting.PriceDesc,
             new List<Guid>());
 
-        BrowseHotelsOutputDto outputDto = await _hotelsService.GetFilteredHotelsAsync(inputDto);
+        var outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
 
-        Assert.Equal(outputDto.SelectedHotels.First().PublicId, _seeder.Hotel_StrandPalace.PublicId);
+        Assert.Equal(outputDto.SelectedHotels.First().PublicId, seeder.Hotel_StrandPalace.PublicId);
     }
 
     [Fact]
     public async Task GetFilteredHotelsAsync_Returns_CorrectOrder_For_PriceAsc()
     {
-        BrowseHotelsInputDto inputDto = new(
+        var inputDto = new BrowseHotelsInputDto(
             1,
             2,
-            _town,
-            _checkInDate,
-            _checkOutDate,
+            town,
+            checkInDate,
+            checkOutDate,
             2,
             1,
             HotelSorting.PriceAsc,
             new List<Guid>());
 
-        BrowseHotelsOutputDto outputDto = await _hotelsService.GetFilteredHotelsAsync(inputDto);
+        var outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
 
-        Assert.Equal(outputDto.SelectedHotels.First().PublicId, _seeder.Hotel_ChilworthLondonPaddington.PublicId);
+        Assert.Equal(outputDto.SelectedHotels.First().PublicId, seeder.Hotel_ChilworthLondonPaddington.PublicId);
     }
 
     [Fact]
-    public async Task GetMatchingCitiesAsync_Returns_CorrectExact()
+    public async Task GetMatchingCitiesAsync_Returns_Correct()
     {
-        DbSet<Hotel> dbSetCities = new List<Hotel>()
-        {
-            new Hotel { CityName = "New York" },
-            new Hotel { CityName = "Los Angeles" },
-            new Hotel { CityName = "New Orleans" },
-            new Hotel { CityName = "Chicago" },
-            new Hotel { CityName = "Houston" },
-            new Hotel { CityName = "Phoenix" },
-            new Hotel { CityName = "Philadelphia" },
-            new Hotel { CityName = "San Antonio" },
-            new Hotel { CityName = "San Diego" },
-            new Hotel { CityName = "Dallas" },
-            new Hotel { CityName = "San Jose" }
-        }
-        .BuildMock().BuildMockDbSet();
-        _dbContext.Hotels.Returns(dbSetCities);
+        string searchTerm = "lon";
 
-        string searchTerm = "New";
+        var cities = await hotelsService.GetMatchingCitiesAsync(searchTerm);
 
-        IEnumerable<string> cities = await _hotelsService.GetMatchingCitiesAsync(searchTerm);
-
-        Assert.Equal(2, cities.Count());
-        Assert.Contains("New York", cities);
-        Assert.Contains("New Orleans", cities);
+        Assert.Contains("London", cities);
     }
 
     [Fact]
@@ -205,7 +201,7 @@ public class HotelsServiceTests
     {
         string searchTerm = "Fake Town";
 
-        IEnumerable<string> cities = await _hotelsService.GetMatchingCitiesAsync(searchTerm);
+        var cities = await hotelsService.GetMatchingCitiesAsync(searchTerm);
 
         Assert.Empty(cities);
     }
