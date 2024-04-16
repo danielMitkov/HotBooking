@@ -1,8 +1,10 @@
-﻿@model FormReviewViewModel
+﻿@model ReviewAddViewModel
 
 <div class="row d-flex align-items-end">
+
     <form method="post">
-        <input hidden asp-for="@Model.HotelId" />
+
+        <input hidden asp-for="@Model.HotelPublicId" />
 
         <div class="col-12 col-lg">
 
@@ -10,21 +12,18 @@
             <input asp-for="@Model.RatingScore" type="number" class="form-control">
             <span asp-validation-for="@Model.RatingScore" class="text-danger"></span>
         </div>
-
         <div class="col-12 col-sm-6 col-lg">
 
             <label asp-for="@Model.Title" class="form-label">Title of your review:</label>
             <input asp-for="@Model.Title" type="text" class="form-control" />
             <span asp-validation-for="@Model.Title" class="text-danger"></span>
         </div>
-
         <div class="col-12 col-sm-6 col-lg">
 
             <label asp-for="@Model.Comment" class="form-label">Your Review Comment:</label>
             <input asp-for="@Model.Comment" type="text" class="form-control" />
             <span asp-validation-for="@Model.Comment" class="text-danger"></span>
         </div>
-
         <div class="col-12 col-lg mt-4 mt-lg-0">
             <button class="btn btn-outline-secondary w-100" type="submit">Search</button>
         </div>
