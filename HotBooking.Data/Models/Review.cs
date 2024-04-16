@@ -34,8 +34,8 @@ public class Review : BaseEntity
     public Booking Booking { get; set; } = null!;
 
     [Required]
-    public int UserId { get; set; }
+    public int AuthorId { get; set; }
 
-    [ForeignKey(nameof(UserId))]
-    public ApplicationUser User { get; set; } = null!;
+    [ForeignKey(nameof(AuthorId))]
+    public ApplicationUser Author { get; set; } = null!;
 }
