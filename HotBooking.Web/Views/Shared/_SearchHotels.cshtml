@@ -4,41 +4,82 @@
 
     <div class="col-12 col-lg">
 
-        <label for="searchBar" class="form-label">Search City</label>
-        <input id="searchBar" asp-for="@Model.City" type="text" class="form-control" placeholder="Search">
-        <span asp-validation-for="@Model.City" class="text-danger"></span>
+        <label for="searchBar"
+               class="form-label">
+            Search City
+        </label>
+        <input id="searchBar"
+               asp-for="@Model.City"
+               type="text"
+               class="form-control"
+               placeholder="Search">
+        <span asp-validation-for="@Model.City"
+              class="text-danger">
+        </span>
     </div>
 
     <div class="col-12 col-sm-6 col-lg">
 
-        <label asp-for="@Model.CheckInDate" class="form-label">Check-in Date</label>
-        <input asp-for="@Model.CheckInDate" type="datetime-local" class="form-control" />
-        <span asp-validation-for="@Model.CheckInDate" class="text-danger"></span>
+        <label asp-for="@Model.CheckInDate"
+               class="form-label">
+            Check-in Date
+        </label>
+        <input asp-for="@Model.CheckInDate"
+               type="datetime-local"
+               class="form-control" />
+        <span asp-validation-for="@Model.CheckInDate"
+              class="text-danger">
+        </span>
     </div>
 
     <div class="col-12 col-sm-6 col-lg">
 
-        <label asp-for="@Model.CheckOutDate" class="form-label">Check-out Date</label>
-        <input asp-for="@Model.CheckOutDate" type="datetime-local" class="form-control" />
-        <span asp-validation-for="@Model.CheckOutDate" class="text-danger"></span>
+        <label asp-for="@Model.CheckOutDate"
+               class="form-label">
+            Check-out Date
+        </label>
+        <input asp-for="@Model.CheckOutDate"
+               type="datetime-local"
+               class="form-control" />
+        <span asp-validation-for="@Model.CheckOutDate"
+              class="text-danger">
+        </span>
     </div>
 
     <div class="col-12 col-sm-6 col-lg">
 
-        <label asp-for="@Model.AdultsCount" class="form-label">Adults Count</label>
-        <input asp-for="@Model.AdultsCount" type="number" class="form-control" />
-        <span asp-validation-for="@Model.AdultsCount" class="text-danger"></span>
+        <label asp-for="@Model.AdultsCount"
+               class="form-label">
+            Adults Count
+        </label>
+        <input asp-for="@Model.AdultsCount"
+               type="number"
+               class="form-control" />
+        <span asp-validation-for="@Model.AdultsCount"
+              class="text-danger">
+        </span>
     </div>
 
     <div class="col-12 col-sm-6 col-lg">
 
-        <label asp-for="@Model.RoomsCount" class="form-label">Rooms Count</label>
-        <input asp-for="@Model.RoomsCount" type="number" class="form-control" />
-        <span asp-validation-for="@Model.RoomsCount" class="text-danger"></span>
+        <label asp-for="@Model.RoomsCount"
+               class="form-label">
+            Rooms Count
+        </label>
+        <input asp-for="@Model.RoomsCount"
+               type="number"
+               class="form-control" />
+        <span asp-validation-for="@Model.RoomsCount"
+              class="text-danger">
+        </span>
     </div>
 
     <div class="col-12 col-lg mt-4 mt-lg-0">
-        <button class="btn btn-outline-secondary w-100" type="submit">Search</button>
+
+        <button class="btn btn-outline-secondary w-100"
+                type="submit">
+            Search
+        </button>
     </div>
 
 </div>
