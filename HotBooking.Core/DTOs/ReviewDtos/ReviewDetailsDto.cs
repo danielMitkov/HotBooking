@@ -1,7 +1,8 @@
 ﻿namespace HotBooking.Core.DTOs.ReviewDtos;
 
 public record ReviewDetailsDto(
-bool IsAuthor,
+bool IsMyReview,
+Guid PublicId,
 decimal Score,
 string Title,
 string Comment,
