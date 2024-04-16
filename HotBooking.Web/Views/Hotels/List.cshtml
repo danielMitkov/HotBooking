@@ -4,12 +4,17 @@
     ViewData["Title"] = "Explore Hotels";
 }
 
+@if (TempData["Error"] != null)
+{
+    <p class="alert-danger">@TempData["Error"]</p>
+}
+
 <form method="get" class="container-fluid mt-3">
 
-    <div asp-validation-summary="All"></div>
+    <div class="alert-danger" asp-validation-summary="All"></div>
 
     <div class="row">
-        <partial name="_SearchHotels" for="@Model.Search" />
+        <partial name="_SearchHotels" for="@Model.SearchModel" />
     </div>
 
     @if (Model.Hotels.Any())
@@ -96,8 +101,6 @@
                                     <p class="text-end">@(Math.Round(hotel.AverageRating, 2))/10</p>
                                     <p class="text-end">@hotel.ReviewsCount reviews</p>
                                 </div>
-
-                                @* <input hidden name="publidId" value="@hotel.PublicId" /> *@
 
                                 <button type="submit"
                                         asp-action="@nameof(HotelsController.Details)"
