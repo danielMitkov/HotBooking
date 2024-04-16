@@ -1,15 +1,13 @@
 ﻿using HotBooking.Core.DTOs.FacilityDtos;
 using HotBooking.Core.DTOs.HotelDtos;
 using HotBooking.Core.Enums;
-using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotBooking.Web.Models.HotelViewModels;
 
 public class BrowseHotelsViewModel
 {
-    [Required]
-    public SearchHotelsViewModel Search { get; set; } = null!;
+    public SearchHotelsViewModel? SearchModel { get; set; }
 
     [Required]
     [EnumDataType(typeof(HotelSorting))]
