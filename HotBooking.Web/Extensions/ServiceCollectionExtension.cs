@@ -2,6 +2,8 @@
 using HotBooking.Core.Services;
 using HotBooking.Data;
 using HotBooking.Data.Models;
+using HotBooking.Web.Constants;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotBooking.Web.Extensions;
@@ -12,6 +14,7 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<IHotelsService, HotelsService>();
         services.AddScoped<IReviewService, ReviewService>();
+        services.AddScoped<IBookingService, BookingService>();
 
         return services;
     }
@@ -40,8 +43,31 @@ public static class ServiceCollectionExtension
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             })
+            .AddRoles<IdentityRole<int>>()
             .AddEntityFrameworkStores<HotBookingDbContext>();
 
         return services;
+    }
+
+    public static async Task CreateAdminRoleAsync(this IApplicationBuilder app)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+
+        if (userManager != null && roleManager != null && await roleManager
+            .RoleExistsAsync(AdminConstants.AdminRoleName) == false)
+        {
+            var role = new IdentityRole<int>(AdminConstants.AdminRoleName);
+            await roleManager.CreateAsync(role);
+
+            var admin = await userManager.FindByEmailAsync("guest@mail.com");
+
+            if (admin != null)
+            {
+                await userManager.AddToRoleAsync(admin, role.Name);
+            }
+        }
+
     }
 }
