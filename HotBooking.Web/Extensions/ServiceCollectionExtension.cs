@@ -4,7 +4,7 @@ using HotBooking.Data;
 using HotBooking.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace HotBooking.Web.Extensions;
 
 public static class ServiceCollectionExtension
 {
