@@ -1,0 +1,48 @@
+﻿@model List<BookingListViewModel>
+
+@foreach (var booking in Model)
+{
+
+    <div class="row border border-1 border-secondary rounded-3 mb-4">
+        <div class="col-12 col-md-4 p-0">
+            <img class="img-fluid rounded-3" src="@booking.RoomImageUrl" alt="no">
+        </div>
+        <div class="col-12 col-md-4 p-4">
+            <h3>@booking.HotelName</h3>
+            <p class="text-primary">@(booking.HotelLocation)</p>
+            <p>Adults Count: @booking.AdultsCount</p>
+            <p>Room: @booking.RoomTitle</p>
+            <p>Check In Date: @booking.CheckIn</p>
+            <p>Check Out Date: @booking.CheckOut</p>
+
+        </div>
+        <div class="col-12 col-md-4 p-4 d-flex flex-column justify-content-between">
+            @*             <div>
+        <p class="text-end">@(Math.Round(booking.AverageRating, 2))/10</p>
+        <p class="text-end">@booking.ReviewsCount reviews</p>
+        </div> *@
+
+            @if (booking.Status == BookingStatus.Upcoming)
+            {
+                <h3>Booking Status: <span>Upcoming</span></h3>
+
+                <a asp-controller="@BookingController.Name"
+                   asp-action="@nameof(BookingController.Cancel)"
+                   asp-route-id="@booking.BookingPublicId">
+                    Cancel Booking
+                </a>
+            }
+
+            @if (booking.Status == BookingStatus.Past)
+            {
+                <h3>Booking Status: <span>Past</span></h3>
+            }
+
+            @if (booking.Status == BookingStatus.Current)
+            {
+                <h3>Booking Status: <span>Current</span></h3>
+            }
+
+        </div>
+    </div>
+}
