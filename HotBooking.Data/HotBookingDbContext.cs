@@ -40,7 +40,7 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
 
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
-            if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
+            if (typeof(IActive).IsAssignableFrom(entityType.ClrType))
             {
                 modelBuilder.Entity(entityType.ClrType)
                     .HasIndex(nameof(BaseEntity.PublicId))
