@@ -161,7 +161,7 @@ public class ReviewService : IReviewService
     private async Task<Booking?> GetLastUserBookingForHotel(int userId, Guid hotelId)
     {
         bool isUserFound = await dbContext.Users
-            .Where(u => u.IsDeleted == false)
+            .Where(u => u.IsActive)
             .AnyAsync(u => u.Id == userId);
 
         if (isUserFound == false)
@@ -209,7 +209,7 @@ public class ReviewService : IReviewService
     private async Task ValidateUserExists(int userId)
     {
         bool isUserFound = await dbContext.Users
-            .Where(u => u.IsDeleted == false)
+            .Where(u => u.IsActive)
             .Where(u => u.Id == userId)
             .Select(u => true)
             .SingleOrDefaultAsync();
