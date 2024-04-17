@@ -1,14 +1,10 @@
-﻿using HotBooking.Data.Interfaces;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotBooking.Data.Models;
 
-public class ApplicationUser : IdentityUser<int>, IPublicId
+public class ApplicationUser : IdentityUser<int>
 {
-    [Required]
-    public Guid PublicId { get; set; }
-
     [Required]
     public bool IsActive { get; set; } = true;
 

@@ -11,12 +11,12 @@ namespace HotBooking.Data.Migrations
         {
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "IsDeleted", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "IsActive", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "1355be4d-cf39-4890-a52d-9f71f81edc8c", "guest@mail.com", false, false, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEKGqtdUJgKGOcWeqDvean/6AIzROXm+3bAU8Il15YqEM+NTwuukU06C+yLLjlcIppA==", null, false, "db8f4118-4cc2-46dc-a5aa-f2a8c76c283e", false, "guest@mail.com" },
-                    { 2, 0, "6492eedf-dc19-4c73-83a2-8b0b19c56ffa", "two@mail.com", false, false, false, null, "two@mail.com", "two@mail.com", "AQAAAAEAACcQAAAAECmflVv+mk0ZBNxK33+Ckhi1R5pMhhX91nv3ZExpaeV9YO42flVKjIHymGFkUw9htA==", null, false, "35cc41e6-30eb-4131-a3e5-214c628a45bc", false, "two@mail.com" },
-                    { 3, 0, "5dffdb66-294c-4ecb-a4e1-939c86c3602a", "manager@mail.com", false, false, false, null, "manager@mail.com", "manager@mail.com", "AQAAAAEAACcQAAAAEAZ3HNtswNE2mjL6GhIzEgHT3avb2fAPBgBB/OZmUNWAJLH0WsHSmr8JEpV11WL+6g==", null, false, "68c75553-2311-4508-8f97-57b35c275756", false, "manager@mail.com" }
+                    { 1, 0, "1355be4d-cf39-4890-a52d-9f71f81edc8c", "guest@mail.com", false, true, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEHticq8a4vOV8oBRr6c2cC2vMjvaI7ulMFJfmkYzn/9/Wm4xKwN1IWet+0vHmRcJwA==", null, false, "db8f4118-4cc2-46dc-a5aa-f2a8c76c283e", false, "guest@mail.com" },
+                    { 2, 0, "6492eedf-dc19-4c73-83a2-8b0b19c56ffa", "two@mail.com", false, true, false, null, "two@mail.com", "two@mail.com", "AQAAAAEAACcQAAAAELTayfeVL488an1cbZCYCAEbGE4YMQYvtMs8bZkANgOSin4LV78eEEoJLCIcrasqwA==", null, false, "35cc41e6-30eb-4131-a3e5-214c628a45bc", false, "two@mail.com" },
+                    { 3, 0, "5dffdb66-294c-4ecb-a4e1-939c86c3602a", "manager@mail.com", false, true, false, null, "manager@mail.com", "manager@mail.com", "AQAAAAEAACcQAAAAEE4Cq5zQUk3Wspeg5laiOFxEEMLaa/GbgYQjl3deRyNIWIHa782E1wZy+hrkUBs8qA==", null, false, "68c75553-2311-4508-8f97-57b35c275756", false, "manager@mail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -45,24 +45,14 @@ namespace HotBooking.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Managers",
-                columns: new[] { "Id", "IsActive", "PhoneNumber", "PublicId", "UserId" },
-                values: new object[] { 1, true, "08812345678", new Guid("9703786e-5824-4950-b62a-75efa7090d6d"), 3 });
-
-            migrationBuilder.InsertData(
                 table: "Hotels",
-                columns: new[] { "Id", "CityName", "CountryName", "Description", "HotelName", "IsActive", "ManagerId", "PublicId", "StarRating", "StreetAddress" },
-                values: new object[] { 1, "London", "United Kingdom", "Less than a 5-minute walk from London Paddington Station and Hyde Park, this boutique hotel offers elegant rooms with free internet and satellite TV.", "The Chilworth London Paddington", true, 1, new Guid("fe10a78f-423b-4e19-8c79-88cef52c46bd"), 5, "Westminster Borough" });
-
-            migrationBuilder.InsertData(
-                table: "Hotels",
-                columns: new[] { "Id", "CityName", "CountryName", "Description", "HotelName", "IsActive", "ManagerId", "PublicId", "StarRating", "StreetAddress" },
-                values: new object[] { 2, "Bansko", "Bulgaria", "Get your trip off to a great start with a stay at this property, which offers free Wi-Fi in all rooms. Conveniently situated in the Bansko part of Bansko, this property puts you close to attractions and interesting dining options. Rated with 5 stars, this high-quality property provides guests with access to massage, restaurant and hot tub on-site.", "Kempinski Hotel Grand Arena Bansko", true, 1, new Guid("e8efdf7b-5e4c-48ff-8417-ff57968f8cb8"), 4, "#96 Pirin Street" });
-
-            migrationBuilder.InsertData(
-                table: "Hotels",
-                columns: new[] { "Id", "CityName", "CountryName", "Description", "HotelName", "IsActive", "ManagerId", "PublicId", "StarRating", "StreetAddress" },
-                values: new object[] { 3, "London", "United Kingdom", "Welcoming guests since 1909, the Strand Palace Hotel is located in London’s West End within just 2297 feet of the Adelphi and the Vaudeville theaters.", "Strand Palace Hotel", true, 1, new Guid("653faa7e-e19b-4430-94e7-555616cba66e"), 4, "Westminster Borough" });
+                columns: new[] { "Id", "CityName", "CountryName", "Description", "HotelName", "IsActive", "PublicId", "StarRating", "StreetAddress" },
+                values: new object[,]
+                {
+                    { 1, "London", "United Kingdom", "Less than a 5-minute walk from London Paddington Station and Hyde Park, this boutique hotel offers elegant rooms with free internet and satellite TV.", "The Chilworth London Paddington", true, new Guid("fe10a78f-423b-4e19-8c79-88cef52c46bd"), 5, "Westminster Borough" },
+                    { 2, "Bansko", "Bulgaria", "Get your trip off to a great start with a stay at this property, which offers free Wi-Fi in all rooms. Conveniently situated in the Bansko part of Bansko, this property puts you close to attractions and interesting dining options. Rated with 5 stars, this high-quality property provides guests with access to massage, restaurant and hot tub on-site.", "Kempinski Hotel Grand Arena Bansko", true, new Guid("e8efdf7b-5e4c-48ff-8417-ff57968f8cb8"), 4, "#96 Pirin Street" },
+                    { 3, "London", "United Kingdom", "Welcoming guests since 1909, the Strand Palace Hotel is located in London’s West End within just 2297 feet of the Adelphi and the Vaudeville theaters.", "Strand Palace Hotel", true, new Guid("653faa7e-e19b-4430-94e7-555616cba66e"), 4, "Westminster Borough" }
+                });
 
             migrationBuilder.InsertData(
                 table: "HotelImageUrls",
@@ -142,18 +132,18 @@ namespace HotBooking.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Reviews",
-                columns: new[] { "Id", "AuthorId", "BookingId", "Comment", "HotelId", "PublicId", "RatingScore", "ReviewedOn", "Title" },
-                values: new object[] { 1, 1, 1, "Overall, my stay was satisfactory.", 1, new Guid("2ed88941-af52-4449-9e2f-8e554ebe83ea"), 7m, new DateTime(2023, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "Solid Stay, Room for Improvement" });
+                columns: new[] { "Id", "AuthorId", "BookingId", "Comment", "HotelId", "IsActive", "PublicId", "RatingScore", "ReviewedOn", "Title" },
+                values: new object[] { 1, 1, 1, "Overall, my stay was satisfactory.", 1, true, new Guid("2ed88941-af52-4449-9e2f-8e554ebe83ea"), 7m, new DateTime(2023, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "Solid Stay, Room for Improvement" });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
-                columns: new[] { "Id", "AuthorId", "BookingId", "Comment", "HotelId", "PublicId", "RatingScore", "ReviewedOn", "Title" },
-                values: new object[] { 2, 2, 4, "My recent stay was nothing short of exceptional.", 2, new Guid("9b76e5a5-fdec-40e8-9208-116f78957656"), 10m, new DateTime(2023, 7, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), "A Stay to Remember" });
+                columns: new[] { "Id", "AuthorId", "BookingId", "Comment", "HotelId", "IsActive", "PublicId", "RatingScore", "ReviewedOn", "Title" },
+                values: new object[] { 2, 2, 4, "My recent stay was nothing short of exceptional.", 2, true, new Guid("9b76e5a5-fdec-40e8-9208-116f78957656"), 10m, new DateTime(2023, 7, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), "A Stay to Remember" });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
-                columns: new[] { "Id", "AuthorId", "BookingId", "Comment", "HotelId", "PublicId", "RatingScore", "ReviewedOn", "Title" },
-                values: new object[] { 3, 3, 7, "Great room and service overall!", 3, new Guid("b0d6f424-371e-49af-b48e-cb8706c9c65c"), 6.5m, new DateTime(2023, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "Satisfactory" });
+                columns: new[] { "Id", "AuthorId", "BookingId", "Comment", "HotelId", "IsActive", "PublicId", "RatingScore", "ReviewedOn", "Title" },
+                values: new object[] { 3, 3, 7, "Great room and service overall!", 3, true, new Guid("b0d6f424-371e-49af-b48e-cb8706c9c65c"), 6.5m, new DateTime(2023, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "Satisfactory" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -394,6 +384,11 @@ namespace HotBooking.Data.Migrations
                 keyValue: 2);
 
             migrationBuilder.DeleteData(
+                table: "AspNetUsers",
+                keyColumn: "Id",
+                keyValue: 3);
+
+            migrationBuilder.DeleteData(
                 table: "Rooms",
                 keyColumn: "Id",
                 keyValue: 1);
@@ -420,16 +415,6 @@ namespace HotBooking.Data.Migrations
 
             migrationBuilder.DeleteData(
                 table: "Hotels",
-                keyColumn: "Id",
-                keyValue: 3);
-
-            migrationBuilder.DeleteData(
-                table: "Managers",
-                keyColumn: "Id",
-                keyValue: 1);
-
-            migrationBuilder.DeleteData(
-                table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: 3);
         }

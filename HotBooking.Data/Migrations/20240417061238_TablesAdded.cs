@@ -30,7 +30,7 @@ namespace HotBooking.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -57,10 +57,10 @@ namespace HotBooking.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    SvgTag = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
                     PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    SvgTag = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,14 +73,34 @@ namespace HotBooking.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    SvgTag = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
                     PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    SvgTag = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Features", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Hotels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    HotelName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    StreetAddress = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CityName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CountryName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    StarRating = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hotels", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -190,64 +210,15 @@ namespace HotBooking.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Managers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Managers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Managers_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Hotels",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    HotelName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    StreetAddress = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CityName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CountryName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    StarRating = table.Column<int>(type: "int", nullable: false),
-                    ManagerId = table.Column<int>(type: "int", nullable: false),
-                    PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Hotels", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Hotels_Managers_ManagerId",
-                        column: x => x.ManagerId,
-                        principalTable: "Managers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "HotelImageUrls",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Url = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: false),
-                    HotelId = table.Column<int>(type: "int", nullable: false),
                     PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: false),
+                    HotelId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -290,14 +261,14 @@ namespace HotBooking.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     BedsCount = table.Column<int>(type: "int", nullable: false),
                     RoomSizeSquareMeters = table.Column<int>(type: "int", nullable: false),
                     PricePerNight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    HotelId = table.Column<int>(type: "int", nullable: false),
-                    PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    HotelId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -316,14 +287,14 @@ namespace HotBooking.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CheckIn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CheckOut = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AdultsCount = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
-                    HotelId = table.Column<int>(type: "int", nullable: false),
-                    PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    HotelId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -354,10 +325,10 @@ namespace HotBooking.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Url = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: false),
-                    RoomId = table.Column<int>(type: "int", nullable: false),
                     PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: false),
+                    RoomId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -401,6 +372,7 @@ namespace HotBooking.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     RatingScore = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
@@ -516,11 +488,6 @@ namespace HotBooking.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hotels_ManagerId",
-                table: "Hotels",
-                column: "ManagerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Hotels_PublicId",
                 table: "Hotels",
                 column: "PublicId",
@@ -530,17 +497,6 @@ namespace HotBooking.Data.Migrations
                 name: "IX_HotelsFacilities_FacilityId",
                 table: "HotelsFacilities",
                 column: "FacilityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Managers_PublicId",
-                table: "Managers",
-                column: "PublicId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Managers_UserId",
-                table: "Managers",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_AuthorId",
@@ -637,16 +593,13 @@ namespace HotBooking.Data.Migrations
                 name: "Features");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Rooms");
 
             migrationBuilder.DropTable(
                 name: "Hotels");
-
-            migrationBuilder.DropTable(
-                name: "Managers");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }

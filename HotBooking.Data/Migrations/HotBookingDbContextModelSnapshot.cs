@@ -44,7 +44,7 @@ namespace HotBooking.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -100,11 +100,11 @@ namespace HotBooking.Data.Migrations
                             ConcurrencyStamp = "1355be4d-cf39-4890-a52d-9f71f81edc8c",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
-                            IsDeleted = false,
+                            IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKGqtdUJgKGOcWeqDvean/6AIzROXm+3bAU8Il15YqEM+NTwuukU06C+yLLjlcIppA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHticq8a4vOV8oBRr6c2cC2vMjvaI7ulMFJfmkYzn/9/Wm4xKwN1IWet+0vHmRcJwA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "db8f4118-4cc2-46dc-a5aa-f2a8c76c283e",
                             TwoFactorEnabled = false,
@@ -117,11 +117,11 @@ namespace HotBooking.Data.Migrations
                             ConcurrencyStamp = "6492eedf-dc19-4c73-83a2-8b0b19c56ffa",
                             Email = "two@mail.com",
                             EmailConfirmed = false,
-                            IsDeleted = false,
+                            IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "two@mail.com",
                             NormalizedUserName = "two@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAECmflVv+mk0ZBNxK33+Ckhi1R5pMhhX91nv3ZExpaeV9YO42flVKjIHymGFkUw9htA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELTayfeVL488an1cbZCYCAEbGE4YMQYvtMs8bZkANgOSin4LV78eEEoJLCIcrasqwA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "35cc41e6-30eb-4131-a3e5-214c628a45bc",
                             TwoFactorEnabled = false,
@@ -134,11 +134,11 @@ namespace HotBooking.Data.Migrations
                             ConcurrencyStamp = "5dffdb66-294c-4ecb-a4e1-939c86c3602a",
                             Email = "manager@mail.com",
                             EmailConfirmed = false,
-                            IsDeleted = false,
+                            IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "manager@mail.com",
                             NormalizedUserName = "manager@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAZ3HNtswNE2mjL6GhIzEgHT3avb2fAPBgBB/OZmUNWAJLH0WsHSmr8JEpV11WL+6g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE4Cq5zQUk3Wspeg5laiOFxEEMLaa/GbgYQjl3deRyNIWIHa782E1wZy+hrkUBs8qA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "68c75553-2311-4508-8f97-57b35c275756",
                             TwoFactorEnabled = false,
@@ -465,9 +465,6 @@ namespace HotBooking.Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ManagerId")
-                        .HasColumnType("int");
-
                     b.Property<Guid>("PublicId")
                         .HasColumnType("uniqueidentifier");
 
@@ -480,8 +477,6 @@ namespace HotBooking.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ManagerId");
 
                     b.HasIndex("PublicId")
                         .IsUnique();
@@ -497,7 +492,6 @@ namespace HotBooking.Data.Migrations
                             Description = "Less than a 5-minute walk from London Paddington Station and Hyde Park, this boutique hotel offers elegant rooms with free internet and satellite TV.",
                             HotelName = "The Chilworth London Paddington",
                             IsActive = true,
-                            ManagerId = 1,
                             PublicId = new Guid("fe10a78f-423b-4e19-8c79-88cef52c46bd"),
                             StarRating = 5,
                             StreetAddress = "Westminster Borough"
@@ -510,7 +504,6 @@ namespace HotBooking.Data.Migrations
                             Description = "Get your trip off to a great start with a stay at this property, which offers free Wi-Fi in all rooms. Conveniently situated in the Bansko part of Bansko, this property puts you close to attractions and interesting dining options. Rated with 5 stars, this high-quality property provides guests with access to massage, restaurant and hot tub on-site.",
                             HotelName = "Kempinski Hotel Grand Arena Bansko",
                             IsActive = true,
-                            ManagerId = 1,
                             PublicId = new Guid("e8efdf7b-5e4c-48ff-8417-ff57968f8cb8"),
                             StarRating = 4,
                             StreetAddress = "#96 Pirin Street"
@@ -523,7 +516,6 @@ namespace HotBooking.Data.Migrations
                             Description = "Welcoming guests since 1909, the Strand Palace Hotel is located in London’s West End within just 2297 feet of the Adelphi and the Vaudeville theaters.",
                             HotelName = "Strand Palace Hotel",
                             IsActive = true,
-                            ManagerId = 1,
                             PublicId = new Guid("653faa7e-e19b-4430-94e7-555616cba66e"),
                             StarRating = 4,
                             StreetAddress = "Westminster Borough"
@@ -658,48 +650,6 @@ namespace HotBooking.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("HotBooking.Data.Models.Manager", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PublicId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Managers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsActive = true,
-                            PhoneNumber = "08812345678",
-                            PublicId = new Guid("9703786e-5824-4950-b62a-75efa7090d6d"),
-                            UserId = 3
-                        });
-                });
-
             modelBuilder.Entity("HotBooking.Data.Models.Review", b =>
                 {
                     b.Property<int>("Id")
@@ -721,6 +671,9 @@ namespace HotBooking.Data.Migrations
 
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("PublicId")
                         .HasColumnType("uniqueidentifier");
@@ -758,6 +711,7 @@ namespace HotBooking.Data.Migrations
                             BookingId = 1,
                             Comment = "Overall, my stay was satisfactory.",
                             HotelId = 1,
+                            IsActive = true,
                             PublicId = new Guid("2ed88941-af52-4449-9e2f-8e554ebe83ea"),
                             RatingScore = 7m,
                             ReviewedOn = new DateTime(2023, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -770,6 +724,7 @@ namespace HotBooking.Data.Migrations
                             BookingId = 4,
                             Comment = "My recent stay was nothing short of exceptional.",
                             HotelId = 2,
+                            IsActive = true,
                             PublicId = new Guid("9b76e5a5-fdec-40e8-9208-116f78957656"),
                             RatingScore = 10m,
                             ReviewedOn = new DateTime(2023, 7, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -782,6 +737,7 @@ namespace HotBooking.Data.Migrations
                             BookingId = 7,
                             Comment = "Great room and service overall!",
                             HotelId = 3,
+                            IsActive = true,
                             PublicId = new Guid("b0d6f424-371e-49af-b48e-cb8706c9c65c"),
                             RatingScore = 6.5m,
                             ReviewedOn = new DateTime(2023, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -1176,17 +1132,6 @@ namespace HotBooking.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("HotBooking.Data.Models.Hotel", b =>
-                {
-                    b.HasOne("HotBooking.Data.Models.Manager", "Manager")
-                        .WithMany("Hotels")
-                        .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Manager");
-                });
-
             modelBuilder.Entity("HotBooking.Data.Models.HotelFacility", b =>
                 {
                     b.HasOne("HotBooking.Data.Models.Facility", "Facility")
@@ -1215,17 +1160,6 @@ namespace HotBooking.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Hotel");
-                });
-
-            modelBuilder.Entity("HotBooking.Data.Models.Manager", b =>
-                {
-                    b.HasOne("HotBooking.Data.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Review", b =>
@@ -1380,11 +1314,6 @@ namespace HotBooking.Data.Migrations
                     b.Navigation("Reviews");
 
                     b.Navigation("Rooms");
-                });
-
-            modelBuilder.Entity("HotBooking.Data.Models.Manager", b =>
-                {
-                    b.Navigation("Hotels");
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Room", b =>

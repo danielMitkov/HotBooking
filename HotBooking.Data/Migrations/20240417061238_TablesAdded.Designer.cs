@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotBooking.Data.Migrations
 {
     [DbContext(typeof(HotBookingDbContext))]
-    [Migration("20240417005524_TablesAdded")]
+    [Migration("20240417061238_TablesAdded")]
     partial class TablesAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,7 +46,7 @@ namespace HotBooking.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -236,9 +236,6 @@ namespace HotBooking.Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ManagerId")
-                        .HasColumnType("int");
-
                     b.Property<Guid>("PublicId")
                         .HasColumnType("uniqueidentifier");
 
@@ -251,8 +248,6 @@ namespace HotBooking.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ManagerId");
 
                     b.HasIndex("PublicId")
                         .IsUnique();
@@ -307,38 +302,6 @@ namespace HotBooking.Data.Migrations
                     b.ToTable("HotelImageUrls");
                 });
 
-            modelBuilder.Entity("HotBooking.Data.Models.Manager", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PublicId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Managers");
-                });
-
             modelBuilder.Entity("HotBooking.Data.Models.Review", b =>
                 {
                     b.Property<int>("Id")
@@ -360,6 +323,9 @@ namespace HotBooking.Data.Migrations
 
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("PublicId")
                         .HasColumnType("uniqueidentifier");
@@ -647,17 +613,6 @@ namespace HotBooking.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("HotBooking.Data.Models.Hotel", b =>
-                {
-                    b.HasOne("HotBooking.Data.Models.Manager", "Manager")
-                        .WithMany("Hotels")
-                        .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Manager");
-                });
-
             modelBuilder.Entity("HotBooking.Data.Models.HotelFacility", b =>
                 {
                     b.HasOne("HotBooking.Data.Models.Facility", "Facility")
@@ -686,17 +641,6 @@ namespace HotBooking.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Hotel");
-                });
-
-            modelBuilder.Entity("HotBooking.Data.Models.Manager", b =>
-                {
-                    b.HasOne("HotBooking.Data.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Review", b =>
@@ -851,11 +795,6 @@ namespace HotBooking.Data.Migrations
                     b.Navigation("Reviews");
 
                     b.Navigation("Rooms");
-                });
-
-            modelBuilder.Entity("HotBooking.Data.Models.Manager", b =>
-                {
-                    b.Navigation("Hotels");
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Room", b =>
