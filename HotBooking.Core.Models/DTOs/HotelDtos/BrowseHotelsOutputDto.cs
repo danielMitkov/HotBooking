@@ -1,6 +1,6 @@
-﻿using HotBooking.Core.DTOs.FacilityDtos;
+﻿using HotBooking.Core.Models.DTOs.FacilityDtos;
 
-namespace HotBooking.Core.DTOs.HotelDtos;
+namespace HotBooking.Core.Models.DTOs.HotelDtos;
 
 public record BrowseHotelsOutputDto(
 IEnumerable<HotelPreviewDto> SelectedHotels,

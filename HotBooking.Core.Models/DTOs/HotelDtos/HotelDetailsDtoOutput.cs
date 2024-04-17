@@ -1,7 +1,7 @@
-﻿using HotBooking.Core.DTOs.FacilityDtos;
-using HotBooking.Core.DTOs.RoomDtos;
+﻿using HotBooking.Core.Models.DTOs.FacilityDtos;
+using HotBooking.Core.Models.DTOs.RoomDtos;
 
-namespace HotBooking.Core.DTOs.HotelDtos;
+namespace HotBooking.Core.Models.DTOs.HotelDtos;
 
 public record HotelDetailsDtoOutput(
 string Name,

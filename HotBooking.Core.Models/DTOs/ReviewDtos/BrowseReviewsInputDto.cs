@@ -1,4 +1,4 @@
-﻿namespace HotBooking.Core.DTOs.ReviewDtos;
+﻿namespace HotBooking.Core.Models.DTOs.ReviewDtos;
 
 public record BrowseReviewsInputDto(
 int UserId,

@@ -1,6 +1,6 @@
-﻿using HotBooking.Core.Enums;
+﻿using HotBooking.Core.Models.Enums;
 
-namespace HotBooking.Core.DTOs.HotelDtos;
+namespace HotBooking.Core.Models.DTOs.HotelDtos;
 
 public record BrowseHotelsInputDto(
 int CurrentPage,

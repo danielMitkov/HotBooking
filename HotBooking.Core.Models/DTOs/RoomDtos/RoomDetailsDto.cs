@@ -1,4 +1,4 @@
-﻿namespace HotBooking.Core.DTOs.RoomDtos;
+﻿namespace HotBooking.Core.Models.DTOs.RoomDtos;
 
 public record RoomDetailsDto(
 Guid PublicId,
