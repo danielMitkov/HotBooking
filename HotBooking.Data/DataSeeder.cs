@@ -30,20 +30,6 @@ public class DataSeeder
         SeedRoomImageUrls();
         SeedBookings();
         SeedReviews();
-
-        if (fillObjectReferences)
-        {
-            SetReferencesApplicationUsers();
-            SetReferencesFacilities();
-            SetReferencesHotelFacilities();
-            SetReferencesHotelImageUrls();
-            SetReferencesRooms();
-            SetReferencesFeatures();
-            SetReferencesRoomFeatures();
-            SetReferencesRoomImageUrls();
-            SetReferencesBookings();
-            SetReferencesReviews();
-        }
     }
 
     public ApplicationUser User_Normal { get; set; } = null!;
@@ -92,17 +78,6 @@ public class DataSeeder
         };
         User_TobeManager.PasswordHash = hasher.HashPassword(User_TobeManager, "managerpass");
         Users.Add(User_TobeManager);
-    }
-    private void SetReferencesApplicationUsers()
-    {
-        User_Normal.Bookings = Bookings.Where(b => b.UserId == User_Normal.Id).ToList();
-        User_Normal.Reviews = Reviews.Where(r => r.AuthorId == User_Normal.Id).ToList();
-
-        User_Second.Bookings = Bookings.Where(b => b.UserId == User_Second.Id).ToList();
-        User_Second.Reviews = Reviews.Where(r => r.AuthorId == User_Second.Id).ToList();
-
-        User_TobeManager.Bookings = Bookings.Where(b => b.UserId == User_TobeManager.Id).ToList();
-        User_TobeManager.Reviews = Reviews.Where(r => r.AuthorId == User_TobeManager.Id).ToList();
     }
 
     public Hotel Hotel_ChilworthLondonPaddington { get; set; } = null!;
@@ -202,18 +177,6 @@ public class DataSeeder
         };
         Facilities.Add(Facility_Fitness);
     }
-    private void SetReferencesFacilities()
-    {
-        Facility_Spa.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Spa.Id).ToList();
-
-        Facility_Parking.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Parking.Id).ToList();
-
-        Facility_WiFi.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_WiFi.Id).ToList();
-
-        Facility_Restaurant.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Restaurant.Id).ToList();
-
-        Facility_Fitness.HotelsFacilities = HotelFacilities.Where(hf => hf.FacilityId == Facility_Fitness.Id).ToList();
-    }
 
     public HotelFacility HotelFacility_ChilworthLondonPaddington_WiFi { get; set; } = null!;
     public HotelFacility HotelFacility_ChilworthLondonPaddington_Parking { get; set; } = null!;
@@ -289,35 +252,6 @@ public class DataSeeder
         };
         HotelFacilities.Add(HotelFacility_StrandPalace_Parking);
     }
-    private void SetReferencesHotelFacilities()
-    {
-        HotelFacility_ChilworthLondonPaddington_WiFi.Hotel = Hotel_ChilworthLondonPaddington;
-        HotelFacility_ChilworthLondonPaddington_WiFi.Facility = Facility_WiFi;
-
-        HotelFacility_ChilworthLondonPaddington_Parking.Hotel = Hotel_ChilworthLondonPaddington;
-        HotelFacility_ChilworthLondonPaddington_Parking.Facility = Facility_Parking;
-
-        HotelFacility_ChilworthLondonPaddington_Spa.Hotel = Hotel_ChilworthLondonPaddington;
-        HotelFacility_ChilworthLondonPaddington_Spa.Facility = Facility_Spa;
-
-        HotelFacility_ChilworthLondonPaddington_Fitness.Hotel = Hotel_ChilworthLondonPaddington;
-        HotelFacility_ChilworthLondonPaddington_Fitness.Facility = Facility_Fitness;
-        //
-        HotelFacility_KempinskiHotelGrandArena_WiFi.Hotel = Hotel_KempinskiHotelGrandArena;
-        HotelFacility_KempinskiHotelGrandArena_WiFi.Facility = Facility_WiFi;
-
-        HotelFacility_KempinskiHotelGrandArena_Parking.Hotel = Hotel_KempinskiHotelGrandArena;
-        HotelFacility_KempinskiHotelGrandArena_Parking.Facility = Facility_Parking;
-
-        HotelFacility_KempinskiHotelGrandArena_Restaurant.Hotel = Hotel_KempinskiHotelGrandArena;
-        HotelFacility_KempinskiHotelGrandArena_Restaurant.Facility = Facility_Restaurant;
-        //
-        HotelFacility_StrandPalace_WiFi.Hotel = Hotel_StrandPalace;
-        HotelFacility_StrandPalace_WiFi.Facility = Facility_WiFi;
-
-        HotelFacility_StrandPalace_Parking.Hotel = Hotel_StrandPalace;
-        HotelFacility_StrandPalace_Parking.Facility = Facility_Parking;
-    }
 
     public HotelImageUrl HotelImageUrl_ThreeWhiteHouses { get; set; } = null!;
     public HotelImageUrl HotelImageUrl_NightLights { get; set; } = null!;
@@ -362,16 +296,6 @@ public class DataSeeder
             HotelId = Hotel_StrandPalace.Id
         };
         HotelImageUrls.Add(HotelImageUrl_OldCentral);
-    }
-    private void SetReferencesHotelImageUrls()
-    {
-        HotelImageUrl_ThreeWhiteHouses.Hotel = Hotel_ChilworthLondonPaddington;
-
-        HotelImageUrl_NightLights.Hotel = Hotel_ChilworthLondonPaddington;
-
-        HotelImageUrl_MultiHotels.Hotel = Hotel_KempinskiHotelGrandArena;
-
-        HotelImageUrl_OldCentral.Hotel = Hotel_StrandPalace;
     }
 
     public Room Room_ChilworthLondonPaddington_CozyRetreat { get; set; } = null!;
@@ -462,50 +386,6 @@ public class DataSeeder
         };
         Rooms.Add(Room_StrandPalace_LuxurySuite);
     }
-    private void SetReferencesRooms()
-    {
-        Room_ChilworthLondonPaddington_CozyRetreat.Hotel = Hotel_ChilworthLondonPaddington;
-        Room_ChilworthLondonPaddington_CozyRetreat.Bookings = Bookings
-            .Where(b => b.RoomId == Room_ChilworthLondonPaddington_CozyRetreat.Id).ToList();
-        //RoomFeatures
-        Room_ChilworthLondonPaddington_CozyRetreat.RoomImages = RoomImageUrls
-            .Where(i => i.RoomId == Room_ChilworthLondonPaddington_CozyRetreat.Id).ToList();
-
-        Room_ChilworthLondonPaddington_ExecutiveSuite.Hotel = Hotel_ChilworthLondonPaddington;
-        Room_ChilworthLondonPaddington_ExecutiveSuite.Bookings = Bookings
-            .Where(b => b.RoomId == Room_ChilworthLondonPaddington_ExecutiveSuite.Id).ToList();
-        //RoomFeatures
-        Room_ChilworthLondonPaddington_ExecutiveSuite.RoomImages = RoomImageUrls
-            .Where(i => i.RoomId == Room_ChilworthLondonPaddington_ExecutiveSuite.Id).ToList();
-
-        Room_KempinskiHotelGrandArena_FamilyGetaway.Hotel = Hotel_KempinskiHotelGrandArena;
-        Room_KempinskiHotelGrandArena_FamilyGetaway.Bookings = Bookings
-            .Where(b => b.RoomId == Room_KempinskiHotelGrandArena_FamilyGetaway.Id).ToList();
-        //RoomFeatures
-        Room_KempinskiHotelGrandArena_FamilyGetaway.RoomImages = RoomImageUrls
-            .Where(i => i.RoomId == Room_KempinskiHotelGrandArena_FamilyGetaway.Id).ToList();
-
-        Room_KempinskiHotelGrandArena_OceanViewParadise.Hotel = Hotel_KempinskiHotelGrandArena;
-        Room_KempinskiHotelGrandArena_OceanViewParadise.Bookings = Bookings
-            .Where(b => b.RoomId == Room_KempinskiHotelGrandArena_OceanViewParadise.Id).ToList();
-        //RoomFeatures
-        Room_KempinskiHotelGrandArena_OceanViewParadise.RoomImages = RoomImageUrls
-            .Where(i => i.RoomId == Room_KempinskiHotelGrandArena_OceanViewParadise.Id).ToList();
-
-        Room_KempinskiHotelGrandArena_MountainLodge.Hotel = Hotel_KempinskiHotelGrandArena;
-        Room_KempinskiHotelGrandArena_MountainLodge.Bookings = Bookings
-            .Where(b => b.RoomId == Room_KempinskiHotelGrandArena_MountainLodge.Id).ToList();
-        //RoomFeatures
-        Room_KempinskiHotelGrandArena_MountainLodge.RoomImages = RoomImageUrls
-            .Where(i => i.RoomId == Room_KempinskiHotelGrandArena_MountainLodge.Id).ToList();
-
-        Room_StrandPalace_LuxurySuite.Hotel = Hotel_StrandPalace;
-        Room_StrandPalace_LuxurySuite.Bookings = Bookings
-            .Where(b => b.RoomId == Room_StrandPalace_LuxurySuite.Id).ToList();
-        //RoomFeatures
-        Room_StrandPalace_LuxurySuite.RoomImages = RoomImageUrls
-            .Where(i => i.RoomId == Room_StrandPalace_LuxurySuite.Id).ToList();
-    }
 
     public Feature Feature_TV { get; set; } = null!;
     public Feature Feature_Refrigerator { get; set; } = null!;
@@ -571,26 +451,6 @@ public class DataSeeder
         };
         Features.Add(Feature_Bathtub);
     }
-    private void SetReferencesFeatures()
-    {
-        Feature_TV.RoomsFeatures = RoomFeatures
-            .Where(rf => rf.FeatureId == Feature_TV.Id).ToList();
-
-        Feature_Refrigerator.RoomsFeatures = RoomFeatures
-            .Where(rf => rf.FeatureId == Feature_Refrigerator.Id).ToList();
-
-        Feature_Hairdryer.RoomsFeatures = RoomFeatures
-            .Where(rf => rf.FeatureId == Feature_Hairdryer.Id).ToList();
-
-        Feature_Towels.RoomsFeatures = RoomFeatures
-            .Where(rf => rf.FeatureId == Feature_Towels.Id).ToList();
-
-        Feature_Slippers.RoomsFeatures = RoomFeatures
-            .Where(rf => rf.FeatureId == Feature_Slippers.Id).ToList();
-
-        Feature_Bathtub.RoomsFeatures = RoomFeatures
-            .Where(rf => rf.FeatureId == Feature_Bathtub.Id).ToList();
-    }
 
     public RoomFeature RoomFeature_FamilyGetaway_Bathtub { get; set; } = null!;
     public RoomFeature RoomFeature_FamilyGetaway_Slippers { get; set; } = null!;
@@ -626,25 +486,12 @@ public class DataSeeder
         };
         RoomFeatures.Add(RoomFeature_MountainLodge_Refrigerator);
     }
-    private void SetReferencesRoomFeatures()
-    {
-        RoomFeature_FamilyGetaway_Bathtub.Feature = Feature_Bathtub;
-        RoomFeature_FamilyGetaway_Bathtub.Room = Room_KempinskiHotelGrandArena_FamilyGetaway;
-
-        RoomFeature_FamilyGetaway_Slippers.Feature = Feature_Slippers;
-        RoomFeature_FamilyGetaway_Slippers.Room = Room_KempinskiHotelGrandArena_FamilyGetaway;
-
-        RoomFeature_MountainLodge_TV.Feature = Feature_TV;
-        RoomFeature_MountainLodge_TV.Room = Room_KempinskiHotelGrandArena_MountainLodge;
-
-        RoomFeature_MountainLodge_Refrigerator.Feature = Feature_Refrigerator;
-        RoomFeature_MountainLodge_Refrigerator.Room = Room_KempinskiHotelGrandArena_MountainLodge;
-    }
 
     public RoomImageUrl RoomImageUrl_FamilyGetaway_LuxuryClassicModern { get; set; } = null!;
     public RoomImageUrl RoomImageUrl_FamilyGetaway_BlueView { get; set; } = null!;
     public RoomImageUrl RoomImageUrl_MountainLodge_MountainResort { get; set; } = null!;
     public RoomImageUrl RoomImageUrl_MountainLodge_CabinInterior { get; set; } = null!;
+    public RoomImageUrl RoomImageUrl_LuxurySuite_Golden { get; set; } = null!;
     private void SeedRoomImageUrls()
     {
         int id = 0;
@@ -684,16 +531,15 @@ public class DataSeeder
             RoomId = Room_KempinskiHotelGrandArena_MountainLodge.Id
         };
         RoomImageUrls.Add(RoomImageUrl_MountainLodge_CabinInterior);
-    }
-    private void SetReferencesRoomImageUrls()
-    {
-        RoomImageUrl_FamilyGetaway_LuxuryClassicModern.Room = Room_KempinskiHotelGrandArena_FamilyGetaway;
 
-        RoomImageUrl_FamilyGetaway_BlueView.Room = Room_KempinskiHotelGrandArena_FamilyGetaway;
-
-        RoomImageUrl_MountainLodge_MountainResort.Room = Room_KempinskiHotelGrandArena_MountainLodge;
-
-        RoomImageUrl_MountainLodge_CabinInterior.Room = Room_KempinskiHotelGrandArena_MountainLodge;
+        RoomImageUrl_LuxurySuite_Golden = new RoomImageUrl
+        {
+            Id = ++id,
+            PublicId = Guid.Parse("6b9b2f72-b469-445f-9cd5-4e38add74435"),
+            Url = "https://marriott.cdn.tambourine.com/royalton-resorts/media/royalton_riviera_cancun_luxury_junior_suite_ocean_vew-4-6230a7dfdaf78.jpg",
+            RoomId = Room_StrandPalace_LuxurySuite.Id
+        };
+        RoomImageUrls.Add(RoomImageUrl_LuxurySuite_Golden);
     }
 
     public Booking Booking_NormalUser_ChilworthPaddington_CozyRetreat { get; set; } = null!;
@@ -798,57 +644,6 @@ public class DataSeeder
         };
         Bookings.Add(Booking_TobeManagerUser_StrandPalaceHotel_LuxurySuite);
     }
-    private void SetReferencesBookings()
-    {
-        Booking_NormalUser_ChilworthPaddington_CozyRetreat.User = Users
-            .First(u => u.Id == Booking_NormalUser_ChilworthPaddington_CozyRetreat.UserId);
-        Booking_NormalUser_ChilworthPaddington_CozyRetreat.Room = Rooms
-            .First(r => r.Id == Booking_NormalUser_ChilworthPaddington_CozyRetreat.RoomId);
-        Booking_NormalUser_ChilworthPaddington_CozyRetreat.Hotel = Hotels
-            .First(h => h.Id == Booking_NormalUser_ChilworthPaddington_CozyRetreat.HotelId);
-
-        Booking_NormalUser_ChilworthPaddington_ExecutiveSuite.User = Users
-            .First(u => u.Id == Booking_NormalUser_ChilworthPaddington_ExecutiveSuite.UserId);
-        Booking_NormalUser_ChilworthPaddington_ExecutiveSuite.Room = Rooms
-            .First(r => r.Id == Booking_NormalUser_ChilworthPaddington_ExecutiveSuite.RoomId);
-        Booking_NormalUser_ChilworthPaddington_ExecutiveSuite.Hotel = Hotels
-            .First(h => h.Id == Booking_NormalUser_ChilworthPaddington_ExecutiveSuite.HotelId);
-
-        Booking_NormalUser_KempinskiHotel_FamilyGetaway.User = Users
-            .First(u => u.Id == Booking_NormalUser_KempinskiHotel_FamilyGetaway.UserId);
-        Booking_NormalUser_KempinskiHotel_FamilyGetaway.Room = Rooms
-            .First(r => r.Id == Booking_NormalUser_KempinskiHotel_FamilyGetaway.RoomId);
-        Booking_NormalUser_KempinskiHotel_FamilyGetaway.Hotel = Hotels
-            .First(h => h.Id == Booking_NormalUser_KempinskiHotel_FamilyGetaway.HotelId);
-
-        Booking_SecondUser_KempinskiHotel_FamilyGetaway.User = Users
-            .First(u => u.Id == Booking_SecondUser_KempinskiHotel_FamilyGetaway.UserId);
-        Booking_SecondUser_KempinskiHotel_FamilyGetaway.Room = Rooms
-            .First(r => r.Id == Booking_SecondUser_KempinskiHotel_FamilyGetaway.RoomId);
-        Booking_SecondUser_KempinskiHotel_FamilyGetaway.Hotel = Hotels
-            .First(h => h.Id == Booking_SecondUser_KempinskiHotel_FamilyGetaway.HotelId);
-
-        Booking_SecondUser_KempinskiHotel_OceanViewParadise.User = Users
-            .First(u => u.Id == Booking_SecondUser_KempinskiHotel_OceanViewParadise.UserId);
-        Booking_SecondUser_KempinskiHotel_OceanViewParadise.Room = Rooms
-            .First(r => r.Id == Booking_SecondUser_KempinskiHotel_OceanViewParadise.RoomId);
-        Booking_SecondUser_KempinskiHotel_OceanViewParadise.Hotel = Hotels
-            .First(h => h.Id == Booking_SecondUser_KempinskiHotel_OceanViewParadise.HotelId);
-
-        Booking_SecondUser_KempinskiHotel_MountainLodge.User = Users
-            .First(u => u.Id == Booking_SecondUser_KempinskiHotel_MountainLodge.UserId);
-        Booking_SecondUser_KempinskiHotel_MountainLodge.Room = Rooms
-            .First(r => r.Id == Booking_SecondUser_KempinskiHotel_MountainLodge.RoomId);
-        Booking_SecondUser_KempinskiHotel_MountainLodge.Hotel = Hotels
-            .First(h => h.Id == Booking_SecondUser_KempinskiHotel_MountainLodge.HotelId);
-
-        Booking_TobeManagerUser_StrandPalaceHotel_LuxurySuite.User = Users
-            .First(u => u.Id == Booking_TobeManagerUser_StrandPalaceHotel_LuxurySuite.UserId);
-        Booking_TobeManagerUser_StrandPalaceHotel_LuxurySuite.Room = Rooms
-            .First(r => r.Id == Booking_TobeManagerUser_StrandPalaceHotel_LuxurySuite.RoomId);
-        Booking_TobeManagerUser_StrandPalaceHotel_LuxurySuite.Hotel = Hotels
-            .First(h => h.Id == Booking_TobeManagerUser_StrandPalaceHotel_LuxurySuite.HotelId);
-    }
 
     public Review Review_NormalUser_ChilworthLondonPaddington { get; set; } = null!;
     public Review Review_SecondUser_KempinskiHotelGrandArena { get; set; } = null!;
@@ -898,28 +693,5 @@ public class DataSeeder
             AuthorId = User_TobeManager.Id
         };
         Reviews.Add(Review_TobeManagerUser_StrandPalace);
-    }
-    private void SetReferencesReviews()
-    {
-        Review_NormalUser_ChilworthLondonPaddington.Hotel = Hotels
-            .First(h => h.Id == Review_NormalUser_ChilworthLondonPaddington.HotelId);
-        Review_NormalUser_ChilworthLondonPaddington.Booking = Bookings
-            .First(b => b.Id == Review_NormalUser_ChilworthLondonPaddington.BookingId);
-        Review_NormalUser_ChilworthLondonPaddington.Author = Users
-            .First(u => u.Id == Review_NormalUser_ChilworthLondonPaddington.AuthorId);
-
-        Review_SecondUser_KempinskiHotelGrandArena.Hotel = Hotels
-            .First(h => h.Id == Review_SecondUser_KempinskiHotelGrandArena.HotelId);
-        Review_SecondUser_KempinskiHotelGrandArena.Booking = Bookings
-            .First(b => b.Id == Review_SecondUser_KempinskiHotelGrandArena.BookingId);
-        Review_SecondUser_KempinskiHotelGrandArena.Author = Users
-            .First(u => u.Id == Review_SecondUser_KempinskiHotelGrandArena.AuthorId);
-
-        Review_TobeManagerUser_StrandPalace.Hotel = Hotels
-            .First(h => h.Id == Review_TobeManagerUser_StrandPalace.HotelId);
-        Review_TobeManagerUser_StrandPalace.Booking = Bookings
-            .First(b => b.Id == Review_TobeManagerUser_StrandPalace.BookingId);
-        Review_TobeManagerUser_StrandPalace.Author = Users
-            .First(u => u.Id == Review_TobeManagerUser_StrandPalace.AuthorId);
     }
 }
