@@ -1,4 +1,5 @@
 ﻿using HotBooking.Core.Interfaces;
+using HotBooking.Web.Constants;
 using HotBooking.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,11 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        if (User.IsInRole(AdminConstants.AdminRoleName))
+        {
+            return RedirectToAction("Index", "Features", new { Area = AdminConstants.AdminAreaName });
+        }
+
         var searchModel = new SearchHotelsViewModel()
         {
             CheckInDate = new DateTime(2024, 6, 17),
