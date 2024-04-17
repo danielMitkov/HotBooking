@@ -39,29 +39,19 @@ public class ReviewService : IReviewService
         if (reviewsCount == 0)
         {
             bool canYouAddReview = false;
+            var lastBooking = await GetLastUserBookingForHotel(inputDto.UserId, inputDto.HotelId);
+            if (lastBooking != null) canYouAddReview = true;
 
-            if ((await GetLastUserBookingForHotel(inputDto.UserId, inputDto.HotelId)) != null)
-            {
-                canYouAddReview = true;
-            }
-
-            return new ReviewBrowseOutputDto(
-                canYouAddReview,
-                new List<ReviewDetailsDto>(),
-                0,
-                0);
+            return new ReviewBrowseOutputDto(canYouAddReview, new List<ReviewDetailsDto>(), 0, 0);
         }
 
         var totalPages = (int)Math.Ceiling(reviewsCount / (decimal)inputDto.PageSize);
 
-        if (inputDto.CurrentPage < 1 || inputDto.CurrentPage > totalPages)
-        {
-            throw new PageOutOfRangeException(totalPages);
-        }
+        if (inputDto.CurrentPage < 1 || inputDto.CurrentPage > totalPages) throw new PageOutOfRangeException(totalPages);
 
         queryReviews = queryReviews
-                .OrderByDescending(r => r.AuthorId == inputDto.UserId)
-                .ThenByDescending(r => r.ReviewedOn);
+            .OrderByDescending(r => r.AuthorId == inputDto.UserId)
+            .ThenByDescending(r => r.ReviewedOn);
 
         var skipAmount = (inputDto.CurrentPage - 1) * inputDto.PageSize;
 
@@ -95,9 +85,7 @@ public class ReviewService : IReviewService
             canAddReview = true;
         }
 
-        var outputDto = new ReviewBrowseOutputDto(canAddReview, reviewsDto, totalPages, reviewsCount);
-
-        return outputDto;
+        return new ReviewBrowseOutputDto(canAddReview, reviewsDto, totalPages, reviewsCount);
     }
 
     public async Task AddReviewAsync(ReviewAddDto addDto)
@@ -145,7 +133,6 @@ public class ReviewService : IReviewService
     public async Task EditAsync(ReviewEditDto editDto)
     {
         await ValidateUserExists(editDto.UserId);
-
         var review = await GetByPublicIdAsync(editDto.ReviewPublicId);
 
         ValidateReviewAuthor(review.AuthorId, editDto.UserId);
@@ -163,7 +150,6 @@ public class ReviewService : IReviewService
         }
 
         review.BookingId = (int)lastUserBookingId;
-
         review.RatingScore = editDto.Score;
         review.Title = editDto.Title;
         review.Comment = editDto.Comment;
@@ -187,10 +173,7 @@ public class ReviewService : IReviewService
             .Where(h => h.IsActive)
             .AnyAsync(h => h.PublicId == hotelId);
 
-        if (isHotelFound == false)
-        {
-            throw new InvalidModelDataException(HotelErrors.NotFound);
-        }
+        if (!isHotelFound) throw new InvalidModelDataException(HotelErrors.NotFound);
 
         var lastUserBookingForHotel = await dbContext.Bookings
             .Where(b => b.IsActive)
