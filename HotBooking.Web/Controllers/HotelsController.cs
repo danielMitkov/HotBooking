@@ -1,6 +1,6 @@
-﻿using HotBooking.Core.DTOs.HotelDtos;
-using HotBooking.Core.Exceptions;
+﻿using HotBooking.Core.Exceptions;
 using HotBooking.Core.Interfaces;
+using HotBooking.Core.Models.DTOs.HotelDtos;
 using HotBooking.Web.Models;
 using HotBooking.Web.Models.HotelViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -11,76 +11,89 @@ public class HotelsController : Controller
 {
     public const string Name = "Hotels";
 
+    private readonly ILogger<HotelsController> logger;
     private readonly IHotelsService hotelsService;
 
-    public HotelsController(IHotelsService hotelsService)
+    public HotelsController(ILogger<HotelsController> logger,
+        IHotelsService hotelsService)
     {
+        this.logger = logger;
         this.hotelsService = hotelsService;
     }
 
     [Route("Hotels/List/{page?}")]
-    public async Task<IActionResult> List(BrowseHotelsViewModel model)
+    public async Task<IActionResult> List(BrowseHotelsViewModel browseModel, SearchHotelsViewModel searchModel)
     {
-        if (ModelState.IsValid == false)
+        if (browseModel.SearchModel == null)
         {
-            return View(model);
+            browseModel.SearchModel = searchModel;
         }
 
-        BrowseHotelsInputDto inputDto = new(
-            model.Page,
-            1,
-            model.Search.City,
-            model.Search.CheckInDate,
-            model.Search.CheckOutDate,
-            model.Search.AdultsCount,
-            model.Search.RoomsCount,
-            model.Sorting,
-            model.SelectedFacilityIds);
+        if (ModelState.IsValid == false)
+        {
+            return View(browseModel);
+        }
 
-        BrowseHotelsOutputDto outputDto;
+        var inputDto = new BrowseHotelsInputDto(
+            browseModel.Page,
+            1,
+            browseModel.SearchModel.City,
+            browseModel.SearchModel.CheckInDate,
+            browseModel.SearchModel.CheckOutDate,
+            browseModel.SearchModel.AdultsCount,
+            browseModel.SearchModel.RoomsCount,
+            browseModel.Sorting,
+            browseModel.SelectedFacilityIds);
 
         try
         {
-            outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
+            var outputDto = await hotelsService.GetFilteredHotelsAsync(inputDto);
+
+            browseModel.Pager = new(outputDto.TotalPages, browseModel.Page);
+            browseModel.Hotels = outputDto.SelectedHotels;
+            browseModel.Facilities = outputDto.Facilities;
+            browseModel.AllHotelsCount = outputDto.AllHotelsCount;
         }
-        catch (CityNotFound ex)
+        catch (InvalidModelDataException ex)
         {
-            ModelState.AddModelError(nameof(model.Search.City), ex.Message);
-            return View(model);
+            logger.LogWarning(ex, DateTime.Now.ToString());
+            ModelState.AddModelError(ex.PropertyName, ex.Message);
         }
 
-        model.Pager = new(outputDto.TotalPages, model.Page);
-        model.Hotels = outputDto.SelectedHotels;
-        model.Facilities = outputDto.Facilities;
-        model.AllHotelsCount = outputDto.AllHotelsCount;
-
-        return View(model);
+        return View(browseModel);
     }
 
-    public async Task<IActionResult> Details(Guid id, SearchHotelsViewModel search)
+    public async Task<IActionResult> Details(Guid id, SearchHotelsViewModel searchModel)
     {
-        HotelDetailsDtoInput inputDto = new(
-            id,
-            search.AdultsCount,
-            search.RoomsCount,
-            search.CheckInDate,
-            search.CheckOutDate);
-
-        HotelDetailsDtoOutput? hotelDto = await hotelsService.GetHotelDetailsAsync(inputDto);
-
-        if (hotelDto == null)
+        if (ModelState.IsValid == false)
         {
-            TempData["Error"] = "Hotel Not Found!";
-            return BadRequest();
+            return RedirectToAction(nameof(List), searchModel);
         }
 
-        HotelDetailsViewModel model = new()
-        {
-            HotelId = id,
-            Search = search,
-            Hotel = hotelDto
-        };
+        var inputDto = new HotelDetailsDtoInput(
+            id,
+            searchModel.AdultsCount,
+            searchModel.RoomsCount,
+            searchModel.CheckInDate,
+            searchModel.CheckOutDate);
 
-        return View(model);
+        try
+        {
+            var hotelDto = await hotelsService.GetHotelDetailsAsync(inputDto);
+
+            var hotelDetailsModel = new HotelDetailsViewModel()
+            {
+                HotelId = id,
+                Search = searchModel,
+                Hotel = hotelDto
+            };
+
+            return base.View(hotelDetailsModel);
+        }
+        catch (InvalidModelDataException ex)
+        {
+            logger.LogWarning(ex, DateTime.Now.ToString());
+            return base.RedirectToAction(nameof(List), searchModel);
+        }
     }
 }
