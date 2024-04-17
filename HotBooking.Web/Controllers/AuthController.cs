@@ -6,15 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HotBooking.Web.Controllers;
 
-public class AccountController : Controller
+public class AuthController : Controller
 {
-    public const string Name = "Account";
+    public const string Name = "Auth";
 
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly IUserStore<ApplicationUser> userStore;
     private readonly UserManager<ApplicationUser> userManager;
 
-    public AccountController(
+    public AuthController(
         SignInManager<ApplicationUser> signInManager,
         IUserStore<ApplicationUser> userStore,
         UserManager<ApplicationUser> userManager)

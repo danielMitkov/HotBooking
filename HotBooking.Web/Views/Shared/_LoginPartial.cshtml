@@ -11,8 +11,8 @@
         <li class="nav-item">
             <form class="form-inline"
                   asp-area=""
-                  asp-controller="@AccountController.Name"
-                  asp-action="@nameof(AccountController.Logout)">
+                  asp-controller="@AuthController.Name"
+                  asp-action="@nameof(AuthController.Logout)">
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
             </form>
         </li>
@@ -22,16 +22,16 @@
         <li class="nav-item">
             <a class="nav-link text-dark"
                asp-area=""
-               asp-controller="@AccountController.Name"
-               asp-action="@nameof(AccountController.Register)">
+               asp-controller="@AuthController.Name"
+               asp-action="@nameof(AuthController.Register)">
                 Register
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark"
                asp-area=""
-               asp-controller="@AccountController.Name"
-               asp-action="@nameof(AccountController.Login)">
+               asp-controller="@AuthController.Name"
+               asp-action="@nameof(AuthController.Login)">
                 Login
             </a>
         </li>
