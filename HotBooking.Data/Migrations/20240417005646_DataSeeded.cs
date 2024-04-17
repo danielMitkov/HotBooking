@@ -14,9 +14,9 @@ namespace HotBooking.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "IsDeleted", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "1355be4d-cf39-4890-a52d-9f71f81edc8c", "guest@mail.com", false, false, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEGVk5CQH6G+ln7HHT453l8e+lWAxNo3y9P/D6RlY7ZS7tjtOc2up4yzwULuzURvmUA==", null, false, "db8f4118-4cc2-46dc-a5aa-f2a8c76c283e", false, "guest@mail.com" },
-                    { 2, 0, "6492eedf-dc19-4c73-83a2-8b0b19c56ffa", "two@mail.com", false, false, false, null, "two@mail.com", "two@mail.com", "AQAAAAEAACcQAAAAELO40lRw0b3j/OaEhEI2VsFZ5/kapUCu1YtQZPFV19xA+RO7WjloxomTKXb25HbOyA==", null, false, "35cc41e6-30eb-4131-a3e5-214c628a45bc", false, "two@mail.com" },
-                    { 3, 0, "5dffdb66-294c-4ecb-a4e1-939c86c3602a", "manager@mail.com", false, false, false, null, "manager@mail.com", "manager@mail.com", "AQAAAAEAACcQAAAAEEGu1B7g4mn+8/atJqwS6UIsVNr+NTZMRBYP1WhbSBzpSEgDR728C88kbbjgLAHbpA==", null, false, "68c75553-2311-4508-8f97-57b35c275756", false, "manager@mail.com" }
+                    { 1, 0, "1355be4d-cf39-4890-a52d-9f71f81edc8c", "guest@mail.com", false, false, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEKGqtdUJgKGOcWeqDvean/6AIzROXm+3bAU8Il15YqEM+NTwuukU06C+yLLjlcIppA==", null, false, "db8f4118-4cc2-46dc-a5aa-f2a8c76c283e", false, "guest@mail.com" },
+                    { 2, 0, "6492eedf-dc19-4c73-83a2-8b0b19c56ffa", "two@mail.com", false, false, false, null, "two@mail.com", "two@mail.com", "AQAAAAEAACcQAAAAECmflVv+mk0ZBNxK33+Ckhi1R5pMhhX91nv3ZExpaeV9YO42flVKjIHymGFkUw9htA==", null, false, "35cc41e6-30eb-4131-a3e5-214c628a45bc", false, "two@mail.com" },
+                    { 3, 0, "5dffdb66-294c-4ecb-a4e1-939c86c3602a", "manager@mail.com", false, false, false, null, "manager@mail.com", "manager@mail.com", "AQAAAAEAACcQAAAAEAZ3HNtswNE2mjL6GhIzEgHT3avb2fAPBgBB/OZmUNWAJLH0WsHSmr8JEpV11WL+6g==", null, false, "68c75553-2311-4508-8f97-57b35c275756", false, "manager@mail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -142,18 +142,18 @@ namespace HotBooking.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Reviews",
-                columns: new[] { "Id", "AuthorId", "BookingId", "Comment", "HotelId", "IsActive", "PublicId", "RatingScore", "ReviewedOn", "Title" },
-                values: new object[] { 1, 1, 1, "Overall, my stay was satisfactory.", 1, true, new Guid("2ed88941-af52-4449-9e2f-8e554ebe83ea"), 7m, new DateTime(2023, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "Solid Stay, Room for Improvement" });
+                columns: new[] { "Id", "AuthorId", "BookingId", "Comment", "HotelId", "PublicId", "RatingScore", "ReviewedOn", "Title" },
+                values: new object[] { 1, 1, 1, "Overall, my stay was satisfactory.", 1, new Guid("2ed88941-af52-4449-9e2f-8e554ebe83ea"), 7m, new DateTime(2023, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "Solid Stay, Room for Improvement" });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
-                columns: new[] { "Id", "AuthorId", "BookingId", "Comment", "HotelId", "IsActive", "PublicId", "RatingScore", "ReviewedOn", "Title" },
-                values: new object[] { 2, 2, 4, "My recent stay was nothing short of exceptional.", 2, true, new Guid("9b76e5a5-fdec-40e8-9208-116f78957656"), 10m, new DateTime(2023, 7, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), "A Stay to Remember" });
+                columns: new[] { "Id", "AuthorId", "BookingId", "Comment", "HotelId", "PublicId", "RatingScore", "ReviewedOn", "Title" },
+                values: new object[] { 2, 2, 4, "My recent stay was nothing short of exceptional.", 2, new Guid("9b76e5a5-fdec-40e8-9208-116f78957656"), 10m, new DateTime(2023, 7, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), "A Stay to Remember" });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
-                columns: new[] { "Id", "AuthorId", "BookingId", "Comment", "HotelId", "IsActive", "PublicId", "RatingScore", "ReviewedOn", "Title" },
-                values: new object[] { 3, 3, 7, "Great room and service overall!", 3, true, new Guid("b0d6f424-371e-49af-b48e-cb8706c9c65c"), 6.5m, new DateTime(2023, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "Satisfactory" });
+                columns: new[] { "Id", "AuthorId", "BookingId", "Comment", "HotelId", "PublicId", "RatingScore", "ReviewedOn", "Title" },
+                values: new object[] { 3, 3, 7, "Great room and service overall!", 3, new Guid("b0d6f424-371e-49af-b48e-cb8706c9c65c"), 6.5m, new DateTime(2023, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "Satisfactory" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

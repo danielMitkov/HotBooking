@@ -104,7 +104,7 @@ namespace HotBooking.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGVk5CQH6G+ln7HHT453l8e+lWAxNo3y9P/D6RlY7ZS7tjtOc2up4yzwULuzURvmUA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKGqtdUJgKGOcWeqDvean/6AIzROXm+3bAU8Il15YqEM+NTwuukU06C+yLLjlcIppA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "db8f4118-4cc2-46dc-a5aa-f2a8c76c283e",
                             TwoFactorEnabled = false,
@@ -121,7 +121,7 @@ namespace HotBooking.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "two@mail.com",
                             NormalizedUserName = "two@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAELO40lRw0b3j/OaEhEI2VsFZ5/kapUCu1YtQZPFV19xA+RO7WjloxomTKXb25HbOyA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECmflVv+mk0ZBNxK33+Ckhi1R5pMhhX91nv3ZExpaeV9YO42flVKjIHymGFkUw9htA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "35cc41e6-30eb-4131-a3e5-214c628a45bc",
                             TwoFactorEnabled = false,
@@ -138,7 +138,7 @@ namespace HotBooking.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "manager@mail.com",
                             NormalizedUserName = "manager@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEGu1B7g4mn+8/atJqwS6UIsVNr+NTZMRBYP1WhbSBzpSEgDR728C88kbbjgLAHbpA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAZ3HNtswNE2mjL6GhIzEgHT3avb2fAPBgBB/OZmUNWAJLH0WsHSmr8JEpV11WL+6g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "68c75553-2311-4508-8f97-57b35c275756",
                             TwoFactorEnabled = false,
@@ -189,7 +189,7 @@ namespace HotBooking.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
 
                     b.HasData(
                         new
@@ -307,7 +307,7 @@ namespace HotBooking.Data.Migrations
                     b.HasIndex("PublicId")
                         .IsUnique();
 
-                    b.ToTable("Facilities", (string)null);
+                    b.ToTable("Facilities");
 
                     b.HasData(
                         new
@@ -381,7 +381,7 @@ namespace HotBooking.Data.Migrations
                     b.HasIndex("PublicId")
                         .IsUnique();
 
-                    b.ToTable("Features", (string)null);
+                    b.ToTable("Features");
 
                     b.HasData(
                         new
@@ -486,7 +486,7 @@ namespace HotBooking.Data.Migrations
                     b.HasIndex("PublicId")
                         .IsUnique();
 
-                    b.ToTable("Hotels", (string)null);
+                    b.ToTable("Hotels");
 
                     b.HasData(
                         new
@@ -542,7 +542,7 @@ namespace HotBooking.Data.Migrations
 
                     b.HasIndex("FacilityId");
 
-                    b.ToTable("HotelsFacilities", (string)null);
+                    b.ToTable("HotelsFacilities");
 
                     b.HasData(
                         new
@@ -621,7 +621,7 @@ namespace HotBooking.Data.Migrations
                     b.HasIndex("PublicId")
                         .IsUnique();
 
-                    b.ToTable("HotelImageUrls", (string)null);
+                    b.ToTable("HotelImageUrls");
 
                     b.HasData(
                         new
@@ -687,7 +687,7 @@ namespace HotBooking.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Managers", (string)null);
+                    b.ToTable("Managers");
 
                     b.HasData(
                         new
@@ -722,9 +722,6 @@ namespace HotBooking.Data.Migrations
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("PublicId")
                         .HasColumnType("uniqueidentifier");
 
@@ -751,7 +748,7 @@ namespace HotBooking.Data.Migrations
                     b.HasIndex("PublicId")
                         .IsUnique();
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
 
                     b.HasData(
                         new
@@ -761,7 +758,6 @@ namespace HotBooking.Data.Migrations
                             BookingId = 1,
                             Comment = "Overall, my stay was satisfactory.",
                             HotelId = 1,
-                            IsActive = true,
                             PublicId = new Guid("2ed88941-af52-4449-9e2f-8e554ebe83ea"),
                             RatingScore = 7m,
                             ReviewedOn = new DateTime(2023, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -774,7 +770,6 @@ namespace HotBooking.Data.Migrations
                             BookingId = 4,
                             Comment = "My recent stay was nothing short of exceptional.",
                             HotelId = 2,
-                            IsActive = true,
                             PublicId = new Guid("9b76e5a5-fdec-40e8-9208-116f78957656"),
                             RatingScore = 10m,
                             ReviewedOn = new DateTime(2023, 7, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -787,7 +782,6 @@ namespace HotBooking.Data.Migrations
                             BookingId = 7,
                             Comment = "Great room and service overall!",
                             HotelId = 3,
-                            IsActive = true,
                             PublicId = new Guid("b0d6f424-371e-49af-b48e-cb8706c9c65c"),
                             RatingScore = 6.5m,
                             ReviewedOn = new DateTime(2023, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -838,7 +832,7 @@ namespace HotBooking.Data.Migrations
                     b.HasIndex("PublicId")
                         .IsUnique();
 
-                    b.ToTable("Rooms", (string)null);
+                    b.ToTable("Rooms");
 
                     b.HasData(
                         new
@@ -927,7 +921,7 @@ namespace HotBooking.Data.Migrations
 
                     b.HasIndex("FeatureId");
 
-                    b.ToTable("RoomsFeatures", (string)null);
+                    b.ToTable("RoomsFeatures");
 
                     b.HasData(
                         new
@@ -981,7 +975,7 @@ namespace HotBooking.Data.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("RoomImageUrls", (string)null);
+                    b.ToTable("RoomImageUrls");
 
                     b.HasData(
                         new
