@@ -6,7 +6,6 @@ namespace HotBooking.Data;
 public class DataSeeder
 {
     public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
-    public ICollection<Manager> Managers { get; set; } = new List<Manager>();
     public ICollection<Hotel> Hotels { get; set; } = new List<Hotel>();
     public ICollection<Facility> Facilities { get; set; } = new List<Facility>();
     public ICollection<HotelFacility> HotelFacilities { get; set; } = new List<HotelFacility>();
@@ -21,7 +20,6 @@ public class DataSeeder
     public DataSeeder(bool fillObjectReferences = false)
     {
         SeedApplicationUsers();
-        SeedManagers();
         SeedHotels();
         SeedFacilities();
         SeedHotelFacilities();
@@ -36,8 +34,6 @@ public class DataSeeder
         if (fillObjectReferences)
         {
             SetReferencesApplicationUsers();
-            SetReferencesManagers();
-            SetReferencesHotels();
             SetReferencesFacilities();
             SetReferencesHotelFacilities();
             SetReferencesHotelImageUrls();
@@ -109,24 +105,6 @@ public class DataSeeder
         User_TobeManager.Reviews = Reviews.Where(r => r.AuthorId == User_TobeManager.Id).ToList();
     }
 
-    public Manager Manager_First { get; set; } = null!;
-    private void SeedManagers()
-    {
-        Manager_First = new Manager()
-        {
-            Id = 1,
-            PublicId = Guid.Parse("9703786e-5824-4950-b62a-75efa7090d6d"),
-            PhoneNumber = "08812345678",
-            UserId = User_TobeManager.Id
-        };
-        Managers.Add(Manager_First);
-    }
-    private void SetReferencesManagers()
-    {
-        Manager_First.User = User_TobeManager;
-        Manager_First.Hotels = Hotels.Where(h => h.ManagerId == Manager_First.Id).ToList();
-    }
-
     public Hotel Hotel_ChilworthLondonPaddington { get; set; } = null!;
     public Hotel Hotel_KempinskiHotelGrandArena { get; set; } = null!;
     public Hotel Hotel_StrandPalace { get; set; } = null!;
@@ -141,8 +119,7 @@ public class DataSeeder
             StreetAddress = "Westminster Borough",
             CityName = "London",
             CountryName = "United Kingdom",
-            StarRating = 5,
-            ManagerId = Manager_First.Id
+            StarRating = 5
         };
         Hotels.Add(Hotel_ChilworthLondonPaddington);
 
@@ -155,8 +132,7 @@ public class DataSeeder
             StreetAddress = "#96 Pirin Street",
             CityName = "Bansko",
             CountryName = "Bulgaria",
-            StarRating = 4,
-            ManagerId = Manager_First.Id
+            StarRating = 4
         };
         Hotels.Add(Hotel_KempinskiHotelGrandArena);
 
@@ -169,33 +145,9 @@ public class DataSeeder
             StreetAddress = "Westminster Borough",
             CityName = "London",
             CountryName = "United Kingdom",
-            StarRating = 4,
-            ManagerId = Manager_First.Id
+            StarRating = 4
         };
         Hotels.Add(Hotel_StrandPalace);
-    }
-    private void SetReferencesHotels()
-    {
-        Hotel_ChilworthLondonPaddington.Manager = Manager_First;
-        Hotel_ChilworthLondonPaddington.HotelsFacilities = HotelFacilities.Where(hf => hf.HotelId == Hotel_ChilworthLondonPaddington.Id).ToList();
-        Hotel_ChilworthLondonPaddington.Rooms = Rooms.Where(r => r.HotelId == Hotel_ChilworthLondonPaddington.Id).ToList();
-        Hotel_ChilworthLondonPaddington.HotelImages = HotelImageUrls.Where(i => i.HotelId == Hotel_ChilworthLondonPaddington.Id).ToList();
-        Hotel_ChilworthLondonPaddington.Reviews = Reviews.Where(r => r.HotelId == Hotel_ChilworthLondonPaddington.Id).ToList();
-        Hotel_ChilworthLondonPaddington.Bookings = Bookings.Where(b => b.HotelId == Hotel_ChilworthLondonPaddington.Id).ToList();
-
-        Hotel_KempinskiHotelGrandArena.Manager = Manager_First;
-        Hotel_KempinskiHotelGrandArena.HotelsFacilities = HotelFacilities.Where(hf => hf.HotelId == Hotel_KempinskiHotelGrandArena.Id).ToList();
-        Hotel_KempinskiHotelGrandArena.Rooms = Rooms.Where(r => r.HotelId == Hotel_KempinskiHotelGrandArena.Id).ToList();
-        Hotel_KempinskiHotelGrandArena.HotelImages = HotelImageUrls.Where(i => i.HotelId == Hotel_KempinskiHotelGrandArena.Id).ToList();
-        Hotel_KempinskiHotelGrandArena.Reviews = Reviews.Where(r => r.HotelId == Hotel_KempinskiHotelGrandArena.Id).ToList();
-        Hotel_KempinskiHotelGrandArena.Bookings = Bookings.Where(b => b.HotelId == Hotel_KempinskiHotelGrandArena.Id).ToList();
-
-        Hotel_StrandPalace.Manager = Manager_First;
-        Hotel_StrandPalace.HotelsFacilities = HotelFacilities.Where(hf => hf.HotelId == Hotel_StrandPalace.Id).ToList();
-        Hotel_StrandPalace.Rooms = Rooms.Where(r => r.HotelId == Hotel_StrandPalace.Id).ToList();
-        Hotel_StrandPalace.HotelImages = HotelImageUrls.Where(i => i.HotelId == Hotel_StrandPalace.Id).ToList();
-        Hotel_StrandPalace.Reviews = Reviews.Where(r => r.HotelId == Hotel_StrandPalace.Id).ToList();
-        Hotel_StrandPalace.Bookings = Bookings.Where(b => b.HotelId == Hotel_StrandPalace.Id).ToList();
     }
 
     public Facility Facility_Spa { get; set; } = null!;
