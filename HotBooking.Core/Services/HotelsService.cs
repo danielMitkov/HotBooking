@@ -1,11 +1,11 @@
-﻿using HotBooking.Core.DTOs.FacilityDtos;
-using HotBooking.Core.DTOs.HotelDtos;
-using HotBooking.Core.DTOs.RoomDtos;
-using HotBooking.Core.Enums;
+﻿using HotBooking.Core.ErrorMessages;
 using HotBooking.Core.Exceptions;
 using HotBooking.Core.Interfaces;
+using HotBooking.Core.Models.DTOs.FacilityDtos;
+using HotBooking.Core.Models.DTOs.HotelDtos;
+using HotBooking.Core.Models.DTOs.RoomDtos;
+using HotBooking.Core.Models.Enums;
 using HotBooking.Data;
-using HotBooking.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotBooking.Core.Services;
@@ -23,29 +23,29 @@ public class HotelsService : IHotelsService
     {
         if ((await IsCityFoundAsync(inputDto.City)) == false)
         {
-            throw new CityNotFound();
+            throw new InvalidModelDataException(nameof(inputDto.City), HotelErrors.CityNotFound);
         }
 
-        IEnumerable<Facility> allFacilities = await dbContext.Facilities.ToListAsync();
+        var allFacilities = await dbContext.Facilities.ToListAsync();
 
-        IEnumerable<Facility> selectedFacilities = allFacilities
+        var selectedFacilities = allFacilities
             .Where(f => inputDto.FacilitySelectedPublicIds.Contains(f.PublicId));
 
-        IEnumerable<FacilityChecksDto> facilityDtos = allFacilities
+        var facilityDtos = allFacilities
             .Select(f => new FacilityChecksDto(
                 f.PublicId,
                 selectedFacilities.Contains(f),
                 f.Name,
                 f.SvgTag));
 
-        IQueryable<Hotel> queryHotels = dbContext.Hotels
+        var queryHotels = dbContext.Hotels
             .Where(h => h.CityName == inputDto.City);
 
         if (inputDto.FacilitySelectedPublicIds.Any())
         {
             int selectedFacilitiesCount = selectedFacilities.Count();
 
-            IEnumerable<int> selectedFacilitiesPrimaryKeys = selectedFacilities
+            var selectedFacilitiesPrimaryKeys = selectedFacilities
                 .Select(f => f.Id);
 
             queryHotels = queryHotels
@@ -70,11 +70,9 @@ public class HotelsService : IHotelsService
 
         int totalPages = (int)Math.Ceiling(allHotelsCount / (decimal)inputDto.PageSize);
 
-        int currentPage = inputDto.CurrentPage;
-
         if (inputDto.CurrentPage < 1 || inputDto.CurrentPage > totalPages)
         {
-            currentPage = 1;
+            throw new PageOutOfRangeException(totalPages);
         }
 
         queryHotels = inputDto.Sorting switch
@@ -92,13 +90,13 @@ public class HotelsService : IHotelsService
                 .ThenBy(h => h.Id)
         };
 
-        int skipAmount = (currentPage - 1) * inputDto.PageSize;
+        int skipAmount = (inputDto.CurrentPage - 1) * inputDto.PageSize;
 
         queryHotels = queryHotels
             .Skip(skipAmount)
             .Take(inputDto.PageSize);
 
-        IEnumerable<HotelPreviewDto> selectedHotels = await queryHotels
+        var selectedHotels = await queryHotels
             .Select(h => new HotelPreviewDto(
                 h.PublicId,
                 h.HotelImages.First().Url,
@@ -120,7 +118,7 @@ public class HotelsService : IHotelsService
     {
         searchTerm = searchTerm.ToLower();
 
-        IEnumerable<string> cities = await dbContext.Hotels
+        var cities = await dbContext.Hotels
             .Where(h => h.CityName.ToLower().Contains(searchTerm))
             .Select(h => h.CityName)
             .Distinct()
@@ -129,11 +127,11 @@ public class HotelsService : IHotelsService
         return cities;
     }
 
-    public async Task<HotelDetailsDtoOutput?> GetHotelDetailsAsync(HotelDetailsDtoInput inputDto)
+    public async Task<HotelDetailsDtoOutput> GetHotelDetailsAsync(HotelDetailsDtoInput inputDto)
     {
         int peoplePerRoom = (int)Math.Ceiling(inputDto.AdultsCount / (decimal)inputDto.RoomsCount);
 
-        HotelDetailsDtoOutput? hotelDto = await dbContext.Hotels
+        var hotelDto = await dbContext.Hotels
             .Where(h => h.PublicId == inputDto.PublicId)
             .Select(h => new HotelDetailsDtoOutput(
                 h.HotelName,
@@ -165,6 +163,11 @@ public class HotelsService : IHotelsService
                     ))
             ))
             .SingleOrDefaultAsync();
+
+        if (hotelDto == null)
+        {
+            throw new InvalidModelDataException(HotelErrors.NotFound);
+        }
 
         return hotelDto;
     }
