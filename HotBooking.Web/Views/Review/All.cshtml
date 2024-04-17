@@ -1,6 +1,28 @@
-﻿@model BrowseReviewsViewModel
+﻿@model ReviewBrowseViewModel
+
+@if (TempData["Error"] is not null)
+{
+    <p class="alert-danger">@TempData["Error"]</p>
+}
+
+@if (TempData["OK"] is not null)
+{
+    <p class="alert-success">@TempData["OK"]</p>
+}
 
 <div class="container-fluid">
+
+    @if (@Model.CanAddReview)
+    {
+        <div class="row">
+            <div class="col">
+                <a asp-action="@nameof(ReviewController.Add)"
+                   asp-route-hotelPublicId="@Model.HotelPublicId">
+                    Add Review
+                </a>
+            </div>
+        </div>
+    }
 
     @foreach (ReviewDetailsDto review in Model.Reviews)
     {
@@ -10,18 +32,27 @@
                 <h3>@review.Score</h3>
                 @*user name and country*@
                 <p>Room: @review.RoomTitle</p>
-                @*Stayed 2 nights in July 2015*@
                 <p>Stayed @((review.CheckOutDate - review.CheckInDate).Days) nights in @review.CheckInDate.Year</p>
 
                 <p>Adults: @review.AdultsCount</p>
 
                 <p>Reviewed On @review.ReviewedOnDate.ToString("MMMM dd, yyyy")</p>
-                
-                @if (review.IsAuthor)
+
+                @if (review.IsMyReview)
                 {
-                    <a>Edit</a>
-                    <a>Delete</a>
+                    <a asp-action="@nameof(ReviewController.Edit)"
+                       asp-route-reviewPublicId="@review.PublicId"
+                       asp-route-hotelPublicId="@Model.HotelPublicId">
+                        Edit
+                    </a>
+
+                    <a asp-action="@nameof(ReviewController.Delete)"
+                       asp-route-reviewPublicId="@review.PublicId"
+                       asp-route-hotelPublicId="@Model.HotelPublicId">
+                        Delete
+                    </a>
                 }
+
             </div>
             <div class="col-8">
                 <h6>@review.Title</h6>
@@ -31,7 +62,7 @@
         </div>
     }
     <form method="get">
-        <input hidden asp-for="@Model.HotelId" />
+        <input hidden asp-for="@Model.HotelPublicId" />
 
         <div class="row">
             <partial name="_Pagination" model="@Model.Pager" />
