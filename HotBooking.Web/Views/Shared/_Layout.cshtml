@@ -25,20 +25,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Hotels" asp-action="List">Hotels</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">My Bookings</a>
+                            <a class="nav-link text-dark"
+                               asp-area=""
+                               asp-controller="@BookingController.Name"
+                               asp-action="@nameof(BookingController.List)">
+                                My Bookings
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">My Reviews</a>
-                        </li>
-                        @if (User?.Identity?.IsAuthenticated ?? false)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">My Hotel</a>
-                            </li>
-                        }
                     </ul>
 
                     <partial name="_LoginPartial" />
