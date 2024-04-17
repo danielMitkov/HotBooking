@@ -16,6 +16,9 @@ public class Booking : IPublicId
     public bool IsActive { get; set; } = true;
 
     [Required]
+    public DateTime CreatedOn { get; set; } = DateTime.Now;
+
+    [Required]
     public DateTime CheckIn { get; set; }
 
     [Required]
@@ -43,8 +46,4 @@ public class Booking : IPublicId
     public Hotel Hotel { get; set; } = null!;
 
     public Review? Review { get; set; }
-
-    public Cart? Cart { get; set; }
-
-    public Order? Order { get; set; }
 }

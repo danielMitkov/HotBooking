@@ -14,6 +14,9 @@ public class RoomImageUrl : IPublicId
     public Guid PublicId { get; set; } = Guid.NewGuid();
 
     [Required]
+    public DateTime CreatedOn { get; set; } = DateTime.Now;
+
+    [Required]
     public bool IsActive { get; set; } = true;
 
     [Required]

@@ -4,5 +4,5 @@ namespace HotBooking.Core.Interfaces;
 
 public interface ICartService
 {
-    Task AddAsync(CartAddDto addDto);
+    Task<Guid> AddAsync(CartAddDto addDto);
 }

@@ -30,12 +30,14 @@ public class CartController : Controller
             roomId,
             search.CheckInDate,
             search.CheckOutDate,
-            search.AdultsCount);
+            search.AdultsCount,
+            search.RoomsCount);
 
         try
         {
-            await cartService.AddAsync(addDto);
-            return View();
+            var cartPublicId = await cartService.AddAsync(addDto);
+
+            return RedirectToAction(nameof(Manage), new { cartPublicId });
         }
         catch (InvalidModelDataException ex)
         {
@@ -43,5 +45,10 @@ public class CartController : Controller
             TempData["Error"] = ex.Message;
             return RedirectToAction(nameof(HotelsController.List), HotelsController.Name);
         }
+    }
+
+    public async Task<IActionResult> Remove(Guid cartPublicId)
+    {
+        return View();
     }
 }

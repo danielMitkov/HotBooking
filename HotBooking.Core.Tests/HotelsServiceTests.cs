@@ -1,5 +1,6 @@
 using HotBooking.Core.ErrorMessages;
 using HotBooking.Core.Exceptions;
+using HotBooking.Core.Interfaces;
 using HotBooking.Core.Models.DTOs.HotelDtos;
 using HotBooking.Core.Models.Enums;
 using HotBooking.Core.Services;
@@ -15,7 +16,7 @@ public class HotelsServiceTests
 
     private DataSeeder seeder;
 
-    private HotelsService hotelsService;
+    private IHotelsService hotelsService;
 
     private readonly string town = "London";
     private readonly DateTime checkInDate = new DateTime(2024, 6, 17);

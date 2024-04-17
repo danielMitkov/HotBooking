@@ -6,11 +6,19 @@ namespace HotBooking.Data.Models;
 
 public class Feature : IPublicId
 {
+    public Feature()
+    {
+        PublicId = Guid.NewGuid();
+        CreatedOn = DateTime.Now;
+
+        RoomsFeatures = new HashSet<RoomFeature>();
+    }
+
     [Key]
     public int Id { get; set; }
 
     [Required]
-    public Guid PublicId { get; set; } = Guid.NewGuid();
+    public Guid PublicId { get; set; }
 
     [Required]
     public bool IsActive { get; set; } = true;
@@ -20,8 +28,11 @@ public class Feature : IPublicId
     public string Name { get; set; } = null!;
 
     [Required]
+    public DateTime CreatedOn { get; set; }
+
+    [Required]
     [MaxLength(FeatureConstants.SvgTagLengthMax)]
     public string SvgTag { get; set; } = null!;
 
-    public ICollection<RoomFeature> RoomsFeatures { get; set; } = new HashSet<RoomFeature>();
+    public virtual ICollection<RoomFeature> RoomsFeatures { get; set; }
 }

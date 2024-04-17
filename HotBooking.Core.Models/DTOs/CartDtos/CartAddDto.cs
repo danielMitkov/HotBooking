@@ -5,5 +5,6 @@ int UserId,
 Guid RoomId,
 DateTime CheckIn,
 DateTime CheckOut,
-int AdultsCount
+int AdultsCount,
+int RoomsCount
 );
