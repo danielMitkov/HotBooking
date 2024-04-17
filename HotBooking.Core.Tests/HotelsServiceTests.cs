@@ -1,7 +1,7 @@
-using HotBooking.Core.DTOs.HotelDtos;
-using HotBooking.Core.Enums;
 using HotBooking.Core.ErrorMessages;
 using HotBooking.Core.Exceptions;
+using HotBooking.Core.Models.DTOs.HotelDtos;
+using HotBooking.Core.Models.Enums;
 using HotBooking.Core.Services;
 using HotBooking.Data;
 using Microsoft.EntityFrameworkCore;

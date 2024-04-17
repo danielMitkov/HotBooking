@@ -1,4 +1,4 @@
-﻿using HotBooking.Core.DTOs.HotelDtos;
+﻿using HotBooking.Core.Models.DTOs.HotelDtos;
 
 namespace HotBooking.Web.Models.HotelViewModels;
 

@@ -1,4 +1,4 @@
-﻿using HotBooking.Core.DTOs.ReviewDtos;
+﻿using HotBooking.Core.Models.DTOs.ReviewDtos;
 
 namespace HotBooking.Web.Models.ReviewViewModels;
 
