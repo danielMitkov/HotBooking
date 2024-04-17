@@ -1,9 +1,9 @@
-﻿using HotBooking.Core.DTOs.ReviewDtos;
-using HotBooking.Core.Enums;
+﻿using HotBooking.Core.ErrorMessages;
+using HotBooking.Core.Exceptions;
 using HotBooking.Core.Interfaces;
+using HotBooking.Core.Models.DTOs.ReviewDtos;
 using HotBooking.Data;
 using HotBooking.Data.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotBooking.Core.Services;
@@ -11,141 +11,229 @@ namespace HotBooking.Core.Services;
 public class ReviewService : IReviewService
 {
     private readonly HotBookingDbContext dbContext;
-    private readonly UserManager<ApplicationUser> userManager;
 
-    public ReviewService(
-        HotBookingDbContext dbContext,
-        UserManager<ApplicationUser> userManager)
+    public ReviewService(HotBookingDbContext dbContext)
     {
         this.dbContext = dbContext;
-        this.userManager = userManager;
     }
 
-    public async Task<BrowseReviewsOutputDto?> GetReviewsForHotel(BrowseReviewsInputDto inputDto)
+    public async Task<ReviewPreviewDto> GetReviewAsync(Guid reviewPublicId)
     {
-        IQueryable<Review> queryReviews = dbContext.Reviews
+        var review = await GetByPublicIdAsync(reviewPublicId);
+
+        var editDto = new ReviewPreviewDto(
+            review.RatingScore,
+            review.Title,
+            review.Comment);
+
+        return editDto;
+    }
+
+    public async Task<ReviewBrowseOutputDto> GetReviewsForHotelAsync(BrowseReviewsInputDto inputDto)
+    {
+        var queryReviews = dbContext.Reviews
             .Where(r => r.Hotel.PublicId == inputDto.HotelId);
 
-        int reviewsCount = await queryReviews.CountAsync();
+        var reviewsCount = await queryReviews.CountAsync();
 
         if (reviewsCount == 0)
         {
-            return null;
+            bool canYouAddReview = false;
+
+            if ((await GetLastUserBookingForHotel(inputDto.UserId, inputDto.HotelId)) != null)
+            {
+                canYouAddReview = true;
+            }
+
+            return new ReviewBrowseOutputDto(
+                canYouAddReview,
+                new List<ReviewDetailsDto>(),
+                0,
+                0);
         }
 
-        int totalPages = (int)Math.Ceiling(reviewsCount / (decimal)inputDto.PageSize);
-
-        int currentPage = inputDto.CurrentPage;
+        var totalPages = (int)Math.Ceiling(reviewsCount / (decimal)inputDto.PageSize);
 
         if (inputDto.CurrentPage < 1 || inputDto.CurrentPage > totalPages)
         {
-            currentPage = 1;
+            throw new PageOutOfRangeException(totalPages);
         }
 
-        if (inputDto.UserId != null)
-        {
-            int userId = int.Parse(inputDto.UserId);
-
-            queryReviews = queryReviews
-                .OrderByDescending(r => r.UserId == userId)
+        queryReviews = queryReviews
+                .OrderByDescending(r => r.AuthorId == inputDto.UserId)
                 .ThenByDescending(r => r.ReviewedOn);
-        }
-        else
-        {
-            queryReviews = queryReviews
-            .OrderByDescending(r => r.ReviewedOn);
-        }
 
-        int skipAmount = (currentPage - 1) * inputDto.PageSize;
+        var skipAmount = (inputDto.CurrentPage - 1) * inputDto.PageSize;
 
         queryReviews = queryReviews
             .Skip(skipAmount)
             .Take(inputDto.PageSize);
 
-        IEnumerable<ReviewDetailsDto> reviewDto;
+        var reviewsDto = await queryReviews
+            .Select(r => new ReviewDetailsDto(
+                r.AuthorId == inputDto.UserId,
+                r.PublicId,
+                r.RatingScore,
+                r.Title,
+                r.Comment,
+                r.ReviewedOn,
+                r.Booking!.CheckIn,
+                r.Booking.CheckOut,
+                r.Booking.AdultsCount,
+                r.Booking.Room.Title
+            ))
+            .ToListAsync();
 
-        if (inputDto.UserId != null)
-        {
-            int userId = int.Parse(inputDto.UserId);
+        bool canAddReview = false;
 
-            reviewDto = await queryReviews
-                .Select(r => new ReviewDetailsDto(
-                    r.UserId == userId,
-                    r.RatingScore,
-                    r.Title,
-                    r.Comment,
-                    r.ReviewedOn,
-                    r.Booking.CheckIn,
-                    r.Booking.CheckOut,
-                    r.Booking.AdultsCount,
-                    r.Booking.Room.Title
-                ))
-                .ToListAsync();
-        }
-        else
+        var lastUserBookingForHotel = await GetLastUserBookingForHotel(inputDto.UserId, inputDto.HotelId);
+
+        bool containsMyReview = reviewsDto.Any(r => r.IsMyReview == true);
+
+        if (containsMyReview == false && lastUserBookingForHotel != null)
         {
-            reviewDto = await queryReviews
-                .Select(r => new ReviewDetailsDto(
-                    false,
-                    r.RatingScore,
-                    r.Title,
-                    r.Comment,
-                    r.ReviewedOn,
-                    r.Booking.CheckIn,
-                    r.Booking.CheckOut,
-                    r.Booking.AdultsCount,
-                    r.Booking.Room.Title
-                ))
-                .ToListAsync();
+            canAddReview = true;
         }
 
-        BrowseReviewsOutputDto outputDto = new(reviewDto, totalPages, reviewsCount);
+        var outputDto = new ReviewBrowseOutputDto(canAddReview, reviewsDto, totalPages, reviewsCount);
 
         return outputDto;
     }
 
-    public async Task<bool> AddReviewAsync(AddReviewInputDto inputDto)
+    public async Task AddReviewAsync(ReviewAddDto addDto)
     {
-        var hotel = await dbContext.Hotels
-            .FirstOrDefaultAsync(h => h.PublicId == inputDto.HotelId);
+        bool hasReviewAlready = await dbContext.Reviews
+            .AnyAsync(r => r.AuthorId == addDto.UserId && r.Hotel.PublicId == addDto.HotelPublicId);
 
-        if (hotel == null)
+        if (hasReviewAlready == true)
         {
-            return false;
+            throw new InvalidModelDataException(ReviewErrors.AlreadyHasReview);
         }
 
-        var user = await userManager.FindByIdAsync(inputDto.UserId);
-
-        if (user == null)
-        {
-            return false;
-        }
-
-        var userId = int.Parse(inputDto.UserId);
-
-        var lastUserBookingForHotel = await dbContext.Bookings
-            .Where(b => b.UserId == userId && b.Hotel.PublicId == inputDto.HotelId)
-            .OrderByDescending(b => b.CheckOut)
-            .FirstOrDefaultAsync();
+        var lastUserBookingForHotel = await GetLastUserBookingForHotel(addDto.UserId, addDto.HotelPublicId);
 
         if (lastUserBookingForHotel == null)
         {
-            return false;
+            throw new InvalidModelDataException(BookingErrors.NotFound);
         }
 
-        Review review = new()
+        var review = new Review()
         {
-            RatingScore = inputDto.RatingScore,
-            Title = inputDto.Title,
-            Comment = inputDto.Comment,
-            HotelId = hotel.Id,
+            RatingScore = addDto.Score,
+            Title = addDto.Title,
+            Comment = addDto.Comment,
+            HotelId = lastUserBookingForHotel.HotelId,
             BookingId = lastUserBookingForHotel.Id,
-            UserId = userId,
+            AuthorId = addDto.UserId,
         };
 
         await dbContext.Reviews.AddAsync(review);
         await dbContext.SaveChangesAsync();
+    }
 
-        return true;
+    public async Task DeleteAsync(Guid reviewPublicId, int userId)
+    {
+        var review = await GetByPublicIdAsync(reviewPublicId);
+
+        ValidateReviewAuthor(review.AuthorId, userId);
+
+        dbContext.Reviews.Remove(review);
+
+        await dbContext.SaveChangesAsync();
+    }
+
+    public async Task EditAsync(ReviewEditDto editDto)
+    {
+        await ValidateUserExists(editDto.UserId);
+
+        var review = await GetByPublicIdAsync(editDto.ReviewPublicId);
+
+        ValidateReviewAuthor(review.AuthorId, editDto.UserId);
+
+        int? lastUserBookingId = await dbContext.Bookings
+            .Where(b => b.IsActive)
+            .Where(b => b.UserId == editDto.UserId && b.HotelId == review.HotelId)
+            .OrderByDescending(b => b.CheckOut)
+            .Select(b => b.Id)
+            .FirstOrDefaultAsync();
+
+        if (lastUserBookingId == null)
+        {
+            throw new InvalidModelDataException(BookingErrors.NotFound);
+        }
+
+        review.BookingId = (int)lastUserBookingId;
+
+        review.RatingScore = editDto.Score;
+        review.Title = editDto.Title;
+        review.Comment = editDto.Comment;
+        review.ReviewedOn = DateTime.Now;
+
+        await dbContext.SaveChangesAsync();
+    }
+
+    private async Task<Booking?> GetLastUserBookingForHotel(int userId, Guid hotelId)
+    {
+        bool isUserFound = await dbContext.Users
+            .Where(u => u.IsDeleted == false)
+            .AnyAsync(u => u.Id == userId);
+
+        if (isUserFound == false)
+        {
+            return null;
+        }
+
+        bool isHotelFound = await dbContext.Hotels
+            .Where(h => h.IsActive)
+            .AnyAsync(h => h.PublicId == hotelId);
+
+        if (isHotelFound == false)
+        {
+            throw new InvalidModelDataException(HotelErrors.NotFound);
+        }
+
+        var lastUserBookingForHotel = await dbContext.Bookings
+            .Where(b => b.IsActive)
+            .Where(b => b.UserId == userId && b.Hotel.PublicId == hotelId)
+            .Include(b => b.Review)
+            .OrderByDescending(b => b.CheckOut)
+            .FirstOrDefaultAsync();
+
+        return lastUserBookingForHotel;
+    }
+
+    private async Task<Review> GetByPublicIdAsync(Guid reviewPublicId)
+    {
+        var review = await dbContext.Reviews
+            .SingleOrDefaultAsync(r => r.PublicId == reviewPublicId);
+
+        if (review == null)
+        {
+            throw new InvalidModelDataException(ReviewErrors.NotFound);
+        }
+
+        return review;
+    }
+
+    private void ValidateReviewAuthor(int authorId, int userId)
+    {
+        if (authorId != userId)
+        {
+            throw new InvalidModelDataException(ReviewErrors.NotTheAuthorOfReview);
+        }
+    }
+
+    private async Task ValidateUserExists(int userId)
+    {
+        bool isUserFound = await dbContext.Users
+            .Where(u => u.IsDeleted == false)
+            .Where(u => u.Id == userId)
+            .Select(u => true)
+            .SingleOrDefaultAsync();
+
+        if (isUserFound == false)
+        {
+            throw new InvalidModelDataException(UserErrors.NotFound);
+        }
     }
 }
