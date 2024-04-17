@@ -4,8 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotBooking.Data.Models;
 
-public class Review : BaseEntity
+public class Review : IActive
 {
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public Guid PublicId { get; set; }
+
     [Required]
     [Column(TypeName = "decimal(18,2)")]
     public decimal RatingScore { get; set; }
