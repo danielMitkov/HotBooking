@@ -1,4 +1,6 @@
-﻿using HotBooking.Core.Interfaces;
+﻿using HotBooking.Core.ErrorMessages;
+using HotBooking.Core.Exceptions;
+using HotBooking.Core.Interfaces;
 using HotBooking.Core.Models.DTOs.BookingDtos;
 using HotBooking.Core.Services;
 using HotBooking.Data;
@@ -51,5 +53,14 @@ public class BookingServiceTests
 
         Assert.Equal(bookingsCount + 1, await dbContext.Bookings.CountAsync());
         Assert.Equal(seeder.User_Normal.Id, newestBooking.UserId);
+    }
+
+    [Fact]
+    public async Task CancelAsync_ThrowsFor_NotFound()
+    {
+        var ex = await Assert.ThrowsAsync<InvalidModelDataException>(
+            () => bookingService.CancelAsync(Guid.NewGuid()));
+
+        Assert.Equal(BookingErrors.NotFound, ex.Message);
     }
 }
