@@ -10,7 +10,7 @@ public class Booking : IPublicId
     public int Id { get; set; }
 
     [Required]
-    public Guid PublicId { get; set; }
+    public Guid PublicId { get; set; } = Guid.NewGuid();
 
     [Required]
     public bool IsActive { get; set; } = true;
@@ -42,5 +42,9 @@ public class Booking : IPublicId
     [ForeignKey(nameof(HotelId))]
     public Hotel Hotel { get; set; } = null!;
 
-    public Review? Review { get; set; } = null!;
+    public Review? Review { get; set; }
+
+    public Cart? Cart { get; set; }
+
+    public Order? Order { get; set; }
 }
