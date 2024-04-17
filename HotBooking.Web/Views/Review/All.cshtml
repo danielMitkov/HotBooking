@@ -27,7 +27,7 @@
     @foreach (ReviewDetailsDto review in Model.Reviews)
     {
         <div class="row">
-            <div class="col-4">
+            <div class="col-12 col-sm-4">
 
                 <h3>@review.Score</h3>
                 @*user name and country*@
@@ -54,7 +54,7 @@
                 }
 
             </div>
-            <div class="col-8">
+            <div class="col-12 col-sm-8">
                 <h6>@review.Title</h6>
 
                 <p>@review.Comment</p>

@@ -5,7 +5,7 @@
 
     <div class="row border border-1 border-secondary rounded-3 mb-4">
         <div class="col-12 col-md-4 p-0">
-            <img class="img-fluid rounded-3" src="@booking.RoomImageUrl" alt="no">
+            <img class="img-fluid rounded-3 h-100" src="@booking.RoomImageUrl" alt="no">
         </div>
         <div class="col-12 col-md-4 p-4">
             <h3>@booking.HotelName</h3>
@@ -17,10 +17,6 @@
 
         </div>
         <div class="col-12 col-md-4 p-4 d-flex flex-column justify-content-between">
-            @*             <div>
-        <p class="text-end">@(Math.Round(booking.AverageRating, 2))/10</p>
-        <p class="text-end">@booking.ReviewsCount reviews</p>
-        </div> *@
 
             @if (booking.Status == BookingStatus.Upcoming)
             {
