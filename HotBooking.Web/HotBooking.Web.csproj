@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HotBooking.Core.Models\HotBooking.Core.Models.csproj" />
     <ProjectReference Include="..\HotBooking.Core\HotBooking.Core.csproj" />
   </ItemGroup>
 

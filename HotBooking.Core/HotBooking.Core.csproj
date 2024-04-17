@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HotBooking.Core.Models\HotBooking.Core.Models.csproj" />
     <ProjectReference Include="..\HotBooking.Data\HotBooking.Data.csproj" />
   </ItemGroup>
 
