@@ -1,6 +1,6 @@
 ﻿using HotBooking.Data.Constants;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotBooking.Data.Models;
 
