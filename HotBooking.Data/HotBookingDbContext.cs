@@ -17,7 +17,6 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
     public DbSet<Room> Rooms { get; set; } = null!;
     public DbSet<Booking> Bookings { get; set; } = null!;
     public DbSet<Review> Reviews { get; set; } = null!;
-    public DbSet<Manager> Managers { get; set; } = null!;
     public DbSet<Feature> Features { get; set; } = null!;
     public DbSet<Facility> Facilities { get; set; } = null!;
     public DbSet<HotelImageUrl> HotelImageUrls { get; set; } = null!;
@@ -53,7 +52,6 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
         DataSeeder seeder = new DataSeeder();
 
         modelBuilder.Entity<ApplicationUser>().HasData(seeder.Users);
-        modelBuilder.Entity<Manager>().HasData(seeder.Managers);
         modelBuilder.Entity<Hotel>().HasData(seeder.Hotels);
         modelBuilder.Entity<Facility>().HasData(seeder.Facilities);
         modelBuilder.Entity<HotelFacility>().HasData(seeder.HotelFacilities);

@@ -1,7 +1,6 @@
 ﻿using HotBooking.Data.Constants;
 using HotBooking.Data.Interfaces;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotBooking.Data.Models;
 
@@ -38,12 +37,6 @@ public class Hotel : IPublicId
 
     [Required]
     public int StarRating { get; set; }
-
-    [Required]
-    public int ManagerId { get; set; }
-
-    [ForeignKey(nameof(ManagerId))]
-    public Manager Manager { get; set; } = null!;
 
     public ICollection<HotelFacility> HotelsFacilities { get; set; } = new HashSet<HotelFacility>();
 
