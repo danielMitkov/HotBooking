@@ -1,10 +1,20 @@
 ﻿using HotBooking.Data.Constants;
+using HotBooking.Data.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotBooking.Data.Models;
 
-public class Feature : BaseEntity
+public class Feature : IPublicId
 {
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public Guid PublicId { get; set; }
+
+    [Required]
+    public bool IsActive { get; set; } = true;
+
     [Required]
     [MaxLength(FeatureConstants.NameLengthMax)]
     public string Name { get; set; } = null!;

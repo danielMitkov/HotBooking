@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HotBooking.Data.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotBooking.Data.Models;
 
-public class ApplicationUser : IdentityUser<int>
+public class ApplicationUser : IdentityUser<int>, IPublicId
 {
     [Required]
-    public bool IsDeleted { get; set; } = false;
+    public Guid PublicId { get; set; }
+
+    [Required]
+    public bool IsActive { get; set; } = true;
 
     public ICollection<Booking> Bookings { get; set; } = new HashSet<Booking>();
 

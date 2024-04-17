@@ -1,4 +1,5 @@
-﻿using HotBooking.Data.Models;
+﻿using HotBooking.Data.Interfaces;
+using HotBooking.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -7,10 +8,6 @@ namespace HotBooking.Data;
 
 public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
 {
-    public HotBookingDbContext()
-    {
-    }
-
     public HotBookingDbContext(DbContextOptions<HotBookingDbContext> options)
         : base(options)
     {
@@ -40,10 +37,10 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
 
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
-            if (typeof(IActive).IsAssignableFrom(entityType.ClrType))
+            if (typeof(IPublicId).IsAssignableFrom(entityType.ClrType))
             {
                 modelBuilder.Entity(entityType.ClrType)
-                    .HasIndex(nameof(BaseEntity.PublicId))
+                    .HasIndex(nameof(IPublicId.PublicId))
                     .IsUnique();
             }
 
