@@ -105,7 +105,7 @@ public class HotelsService : IHotelsService
                 h.StreetAddress,
                 h.CityName,
                 h.StarRating,
-                h.Reviews.Average(r => r.RatingScore),
+                h.Reviews.Sum(r => r.RatingScore) / (h.Reviews.Count() == 0 ? 1 : h.Reviews.Count()),
                 h.Reviews.Count()))
             .ToListAsync();
 
@@ -140,7 +140,7 @@ public class HotelsService : IHotelsService
                 h.CityName,
                 h.CountryName,
                 h.StarRating,
-                h.Reviews.Average(r => r.RatingScore),
+                h.Reviews.Sum(r => r.RatingScore) / (h.Reviews.Count() == 0 ? 1 : h.Reviews.Count()),
                 h.Reviews.Count(),
                 h.HotelsFacilities
                     .Select(hf => new FacilityDetailsDto(
