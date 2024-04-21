@@ -3,11 +3,12 @@ using HotBooking.Core.Interfaces;
 using HotBooking.Core.Models.DTOs.HotelDtos;
 using HotBooking.Web.Models;
 using HotBooking.Web.Models.HotelViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotBooking.Web.Controllers;
 
-public class HotelsController : Controller
+public class HotelsController : BaseController
 {
     public const string Name = "Hotels";
 
@@ -21,6 +22,7 @@ public class HotelsController : Controller
         this.hotelsService = hotelsService;
     }
 
+    [AllowAnonymous]
     [Route("Hotels/List/{page?}")]
     public async Task<IActionResult> List(BrowseHotelsViewModel browseModel, SearchHotelsViewModel searchModel)
     {
@@ -63,6 +65,7 @@ public class HotelsController : Controller
         return View(browseModel);
     }
 
+    [AllowAnonymous]
     public async Task<IActionResult> Details(Guid id, SearchHotelsViewModel searchModel)
     {
         if (ModelState.IsValid == false)

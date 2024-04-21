@@ -1,12 +1,13 @@
 ﻿using HotBooking.Data.Models;
 using HotBooking.Web.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotBooking.Web.Controllers;
 
-public class AuthController : Controller
+public class AuthController : BaseController
 {
     public const string Name = "Auth";
 
@@ -24,6 +25,7 @@ public class AuthController : Controller
         this.userManager = userManager;
     }
 
+    [AllowAnonymous]
     public async Task<IActionResult> Login()
     {
         await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
@@ -31,6 +33,7 @@ public class AuthController : Controller
         return View();
     }
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel loginModel)
     {
@@ -51,11 +54,13 @@ public class AuthController : Controller
         return View(loginModel);
     }
 
+    [AllowAnonymous]
     public IActionResult Register()
     {
         return View();
     }
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel registerModel)
     {

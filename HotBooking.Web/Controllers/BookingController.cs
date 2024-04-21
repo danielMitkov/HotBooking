@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HotBooking.Web.Controllers;
 
-public class BookingController : Controller
+public class BookingController : BaseController
 {
     public const string Name = "Booking";
 
@@ -17,10 +17,10 @@ public class BookingController : Controller
 
     public BookingController(
         ILogger<BookingController> logger,
-        IBookingService cartService)
+        IBookingService bookingService)
     {
         this.logger = logger;
-        this.bookingService = cartService;
+        this.bookingService = bookingService;
     }
 
     [Route("Booking/Add/{roomId}")]

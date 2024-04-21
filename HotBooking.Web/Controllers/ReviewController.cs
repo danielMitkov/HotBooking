@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HotBooking.Web.Controllers;
 
-[Authorize]
-public class ReviewController : Controller
+public class ReviewController : BaseController
 {
     public const string Name = "Review";
 
     private readonly ILogger<ReviewController> logger;
     private readonly IReviewService reviewService;
 
-    public ReviewController(ILogger<ReviewController> logger,
+    public ReviewController(
+        ILogger<ReviewController> logger,
         IReviewService reviewService)
     {
         this.logger = logger;
