@@ -86,7 +86,7 @@ public class HotelsService : IHotelsService
                 .ThenBy(h => h.Id),
 
             _ => queryHotels//RatingDesc
-                .OrderByDescending(h => h.Reviews.Average(r => r.RatingScore))
+                .OrderByDescending(h => h.Reviews.Sum(r => r.RatingScore) / (h.Reviews.Count() == 0 ? 1 : h.Reviews.Count()))
                 .ThenBy(h => h.Id)
         };
 
