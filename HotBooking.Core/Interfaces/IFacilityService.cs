@@ -6,4 +6,6 @@ public interface IFacilityService
 {
     Task<IEnumerable<FacilityControlDetailsDto>> AllAsync();
     Task<FacilityControlDetailsDto> DetailsAsync(Guid id);
+    Task CreateAsync(FacilityDetailsDto facilityDto);
+    Task<FacilityFormDto> GetByPublicId(Guid publicId);
 }
