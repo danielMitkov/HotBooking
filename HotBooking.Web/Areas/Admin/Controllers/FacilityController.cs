@@ -1,57 +1,66 @@
-﻿using HotBooking.Data;
+﻿using HotBooking.Core.Exceptions;
+using HotBooking.Core.Interfaces;
+using HotBooking.Data;
 using HotBooking.Data.Models;
+using HotBooking.Web.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotBooking.Web.Areas.Admin.Controllers
 {
-    public class FacilitiesController : Controller
+    public class FacilityController : BaseAdminController
     {
-        private readonly HotBookingDbContext _context;
+        public const string Name = "Facility";
 
-        public FacilitiesController(HotBookingDbContext context)
+        private readonly HotBookingDbContext _context;
+        private readonly IFacilityService facilityService;
+        private readonly ILogger<FacilityController> logger;
+
+        public FacilityController(HotBookingDbContext context,
+            IFacilityService facilityService,
+            ILogger<FacilityController> logger)
         {
             _context = context;
+            this.facilityService = facilityService;
+            this.logger = logger;
         }
 
-        // GET: Facilities
         public async Task<IActionResult> Index()
         {
-            return _context.Facilities != null ?
-                        View(await _context.Facilities.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Facilities'  is null.");
+            var facilityDtos = await facilityService.AllAsync();
+
+            return View(facilityDtos);
         }
 
-        // GET: Facilities/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            if (id == null || _context.Facilities == null)
+            try
             {
-                return NotFound();
-            }
+                var facilityDto = await facilityService.DetailsAsync(id);
 
-            var facility = await _context.Facilities
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (facility == null)
+                return View(facilityDto);
+            }
+            catch (InvalidModelDataException ex)
             {
-                return NotFound();
-            }
+                logger.LogWarning(ex, DateTime.Now.ToString());
 
-            return View(facility);
+                TempData["Error"] = ex.Message;
+
+                return RedirectToAction(
+                    nameof(HomeController.Index),
+                    HomeController.Name,
+                    new { Area = AdminConstants.AdminAreaName });
+            }
         }
 
-        // GET: Facilities/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Facilities/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PublicId,IsActive,Name,CreatedOn,SvgTag")] Facility facility)
+        public async Task<IActionResult> Create([Bind("Name,SvgTag")] Facility facility)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +71,6 @@ namespace HotBooking.Web.Areas.Admin.Controllers
             return View(facility);
         }
 
-        // GET: Facilities/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Facilities == null)
@@ -78,9 +86,6 @@ namespace HotBooking.Web.Areas.Admin.Controllers
             return View(facility);
         }
 
-        // POST: Facilities/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PublicId,IsActive,Name,CreatedOn,SvgTag")] Facility facility)
@@ -113,7 +118,6 @@ namespace HotBooking.Web.Areas.Admin.Controllers
             return View(facility);
         }
 
-        // GET: Facilities/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Facilities == null)
@@ -131,7 +135,6 @@ namespace HotBooking.Web.Areas.Admin.Controllers
             return View(facility);
         }
 
-        // POST: Facilities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
