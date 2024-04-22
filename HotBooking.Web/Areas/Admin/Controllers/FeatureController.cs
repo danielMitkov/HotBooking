@@ -7,7 +7,7 @@ namespace HotBooking.Web.Areas.Admin.Controllers
 {
     public class FeatureController : BaseAdminController
     {
-        private const string Name = "Feature";
+        public const string Name = "Feature";
 
         private readonly HotBookingDbContext _context;
 
