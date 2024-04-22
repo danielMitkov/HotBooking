@@ -1,8 +1,8 @@
 ﻿using HotBooking.Core.Exceptions;
 using HotBooking.Core.Interfaces;
+using HotBooking.Core.Models.DTOs.FacilityDtos;
 using HotBooking.Data;
-using HotBooking.Data.Models;
-using HotBooking.Web.Constants;
+using HotBooking.Web.Models.FacilityViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,10 +46,7 @@ namespace HotBooking.Web.Areas.Admin.Controllers
 
                 TempData["Error"] = ex.Message;
 
-                return RedirectToAction(
-                    nameof(HomeAdminController.Index),
-                    HomeAdminController.Name,
-                    new { Area = AdminConstants.AdminAreaName });
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -60,37 +57,56 @@ namespace HotBooking.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,SvgTag")] Facility facility)
+        public async Task<IActionResult> Create(FacilityCreateViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false)
             {
-                _context.Add(facility);
-                await _context.SaveChangesAsync();
+                return View(model);
+            }
+
+            var facilityDto = new FacilityDetailsDto(
+                model.Name,
+                model.SvgTag);
+
+            try
+            {
+                await facilityService.CreateAsync(facilityDto);
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(facility);
+            catch (InvalidModelDataException ex)
+            {
+                logger.LogWarning(ex, DateTime.Now.ToString());
+
+                TempData["Error"] = ex.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            if (id == null || _context.Facilities == null)
+            try
             {
-                return NotFound();
-            }
+                var facilityDto = await facilityService.GetByPublicId(id);
 
-            var facility = await _context.Facilities.FindAsync(id);
-            if (facility == null)
-            {
-                return NotFound();
+                return View(facilityDto);
             }
-            return View(facility);
+            catch (InvalidModelDataException ex)
+            {
+                logger.LogWarning(ex, DateTime.Now.ToString());
+
+                TempData["Error"] = ex.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PublicId,IsActive,Name,CreatedOn,SvgTag")] Facility facility)
+        public async Task<IActionResult> Edit(Guid publicId, FacilityFormDto model)
         {
-            if (id != facility.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
@@ -99,12 +115,12 @@ namespace HotBooking.Web.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(facility);
+                    _context.Update(model);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FacilityExists(facility.Id))
+                    if (!FacilityExists(model.Id))
                     {
                         return NotFound();
                     }
@@ -115,7 +131,7 @@ namespace HotBooking.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(facility);
+            return View(model);
         }
 
         public async Task<IActionResult> Delete(int? id)
