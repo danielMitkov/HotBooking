@@ -5,11 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotBooking.Web.Areas.Admin.Controllers
 {
-    public class FeaturesController : BaseAdminController
+    public class FeatureController : BaseAdminController
     {
+        private const string Name = "Feature";
+
         private readonly HotBookingDbContext _context;
 
-        public FeaturesController(HotBookingDbContext context)
+        public FeatureController(HotBookingDbContext context)
         {
             _context = context;
         }
