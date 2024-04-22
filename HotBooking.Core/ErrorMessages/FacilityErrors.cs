@@ -3,4 +3,5 @@
 public static class FacilityErrors
 {
     public const string NotFound = "Facility Not Found!";
+    public const string NameAlreadyExists = "Facility Name Already Exists!";
 }
