@@ -27,16 +27,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark"
                                asp-area="Admin"
-                               asp-controller="Facilities"
-                               asp-action="Index">
+                               asp-controller="@FacilityController.Name"
+                               asp-action="@nameof(FacilityController.Index)">
                                 Facilities
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark"
                                asp-area="Admin"
-                               asp-controller="Features"
-                               asp-action="Index">
+                               asp-controller="@FeatureController.Name"
+                               asp-action="@nameof(FeatureController.Index)">
                                 Features
                             </a>
                         </li>
