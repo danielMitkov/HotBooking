@@ -47,8 +47,8 @@ namespace HotBooking.Web.Areas.Admin.Controllers
                 TempData["Error"] = ex.Message;
 
                 return RedirectToAction(
-                    nameof(HomeController.Index),
-                    HomeController.Name,
+                    nameof(HomeAdminController.Index),
+                    HomeAdminController.Name,
                     new { Area = AdminConstants.AdminAreaName });
             }
         }

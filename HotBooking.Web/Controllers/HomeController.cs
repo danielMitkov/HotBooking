@@ -1,4 +1,5 @@
 ﻿using HotBooking.Core.Interfaces;
+using HotBooking.Web.Areas.Admin.Controllers;
 using HotBooking.Web.Constants;
 using HotBooking.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,10 @@ public class HomeController : Controller
     {
         if (User.IsInRole(AdminConstants.AdminRoleName))
         {
-            return RedirectToAction("Index", "Features", new { Area = AdminConstants.AdminAreaName });
+            return RedirectToAction(
+                nameof(HomeAdminController.Index),
+                HomeAdminController.Name,
+                new { Area = AdminConstants.AdminAreaName });
         }
 
         var searchModel = new SearchHotelsViewModel()
