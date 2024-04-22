@@ -1,4 +1,4 @@
-﻿@model HotBooking.Data.Models.Facility
+﻿@model FacilityCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -30,9 +30,11 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="@nameof(FacilityController.Index)">
+        Back to List
+    </a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
 }
