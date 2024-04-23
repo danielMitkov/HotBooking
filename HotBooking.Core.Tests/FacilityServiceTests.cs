@@ -81,4 +81,36 @@ public class FacilityServiceTests
         Assert.Equal(facility.Name, facilityDto.Name);
         Assert.Equal(facility.SvgTag, facilityDto.SvgTag);
     }
+
+    [Fact]
+    public async Task UpdateAsync_ThrowsFor_FacilityNotFound()
+    {
+        var formDto = new FacilityFormDto(
+            Guid.NewGuid(),
+            facilityName,
+            svgTag);
+
+        var ex = await Assert.ThrowsAsync<InvalidModelDataException>(
+            () => facilityService.UpdateAsync(formDto));
+
+        Assert.Equal(FacilityErrors.NotFound, ex.Message);
+    }
+
+    [Fact]
+    public async Task UpdateAsync_Updates()
+    {
+        var formDto = new FacilityFormDto(
+            seeder.Facility_Spa.PublicId,
+            facilityName,
+            svgTag);
+
+        await facilityService.UpdateAsync(formDto);
+
+        var facilityUpdated = await dbContext.Facilities
+            .SingleAsync(f => f.Id == seeder.Facility_Spa.Id);
+
+        Assert.NotNull(facilityUpdated);
+        Assert.Equal(facilityName, facilityUpdated.Name);
+        Assert.Equal(svgTag, facilityUpdated.SvgTag);
+    }
 }
