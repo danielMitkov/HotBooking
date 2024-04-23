@@ -17,6 +17,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IBookingService, BookingService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IFacilityService, FacilityService>();
+        services.AddScoped<IManagerService, ManagerService>();
 
         return services;
     }

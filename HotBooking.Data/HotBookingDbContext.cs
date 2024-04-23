@@ -13,6 +13,7 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
     {
     }
 
+    public DbSet<Manager> Managers { get; set; } = null!;
     public DbSet<Hotel> Hotels { get; set; } = null!;
     public DbSet<Room> Rooms { get; set; } = null!;
     public DbSet<Booking> Bookings { get; set; } = null!;
@@ -52,6 +53,7 @@ public class HotBookingDbContext : IdentityDbContext<ApplicationUser, IdentityRo
         DataSeeder seeder = new DataSeeder();
 
         modelBuilder.Entity<ApplicationUser>().HasData(seeder.Users);
+        modelBuilder.Entity<Manager>().HasData(seeder.Managers);
         modelBuilder.Entity<Hotel>().HasData(seeder.Hotels);
         modelBuilder.Entity<Facility>().HasData(seeder.Facilities);
         modelBuilder.Entity<HotelFacility>().HasData(seeder.HotelFacilities);

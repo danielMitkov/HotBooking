@@ -6,6 +6,7 @@ namespace HotBooking.Data;
 public class DataSeeder
 {
     public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
+    public ICollection<Manager> Managers { get; set; } = new List<Manager>();
     public ICollection<Hotel> Hotels { get; set; } = new List<Hotel>();
     public ICollection<Facility> Facilities { get; set; } = new List<Facility>();
     public ICollection<HotelFacility> HotelFacilities { get; set; } = new List<HotelFacility>();
@@ -17,9 +18,10 @@ public class DataSeeder
     public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
-    public DataSeeder(bool fillObjectReferences = false)
+    public DataSeeder()
     {
         SeedApplicationUsers();
+        SeedManagers();
         SeedHotels();
         SeedFacilities();
         SeedHotelFacilities();
@@ -80,6 +82,23 @@ public class DataSeeder
         Users.Add(User_TobeManager);
     }
 
+    public Manager Manager_First { get; set; } = null!;
+    private void SeedManagers()
+    {
+        int id = 0;
+
+        Manager_First = new Manager()
+        {
+            Id = ++id,
+            PublicId = Guid.Parse("1a7399f1-9439-433b-af61-0a114da3f704"),
+            CompanyName = "Test Company Name",
+            Department = "Test Department",
+            PhoneNumber = "08888888888",
+            UserId = User_TobeManager.Id
+        };
+        Managers.Add(Manager_First);
+    }
+
     public Hotel Hotel_ChilworthLondonPaddington { get; set; } = null!;
     public Hotel Hotel_KempinskiHotelGrandArena { get; set; } = null!;
     public Hotel Hotel_StrandPalace { get; set; } = null!;
@@ -94,7 +113,8 @@ public class DataSeeder
             StreetAddress = "Westminster Borough",
             CityName = "London",
             CountryName = "United Kingdom",
-            StarRating = 5
+            StarRating = 5,
+            ManagerId = Manager_First.Id
         };
         Hotels.Add(Hotel_ChilworthLondonPaddington);
 
@@ -107,7 +127,8 @@ public class DataSeeder
             StreetAddress = "#96 Pirin Street",
             CityName = "Bansko",
             CountryName = "Bulgaria",
-            StarRating = 4
+            StarRating = 4,
+            ManagerId = Manager_First.Id
         };
         Hotels.Add(Hotel_KempinskiHotelGrandArena);
 
@@ -120,7 +141,8 @@ public class DataSeeder
             StreetAddress = "Westminster Borough",
             CityName = "London",
             CountryName = "United Kingdom",
-            StarRating = 4
+            StarRating = 4,
+            ManagerId = Manager_First.Id
         };
         Hotels.Add(Hotel_StrandPalace);
     }

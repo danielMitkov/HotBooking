@@ -101,14 +101,14 @@ namespace HotBooking.Data.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "1355be4d-cf39-4890-a52d-9f71f81edc8c",
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 225, DateTimeKind.Local).AddTicks(6180),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 985, DateTimeKind.Local).AddTicks(3281),
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO/TCG1cN5FfyHB4TLCYXenlTkFA7ikW4ZGE3gH67phzta1uoQ5nl6wC3wS1RPKleA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGrlANWq2eFcCrgZKwkXqaUkJK97pIKUlS+I5Io/5INCnvMyywJsV/T97Kt/P8d76g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "db8f4118-4cc2-46dc-a5aa-f2a8c76c283e",
                             TwoFactorEnabled = false,
@@ -119,14 +119,14 @@ namespace HotBooking.Data.Migrations
                             Id = 2,
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "6492eedf-dc19-4c73-83a2-8b0b19c56ffa",
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 226, DateTimeKind.Local).AddTicks(7319),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 986, DateTimeKind.Local).AddTicks(4501),
                             Email = "two@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "two@mail.com",
                             NormalizedUserName = "two@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKc+VGFGchhwGKZ2N8wUqFvXCt9ThnBjCnmQrcl3B2t74pJne4H4R3BLP1m+klcwqg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAD3G3aYxyNrBZVysGEr4SeXslNCK0k5ZbKoBtWPPIv8PwC/+NkmwaYZyFFiPqG42w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "35cc41e6-30eb-4131-a3e5-214c628a45bc",
                             TwoFactorEnabled = false,
@@ -137,14 +137,14 @@ namespace HotBooking.Data.Migrations
                             Id = 3,
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "5dffdb66-294c-4ecb-a4e1-939c86c3602a",
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 227, DateTimeKind.Local).AddTicks(7671),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 987, DateTimeKind.Local).AddTicks(5018),
                             Email = "manager@mail.com",
                             EmailConfirmed = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "manager@mail.com",
                             NormalizedUserName = "manager@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAECqBzgfFHxK4lhR3dbSR4tRNawbEP5mAG8/+pRsp0NS9RRJyb4d8AhpZ16JyG7IHrg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE36Yq011BzwLuK+TuRIC/uzCOEoOKLyVYFntT/AMowndzMh3Vpty35rsSvoqRZP8A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "68c75553-2311-4508-8f97-57b35c275756",
                             TwoFactorEnabled = false,
@@ -207,7 +207,7 @@ namespace HotBooking.Data.Migrations
                             AdultsCount = 2,
                             CheckIn = new DateTime(2023, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8451),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6117),
                             HotelId = 1,
                             IsActive = true,
                             PublicId = new Guid("361a33dc-f063-4edd-b666-4397cfb3efda"),
@@ -220,7 +220,7 @@ namespace HotBooking.Data.Migrations
                             AdultsCount = 1,
                             CheckIn = new DateTime(2023, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8463),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6135),
                             HotelId = 1,
                             IsActive = true,
                             PublicId = new Guid("e78c3b41-be48-4ee1-9661-c3a1a5c1361f"),
@@ -233,7 +233,7 @@ namespace HotBooking.Data.Migrations
                             AdultsCount = 3,
                             CheckIn = new DateTime(2023, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8470),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6142),
                             HotelId = 2,
                             IsActive = true,
                             PublicId = new Guid("376b5caf-bd6d-40d8-a458-2298bf370b83"),
@@ -246,7 +246,7 @@ namespace HotBooking.Data.Migrations
                             AdultsCount = 3,
                             CheckIn = new DateTime(2023, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8475),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6146),
                             HotelId = 2,
                             IsActive = true,
                             PublicId = new Guid("615910cd-f26e-45d7-9eee-3e3ff2ba5ba6"),
@@ -259,7 +259,7 @@ namespace HotBooking.Data.Migrations
                             AdultsCount = 1,
                             CheckIn = new DateTime(2023, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8480),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6153),
                             HotelId = 2,
                             IsActive = true,
                             PublicId = new Guid("a8f22cc2-1555-4ba0-864b-0c11fd3cc73b"),
@@ -272,7 +272,7 @@ namespace HotBooking.Data.Migrations
                             AdultsCount = 2,
                             CheckIn = new DateTime(2023, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8486),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6158),
                             HotelId = 2,
                             IsActive = true,
                             PublicId = new Guid("3a84eb18-1265-4a9e-9b4d-3c58da91520d"),
@@ -285,7 +285,7 @@ namespace HotBooking.Data.Migrations
                             AdultsCount = 3,
                             CheckIn = new DateTime(2023, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOut = new DateTime(2023, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8491),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6165),
                             HotelId = 3,
                             IsActive = true,
                             PublicId = new Guid("076fa9df-7309-4979-a1d8-2ec7da0cc2da"),
@@ -332,7 +332,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8172),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(5891),
                             IsActive = true,
                             Name = "Spa",
                             PublicId = new Guid("bd77461c-f3bc-4fa9-97af-4b865e5ae1ad"),
@@ -341,7 +341,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8182),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(5902),
                             IsActive = true,
                             Name = "Parking",
                             PublicId = new Guid("e7a6ad8e-f8c1-4a28-9c9d-6b741f8abb21"),
@@ -350,7 +350,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8187),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(5908),
                             IsActive = true,
                             Name = "WiFi",
                             PublicId = new Guid("d443a26f-1b2c-4da6-b0e1-08668fed10bb"),
@@ -359,7 +359,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8278),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(5915),
                             IsActive = true,
                             Name = "Restaurant",
                             PublicId = new Guid("dd36efb6-0080-4fe7-b7d3-099c49bbfab3"),
@@ -368,7 +368,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8285),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(5919),
                             IsActive = true,
                             Name = "Fitness",
                             PublicId = new Guid("73324070-64ea-40b7-aadb-dd37821b1f8c"),
@@ -414,7 +414,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8379),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6046),
                             IsActive = true,
                             Name = "TV",
                             PublicId = new Guid("b2f23b10-6219-46c4-9e05-4a7f2022d91e"),
@@ -423,7 +423,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8386),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6055),
                             IsActive = true,
                             Name = "Refrigerator",
                             PublicId = new Guid("9f4f658a-6d84-46b4-8d52-6db5238b760b"),
@@ -432,7 +432,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8390),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6059),
                             IsActive = true,
                             Name = "Hairdryer",
                             PublicId = new Guid("41fd8a74-4f85-4fe4-aa02-f1cd4b922e53"),
@@ -441,7 +441,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8395),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6063),
                             IsActive = true,
                             Name = "Towels",
                             PublicId = new Guid("41233a4d-2b06-4a17-a03e-d83b8afe6b58"),
@@ -450,7 +450,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8399),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6069),
                             IsActive = true,
                             Name = "Slippers",
                             PublicId = new Guid("8b5dbbe9-a33e-454a-b604-34a55bffe057"),
@@ -459,7 +459,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 6,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8406),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6074),
                             IsActive = true,
                             Name = "Bathtub",
                             PublicId = new Guid("1b9d6d74-c620-4895-9030-52a6a75d6e80"),
@@ -498,6 +498,9 @@ namespace HotBooking.Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ManagerId")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("PublicId")
                         .HasColumnType("uniqueidentifier");
 
@@ -510,6 +513,8 @@ namespace HotBooking.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ManagerId");
 
                     b.HasIndex("PublicId")
                         .IsUnique();
@@ -525,6 +530,7 @@ namespace HotBooking.Data.Migrations
                             Description = "Less than a 5-minute walk from London Paddington Station and Hyde Park, this boutique hotel offers elegant rooms with free internet and satellite TV.",
                             HotelName = "The Chilworth London Paddington",
                             IsActive = true,
+                            ManagerId = 1,
                             PublicId = new Guid("fe10a78f-423b-4e19-8c79-88cef52c46bd"),
                             StarRating = 5,
                             StreetAddress = "Westminster Borough"
@@ -537,6 +543,7 @@ namespace HotBooking.Data.Migrations
                             Description = "Get your trip off to a great start with a stay at this property, which offers free Wi-Fi in all rooms. Conveniently situated in the Bansko part of Bansko, this property puts you close to attractions and interesting dining options. Rated with 5 stars, this high-quality property provides guests with access to massage, restaurant and hot tub on-site.",
                             HotelName = "Kempinski Hotel Grand Arena Bansko",
                             IsActive = true,
+                            ManagerId = 1,
                             PublicId = new Guid("e8efdf7b-5e4c-48ff-8417-ff57968f8cb8"),
                             StarRating = 4,
                             StreetAddress = "#96 Pirin Street"
@@ -549,6 +556,7 @@ namespace HotBooking.Data.Migrations
                             Description = "Welcoming guests since 1909, the Strand Palace Hotel is located in London’s West End within just 2297 feet of the Adelphi and the Vaudeville theaters.",
                             HotelName = "Strand Palace Hotel",
                             IsActive = true,
+                            ManagerId = 1,
                             PublicId = new Guid("653faa7e-e19b-4430-94e7-555616cba66e"),
                             StarRating = 4,
                             StreetAddress = "Westminster Borough"
@@ -655,7 +663,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8316),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(5945),
                             HotelId = 1,
                             IsActive = true,
                             PublicId = new Guid("52746a70-1f95-4295-9c3f-8b3d755b4dc9"),
@@ -664,7 +672,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8326),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(5954),
                             HotelId = 1,
                             IsActive = true,
                             PublicId = new Guid("3221e44c-11b4-4724-b021-a531e3fd27a0"),
@@ -673,7 +681,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8330),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(5960),
                             HotelId = 2,
                             IsActive = true,
                             PublicId = new Guid("38a6ce9d-086d-4df2-a84c-59b45968f4a7"),
@@ -682,11 +690,62 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8334),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(5965),
                             HotelId = 3,
                             IsActive = true,
                             PublicId = new Guid("10c18e2c-d32f-465d-b33c-ee4b82bfbef9"),
                             Url = "https://cf.bstatic.com/xdata/images/hotel/max1024x768/260560238.jpg?k=1d14eb111d6a58d373d4139792c8c0545ec7014527bab0c00a98945e8df46879&o=&hp=1"
+                        });
+                });
+
+            modelBuilder.Entity("HotBooking.Data.Models.Manager", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PublicId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PublicId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Managers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CompanyName = "Test Company Name",
+                            Department = "Test Department",
+                            IsActive = true,
+                            PhoneNumber = "08888888888",
+                            PublicId = new Guid("1a7399f1-9439-433b-af61-0a114da3f704"),
+                            UserId = 3
                         });
                 });
 
@@ -980,7 +1039,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8420),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6089),
                             IsActive = true,
                             PublicId = new Guid("7cf5117f-613c-4155-9e04-872d21480b3b"),
                             RoomId = 3,
@@ -989,7 +1048,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8430),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6097),
                             IsActive = true,
                             PublicId = new Guid("7a8d852b-6abe-4d72-858d-cd0ad426d672"),
                             RoomId = 3,
@@ -998,7 +1057,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8434),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6102),
                             IsActive = true,
                             PublicId = new Guid("e292412d-b6ca-43ba-9a8c-9c54d2c53c57"),
                             RoomId = 5,
@@ -1007,7 +1066,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8438),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6106),
                             IsActive = true,
                             PublicId = new Guid("42636c85-9261-41ff-9520-a7bb9130bd00"),
                             RoomId = 5,
@@ -1016,7 +1075,7 @@ namespace HotBooking.Data.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedOn = new DateTime(2024, 4, 17, 21, 57, 55, 228, DateTimeKind.Local).AddTicks(8442),
+                            CreatedOn = new DateTime(2024, 4, 23, 16, 19, 54, 988, DateTimeKind.Local).AddTicks(6109),
                             IsActive = true,
                             PublicId = new Guid("6b9b2f72-b469-445f-9cd5-4e38add74435"),
                             RoomId = 6,
@@ -1188,6 +1247,17 @@ namespace HotBooking.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("HotBooking.Data.Models.Hotel", b =>
+                {
+                    b.HasOne("HotBooking.Data.Models.Manager", "Manager")
+                        .WithMany("Hotels")
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Manager");
+                });
+
             modelBuilder.Entity("HotBooking.Data.Models.HotelFacility", b =>
                 {
                     b.HasOne("HotBooking.Data.Models.Facility", "Facility")
@@ -1216,6 +1286,17 @@ namespace HotBooking.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Hotel");
+                });
+
+            modelBuilder.Entity("HotBooking.Data.Models.Manager", b =>
+                {
+                    b.HasOne("HotBooking.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Review", b =>
@@ -1370,6 +1451,11 @@ namespace HotBooking.Data.Migrations
                     b.Navigation("Reviews");
 
                     b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("HotBooking.Data.Models.Manager", b =>
+                {
+                    b.Navigation("Hotels");
                 });
 
             modelBuilder.Entity("HotBooking.Data.Models.Room", b =>
