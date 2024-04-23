@@ -72,6 +72,8 @@ namespace HotBooking.Web.Areas.Admin.Controllers
             {
                 await facilityService.CreateAsync(facilityDto);
 
+                TempData["OK"] = "Facility Created!";
+
                 return RedirectToAction(nameof(Index));
             }
             catch (InvalidModelDataException ex)
@@ -90,7 +92,14 @@ namespace HotBooking.Web.Areas.Admin.Controllers
             {
                 var facilityDto = await facilityService.GetByPublicId(id);
 
-                return View(facilityDto);
+                var formModel = new FacilityFormViewModel()
+                {
+                    PublicId = facilityDto.PublicId,
+                    Name = facilityDto.Name,
+                    SvgTag = facilityDto.SvgTag
+                };
+
+                return View(formModel);
             }
             catch (InvalidModelDataException ex)
             {
@@ -104,34 +113,34 @@ namespace HotBooking.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid publicId, FacilityFormDto model)
+        public async Task<IActionResult> Edit(Guid publicId, FacilityFormViewModel formModel)
         {
-            if (id != model.Id)
+            if (ModelState.IsValid == false)
             {
-                return NotFound();
+                return View(formModel);
             }
 
-            if (ModelState.IsValid)
+            var formDto = new FacilityFormDto(
+                formModel.PublicId,
+                formModel.Name,
+                formModel.SvgTag);
+
+            try
             {
-                try
-                {
-                    _context.Update(model);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FacilityExists(model.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await facilityService.UpdateAsync(formDto);
+
+                TempData["OK"] = "Facility Updated!";
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            catch (InvalidModelDataException ex)
+            {
+                logger.LogWarning(ex, DateTime.Now.ToString());
+
+                TempData["Error"] = ex.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         public async Task<IActionResult> Delete(int? id)
