@@ -88,4 +88,20 @@ public class FacilityService : IFacilityService
 
         return facilityDto;
     }
+
+    public async Task UpdateAsync(FacilityFormDto formDto)
+    {
+        var facility = await dbContext.Facilities
+            .SingleOrDefaultAsync(f => f.PublicId == formDto.PublicId);
+
+        if (facility == null)
+        {
+            throw new InvalidModelDataException(FacilityErrors.NotFound);
+        }
+
+        facility.Name = formDto.Name;
+        facility.SvgTag = formDto.SvgTag;
+
+        await dbContext.SaveChangesAsync();
+    }
 }

@@ -8,4 +8,5 @@ public interface IFacilityService
     Task<FacilityControlDetailsDto> DetailsAsync(Guid id);
     Task CreateAsync(FacilityDetailsDto facilityDto);
     Task<FacilityFormDto> GetByPublicId(Guid publicId);
+    Task UpdateAsync(FacilityFormDto formDto);
 }
