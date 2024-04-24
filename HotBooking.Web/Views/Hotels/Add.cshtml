@@ -1,0 +1,80 @@
+﻿@model HotelFormViewModel
+
+@{
+    ViewData["Title"] = "Add Hotel";
+}
+
+<h1>Add</h1>
+
+<h4>Hotel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.HotelName" class="control-label">Hotel Name</label>
+                <input asp-for="@Model.HotelName" class="form-control" />
+                <span asp-validation-for="@Model.HotelName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Description" class="control-label">Description</label>
+                <input asp-for="@Model.Description" class="form-control" />
+                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.StreetAddress" class="control-label">Street Address</label>
+                <input asp-for="@Model.StreetAddress" class="form-control" />
+                <span asp-validation-for="@Model.StreetAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CityName" class="control-label">City Name</label>
+                <input asp-for="@Model.CityName" class="form-control" />
+                <span asp-validation-for="@Model.CityName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CountryName" class="control-label">Country Name</label>
+                <input asp-for="@Model.CountryName" class="form-control" />
+                <span asp-validation-for="@Model.CountryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.StarRating" class="control-label">Star Rating</label>
+                <input asp-for="@Model.StarRating" type="number" class="form-control" />
+                <span asp-validation-for="@Model.StarRating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ImageUrls" class="control-label">Enter Image Urls each on New Line</label>
+                <textarea asp-for="@Model.ImageUrls" class="form-control" rows="4" cols="50"></textarea>
+                <span asp-validation-for="@Model.ImageUrls" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-12 row mb-3">
+                        @foreach (var facility in @Model.Facilities)
+                        {
+                            <div class="form-check col col-sm-12">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       value="@facility.PublicId"
+                                       name="@nameof(HotelFormViewModel.SelectedFacilityIds)"
+                                       id="checkbox_@facility.PublicId"
+                                       checked="@facility.IsChecked" />
+
+                                <label class="form-check-label" for="checkbox_@facility.PublicId">@facility.Name</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
