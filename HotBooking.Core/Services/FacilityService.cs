@@ -104,4 +104,23 @@ public class FacilityService : IFacilityService
 
         await dbContext.SaveChangesAsync();
     }
+
+    public async Task<ICollection<FacilityChecksDto>> GetFacilityCheckboxesAsync(IEnumerable<Guid> selectedFacilityIds)
+    {
+        var allFacilities = await dbContext.Facilities
+            .ToListAsync();
+
+        var selectedFacilities = allFacilities
+            .Where(f => selectedFacilityIds.Contains(f.PublicId));
+
+        var facilityDtos = allFacilities
+            .Select(f => new FacilityChecksDto(
+                f.PublicId,
+                selectedFacilities.Contains(f),
+                f.Name,
+                f.SvgTag))
+            .ToList();
+
+        return facilityDtos;
+    }
 }
