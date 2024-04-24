@@ -9,4 +9,5 @@ public interface IFacilityService
     Task CreateAsync(FacilityDetailsDto facilityDto);
     Task<FacilityFormDto> GetByPublicId(Guid publicId);
     Task UpdateAsync(FacilityFormDto formDto);
+    Task<ICollection<FacilityChecksDto>> GetFacilityCheckboxesAsync(IEnumerable<Guid> selectedFacilityIds);
 }
