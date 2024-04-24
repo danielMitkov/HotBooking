@@ -1,6 +1,7 @@
 ﻿using HotBooking.Core.Exceptions;
 using HotBooking.Core.Interfaces;
 using HotBooking.Core.Models.DTOs.HotelDtos;
+using HotBooking.Web.Extensions;
 using HotBooking.Web.Models;
 using HotBooking.Web.Models.HotelViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -14,12 +15,15 @@ public class HotelsController : BaseController
 
     private readonly ILogger<HotelsController> logger;
     private readonly IHotelsService hotelsService;
+    private readonly IFacilityService facilityService;
 
     public HotelsController(ILogger<HotelsController> logger,
-        IHotelsService hotelsService)
+        IHotelsService hotelsService,
+        IFacilityService facilityService)
     {
         this.logger = logger;
         this.hotelsService = hotelsService;
+        this.facilityService = facilityService;
     }
 
     [AllowAnonymous]
@@ -97,6 +101,130 @@ public class HotelsController : BaseController
         {
             logger.LogWarning(ex, DateTime.Now.ToString());
             return base.RedirectToAction(nameof(List), searchModel);
+        }
+    }
+
+    public async Task<IActionResult> Add()
+    {
+        var facilityDtos = await facilityService.GetFacilityCheckboxesAsync(new List<Guid>());
+
+        var formModel = new HotelFormViewModel()
+        {
+            Facilities = facilityDtos
+        };
+
+        return View(formModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Add(HotelFormViewModel formModel)
+    {
+        if (ModelState.IsValid == false)
+        {
+            return View(formModel);
+        }
+
+        var addDto = new HotelAddDto(
+            formModel.HotelName,
+            formModel.Description,
+            formModel.StreetAddress,
+            formModel.CityName,
+            formModel.CountryName,
+            formModel.StarRating,
+            formModel.SelectedFacilityIds,
+            formModel.ImageUrls);
+
+        try
+        {
+            await hotelsService.AddAsync(User.GetId(), addDto);
+
+            return RedirectToAction(
+                nameof(ManagerController.MyHotels),
+                ManagerController.Name);
+        }
+        catch (InvalidModelDataException ex)
+        {
+            logger.LogWarning(ex, DateTime.Now.ToString());
+
+            TempData["Error"] = ex.Message;
+
+            return RedirectToAction(
+                nameof(HomeController.Index),
+                HomeController.Name);
+        }
+    }
+
+    public async Task<IActionResult> Edit(Guid publicId)
+    {
+        try
+        {
+            var hotelDto = await hotelsService.GetForEditAsync(User.GetId(), publicId);
+
+            var facilities = await facilityService.GetFacilityCheckboxesAsync(hotelDto.SelectedFacilityIds);
+
+            var formModel = new HotelFormViewModel()
+            {
+                PublicId = publicId,
+                HotelName = hotelDto.HotelName,
+                Description = hotelDto.Description,
+                StreetAddress = hotelDto.StreetAddress,
+                CityName = hotelDto.CityName,
+                CountryName = hotelDto.CountryName,
+                StarRating = hotelDto.StarRating,
+                ImageUrls = hotelDto.ImageUrls,
+                Facilities = facilities
+            };
+
+            return View(formModel);
+        }
+        catch (InvalidModelDataException ex)
+        {
+            logger.LogWarning(ex, DateTime.Now.ToString());
+
+            TempData["Error"] = ex.Message;
+
+            return RedirectToAction(
+                nameof(HomeController.Index),
+                HomeController.Name);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(Guid publicId, HotelFormViewModel formModel)
+    {
+        if (ModelState.IsValid == false)
+        {
+            return View(formModel);
+        }
+
+        var editDto = new HotelEditDto(
+            publicId,
+            formModel.HotelName,
+            formModel.Description,
+            formModel.StreetAddress,
+            formModel.CityName,
+            formModel.CountryName,
+            formModel.StarRating,
+            formModel.SelectedFacilityIds,
+            formModel.ImageUrls);
+
+        try
+        {
+            await hotelsService.EditAsync(User.GetId(), editDto);
+
+            return RedirectToAction(
+                nameof(ManagerController.MyHotels),
+                ManagerController.Name);
+        }
+        catch (InvalidModelDataException ex)
+        {
+            logger.LogWarning(ex, DateTime.Now.ToString());
+
+            TempData["Error"] = ex.Message;
+
+            return RedirectToAction(
+                nameof(HomeController.Index),
+                HomeController.Name);
         }
     }
 }
