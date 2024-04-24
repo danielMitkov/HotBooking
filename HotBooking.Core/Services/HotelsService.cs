@@ -6,6 +6,7 @@ using HotBooking.Core.Models.DTOs.HotelDtos;
 using HotBooking.Core.Models.DTOs.RoomDtos;
 using HotBooking.Core.Models.Enums;
 using HotBooking.Data;
+using HotBooking.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotBooking.Core.Services;
@@ -180,5 +181,175 @@ public class HotelsService : IHotelsService
             .AnyAsync(h => h.CityName.ToLower() == city);
 
         return isCityFound;
+    }
+
+    public async Task AddAsync(int userId, HotelAddDto addDto)
+    {
+        var manager = await dbContext.Managers
+            .FirstOrDefaultAsync(m => m.UserId == userId);
+
+        if (manager == null)
+        {
+            throw new InvalidModelDataException(ManagerErrors.NotFound);
+        }
+
+        var hotel = new Hotel()
+        {
+            HotelName = addDto.HotelName,
+            Description = addDto.Description,
+            StreetAddress = addDto.StreetAddress,
+            CityName = addDto.CityName,
+            CountryName = addDto.CountryName,
+            StarRating = addDto.StarRating,
+            ManagerId = manager.Id
+        };
+
+        await dbContext.Hotels.AddAsync(hotel);
+        await dbContext.SaveChangesAsync();
+
+        string[] urls = addDto.ImageUrls.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (var url in urls)
+        {
+            var hotelImageUrl = new HotelImageUrl()
+            {
+                Url = url,
+                Hotel = hotel
+            };
+
+            dbContext.HotelImageUrls.Add(hotelImageUrl);
+        }
+
+        await dbContext.SaveChangesAsync();
+
+
+        var selectedFacilitiesEntities = await dbContext.Facilities
+            .Where(f => addDto.SelectedFacilityIds.Contains(f.PublicId))
+            .ToListAsync();
+
+        foreach (var facility in selectedFacilitiesEntities)
+        {
+            var hotelFacility = new HotelFacility()
+            {
+                Facility = facility,
+                Hotel = hotel
+            };
+
+            dbContext.HotelsFacilities.Add(hotelFacility);
+        }
+
+        await dbContext.SaveChangesAsync();
+    }
+
+    public async Task<HotelEditDto> GetForEditAsync(int userId, Guid hotelId)
+    {
+        bool isUserTheHotelManager = await dbContext.Hotels
+            .AnyAsync(h => h.PublicId == hotelId && h.Manager.UserId == userId);
+
+        if (isUserTheHotelManager == false)
+        {
+            throw new InvalidModelDataException(ManagerErrors.NotTheHotelManager);
+        }
+
+        var hotel = await dbContext.Hotels
+            .FirstOrDefaultAsync(h => h.PublicId == hotelId);
+
+        if (hotel == null)
+        {
+            throw new InvalidModelDataException(HotelErrors.NotFound);
+        }
+
+        var selectedFacilityIds = await dbContext.HotelsFacilities
+            .Where(hf => hf.HotelId == hotel.Id)
+            .Select(hf => hf.Facility.PublicId)
+            .ToListAsync();
+
+        var imageUrls = await dbContext.HotelImageUrls
+            .Where(i => i.HotelId == hotel.Id)
+            .Select(i => i.Url)
+            .ToArrayAsync();
+
+        var editDto = new HotelEditDto(
+            hotelId,
+            hotel.HotelName,
+            hotel.Description,
+            hotel.StreetAddress,
+            hotel.CityName,
+            hotel.CountryName,
+            hotel.StarRating,
+            selectedFacilityIds,
+            string.Join(Environment.NewLine, imageUrls));
+
+        return editDto;
+    }
+
+    public async Task EditAsync(int userId, HotelEditDto editDto)
+    {
+        bool isUserTheHotelManager = await dbContext.Hotels
+            .AnyAsync(h => h.PublicId == editDto.PublicId && h.Manager.UserId == userId);
+
+        if (isUserTheHotelManager == false)
+        {
+            throw new InvalidModelDataException(ManagerErrors.NotTheHotelManager);
+        }
+
+        var hotel = await dbContext.Hotels
+            .FirstOrDefaultAsync(h => h.PublicId == editDto.PublicId);
+
+        if (hotel == null)
+        {
+            throw new InvalidModelDataException(HotelErrors.NotFound);
+        }
+
+        hotel.HotelName = editDto.HotelName;
+        hotel.Description = editDto.Description;
+        hotel.StreetAddress = editDto.StreetAddress;
+        hotel.CityName = editDto.CityName;
+        hotel.CountryName = editDto.CountryName;
+        hotel.StarRating = editDto.StarRating;
+
+        var hotelImages = await dbContext.HotelImageUrls
+            .Where(i => i.HotelId == hotel.Id)
+            .ToListAsync();
+
+        dbContext.HotelImageUrls.RemoveRange(hotelImages);
+
+        string[] urls = editDto.ImageUrls.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (var url in urls)
+        {
+            var hotelImageUrl = new HotelImageUrl()
+            {
+                Url = url,
+                HotelId = hotel.Id
+            };
+
+            dbContext.HotelImageUrls.Add(hotelImageUrl);
+        }
+
+        await dbContext.SaveChangesAsync();
+
+        var hotelFacilities = await dbContext.HotelsFacilities
+            .Where(hf => hf.HotelId == hotel.Id)
+            .ToListAsync();
+
+        dbContext.HotelsFacilities.RemoveRange(hotelFacilities);
+
+        var selectedFacilitiesEntities = await dbContext.Facilities
+            .Where(f => editDto.SelectedFacilityIds.Contains(f.PublicId))
+            .ToListAsync();
+
+        foreach (var facility in selectedFacilitiesEntities)
+        {
+            var hotelFacility = new HotelFacility()
+            {
+                Facility = facility,
+                Hotel = hotel
+            };
+
+            dbContext.HotelsFacilities.Add(hotelFacility);
+        }
+
+        await dbContext.SaveChangesAsync();
     }
 }
