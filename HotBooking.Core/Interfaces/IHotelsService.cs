@@ -8,4 +8,7 @@ public interface IHotelsService
     Task<IEnumerable<string>> GetMatchingCitiesAsync(string searchTerm);
     Task<bool> IsCityFoundAsync(string city);
     Task<HotelDetailsDtoOutput> GetHotelDetailsAsync(HotelDetailsDtoInput inputDto);
+    Task AddAsync(int userId, HotelAddDto addDto);
+    Task<HotelEditDto> GetForEditAsync(int userId, Guid hotelId);
+    Task EditAsync(int userId, HotelEditDto editDto);
 }
