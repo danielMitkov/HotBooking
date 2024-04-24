@@ -14,40 +14,54 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Hotels" asp-action="List">Hotels</a>
-                </li>
-
-                @if ((await managerService.DoesManagerExistAsync(User.GetId())) == true)
-                {
-
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Manage My Hotels</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Become Manager</a>
-                    </li>
-                }
 
                 @if (User?.Identity?.IsAuthenticated ?? false)
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Users" asp-action="Details">Profile Details</a>
+                        <a class="nav-link text-dark"
+                           asp-controller="Users"
+                           asp-action="Details">
+                            Profile Details
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Users" asp-action="Edit">Edit Profile</a>
+                        <a class="nav-link text-dark"
+                           asp-controller="Users"
+                           asp-action="Edit">
+                            Edit Profile
+                        </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark"
+                           asp-controller="@BookingController.Name"
+                           asp-action="@nameof(BookingController.List)">
+                            My Bookings
+                        </a>
+                    </li>
+
+                    @if ((await managerService.DoesManagerExistAsync(User.GetId())) == true)
+                    {
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark"
+                               asp-controller="@ManagerController.Name"
+                               asp-action="@nameof(ManagerController.MyHotels)">
+                                Manage My Hotels
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark"
+                               asp-controller="@ManagerController.Name"
+                               asp-action="@nameof(ManagerController.Become)">
+                                Become Manager
+                            </a>
+                        </li>
+                    }
                 }
-                <li class="nav-item">
-                    <a class="nav-link text-dark"
-                       asp-controller="@BookingController.Name"
-                       asp-action="@nameof(BookingController.List)">
-                        My Bookings
-                    </a>
-                </li>
+
             </ul>
 
             <partial name="_LoginPartial" />
