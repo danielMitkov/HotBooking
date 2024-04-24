@@ -16,8 +16,7 @@ public class ManagerFormViewModel
     public string Department { get; set; } = null!;
 
     [Required]
-    [MinLength(ManagerConstants.PhoneNumberLengthMin)]
-    [MaxLength(ManagerConstants.PhoneNumberLengthMax)]
-    [Phone]
+    [RegularExpression(@"^\d{10}$",
+        ErrorMessage = "Please enter a valid 10-digit phone number.")]
     public string PhoneNumber { get; set; } = null!;
 }
