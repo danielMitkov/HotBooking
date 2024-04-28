@@ -11,4 +11,5 @@ public interface IHotelsService
     Task AddAsync(int userId, HotelAddDto addDto);
     Task<HotelEditDto> GetForEditAsync(int userId, Guid hotelId);
     Task EditAsync(int userId, HotelEditDto editDto);
+    Task DeleteAsync(int userId, Guid hotelId);
 }
