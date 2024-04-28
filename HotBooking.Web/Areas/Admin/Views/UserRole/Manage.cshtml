@@ -1,0 +1,56 @@
+﻿@using HotBooking.Core.Models.DTOs.UserDtos
+@model ICollection<UserRoleDetailsDto>
+
+@if (TempData["Error"] != null)
+{
+    <p class="alert-danger">@TempData["Error"]</p>
+}
+
+@if (TempData["OK"] != null)
+{
+    <p class="alert-success">@TempData["OK"]</p>
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><label>User Name</label></th>
+            <th><label>Email</label></th>
+            <th><label>Phone Number</label></th>
+            <th><label>Is Admin</label></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td><label>@user.UserName</label></td>
+                <td><label>@user.Email</label></td>
+                <td><label>@user.PhoneNumber</label></td>
+                <td>
+                    @if (user.isAdmin)
+                    {
+                        <label>✔</label>
+                        <a class="btn btn-outline-primary"
+                           asp-action="@nameof(UserRoleController.MakeNormal)"
+                           asp-route-userId="@user.Id">
+                            Make a Normal User
+                        </a>
+                    }
+                    else
+                    {
+                        <label class="text-center">❌</label>
+                        <a class="btn btn-outline-primary"
+                           asp-action="@nameof(UserRoleController.MakeAdmin)"
+                           asp-route-userId="@user.Id">
+                            Make an Admin User
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
