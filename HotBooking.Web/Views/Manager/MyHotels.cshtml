@@ -11,10 +11,10 @@
 }
 
 <div class="container">
-    <div class="row">
+    <div class="row gy-5 row-cols-1 row-cols-sm-2 row-cols-xl-3">
         @foreach (var hotel in Model)
         {
-            <div class="col-3">
+            <div class="col">
                 <h3>@hotel.Name</h3>
                 <div class="d-flex gap-1">
                     @for (int i = 0; i < hotel.StarRating; ++i)
@@ -27,15 +27,60 @@
                     }
                 </div>
                 <p class="text-secondary">@(hotel.StreetAddress + ", " + hotel.CityName + ", " + hotel.CountryName)</p>
-                <a asp-controller="@HotelsController.Name"
+
+                <a class="btn btn-outline-warning"
+                   asp-controller="@HotelsController.Name"
                    asp-action="@nameof(HotelsController.Edit)"
                    asp-route-publicId="@hotel.PublicId">
-                    Edit Hotel
+                    Edit
                 </a>
+
+                <a class="btn btn-outline-info"
+                   asp-controller="@ManagerController.Name"
+                   asp-action="@nameof(ManagerController.MyRooms)"
+                   asp-route-hotelId="@hotel.PublicId">
+                    Manage Rooms
+                </a>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal@(hotel.PublicId)">
+                    Delete
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="deleteModal@(hotel.PublicId)" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Hotel Deletion Confirmation</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you Sure you want to Delete @hotel.Name Hotel?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                                <form asp-controller="@HotelsController.Name"
+                                      asp-action="@nameof(HotelsController.Delete)">
+
+                                    <input hidden name="publicId" value="@hotel.PublicId" />
+
+                                    <button class="btn btn-outline-danger"
+                                            type="submit">
+                                        Confirm Delete
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         }
-        <div class="col-3">
-            <a asp-controller="@HotelsController.Name"
+        <div class="col">
+            <a class="btn btn-success btn-lg"
+               asp-controller="@HotelsController.Name"
                asp-action="@nameof(HotelsController.Add)">
                 Add Hotel
             </a>
