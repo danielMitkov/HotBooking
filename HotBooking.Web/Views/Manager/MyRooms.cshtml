@@ -1,0 +1,76 @@
+﻿@model ManagerMyRoomsViewModel
+
+@if (TempData["Error"] != null)
+{
+    <p class="alert-danger">@TempData["Error"]</p>
+}
+
+@if (TempData["OK"] != null)
+{
+    <p class="alert-success">@TempData["OK"]</p>
+}
+
+<div class="container">
+    <div class="row gy-5 row-cols-1 row-cols-sm-2 row-cols-xl-3">
+        @foreach (var room in Model.Rooms)
+        {
+            <div class="col">
+                <h3>@room.Title</h3>
+                <p>Beds: @room.BedsCount</p>
+                <p>Price Per Night: @room.PricePerNight$</p>
+
+                <a class="btn btn-outline-primary">View Details</a>
+
+                <a class="btn btn-outline-warning"
+                   asp-controller="@RoomController.Name"
+                   asp-action="@nameof(RoomController.Edit)"
+                   asp-route-publicId="@room.PublicId">
+                    Edit
+                </a>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal@(room.PublicId)">
+                    Delete
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="deleteModal@(room.PublicId)" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Hotel Deletion Confirmation</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you Sure you want to Delete @room.Title Room?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                                <form asp-controller="@RoomController.Name"
+                                      asp-action="@nameof(RoomController.Delete)">
+
+                                    <input hidden name="roomId" value="@room.PublicId" />
+
+                                    <button class="btn btn-outline-danger"
+                                            type="submit">
+                                        Confirm Delete
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="col">
+            <a class="btn btn-success btn-lg"
+               asp-controller="@RoomController.Name"
+               asp-action="@nameof(RoomController.Add)"
+               asp-route-hotelId="@Model.HotelId">
+                Add Room
+            </a>
+        </div>
+    </div>
+</div>
