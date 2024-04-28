@@ -1,4 +1,37 @@
-﻿@if (TempData["Error"] != null)
+﻿@{
+    // Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+}
+
+@if (TempData["Error"] != null)
 {
     <p class="alert-danger">@TempData["Error"]</p>
 }
+
+<div class="container">
+    <div class="row gy-3">
+        <div class="col text-center">
+            <a class="btn btn-lg btn-primary"
+               asp-area="Admin"
+               asp-controller="@FacilityController.Name"
+               asp-action="@nameof(FacilityController.Index)">
+                Manage Facilities
+            </a>
+        </div>
+        <div class="col text-center">
+            <a class="btn btn-lg btn-primary"
+               asp-area="Admin"
+               asp-controller="@FeatureController.Name"
+               asp-action="@nameof(FeatureController.Index)">
+                Manage Features
+            </a>
+        </div>
+        <div class="col text-center">
+            <a class="btn btn-lg btn-primary"
+               asp-area="Admin"
+               asp-controller="@UserRoleController.Name"
+               asp-action="@nameof(UserRoleController.Manage)">
+                Manage Users Roles
+            </a>
+        </div>
+    </div>
+</div>
