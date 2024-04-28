@@ -1,11 +1,11 @@
 ﻿@model ReviewBrowseViewModel
 
-@if (TempData["Error"] is not null)
+@if (TempData["Error"] != null)
 {
     <p class="alert-danger">@TempData["Error"]</p>
 }
 
-@if (TempData["OK"] is not null)
+@if (TempData["OK"] != null)
 {
     <p class="alert-success">@TempData["OK"]</p>
 }
