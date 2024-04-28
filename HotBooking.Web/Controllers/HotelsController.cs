@@ -158,9 +158,11 @@ public class HotelsController : BaseController
     {
         try
         {
-            var hotelDto = await hotelsService.GetForEditAsync(User.GetId(), publicId);
+            var hotelDto = await hotelsService
+                .GetForEditAsync(User.GetId(), publicId);
 
-            var facilities = await facilityService.GetFacilityCheckboxesAsync(hotelDto.SelectedFacilityIds);
+            var facilities = await facilityService
+                .GetFacilityCheckboxesAsync(hotelDto.SelectedFacilityIds);
 
             var formModel = new HotelFormViewModel()
             {
@@ -211,6 +213,31 @@ public class HotelsController : BaseController
         try
         {
             await hotelsService.EditAsync(User.GetId(), editDto);
+
+            return RedirectToAction(
+                nameof(ManagerController.MyHotels),
+                ManagerController.Name);
+        }
+        catch (InvalidModelDataException ex)
+        {
+            logger.LogWarning(ex, DateTime.Now.ToString());
+
+            TempData["Error"] = ex.Message;
+
+            return RedirectToAction(
+                nameof(HomeController.Index),
+                HomeController.Name);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(Guid publicId)
+    {
+        try
+        {
+            await hotelsService.DeleteAsync(User.GetId(), publicId);
+
+            TempData["OK"] = "Hotel Deleted!";
 
             return RedirectToAction(
                 nameof(ManagerController.MyHotels),
