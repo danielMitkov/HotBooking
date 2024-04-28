@@ -42,6 +42,32 @@ public class ManagerController : BaseController
         }
     }
 
+    public async Task<IActionResult> MyRooms(Guid hotelId)
+    {
+        try
+        {
+            var roomDtos = await managerService.MyRoomsAsync(User.GetId(), hotelId);
+
+            var roomsModel = new ManagerMyRoomsViewModel()
+            {
+                HotelId = hotelId,
+                Rooms = roomDtos
+            };
+
+            return View(roomsModel);
+        }
+        catch (InvalidModelDataException ex)
+        {
+            logger.LogWarning(ex, DateTime.Now.ToString());
+
+            TempData["Error"] = ex.Message;
+
+            return RedirectToAction(
+                nameof(HomeController.Index),
+                HomeController.Name);
+        }
+    }
+
     public IActionResult Become()
     {
         var formModel = new ManagerFormViewModel();
