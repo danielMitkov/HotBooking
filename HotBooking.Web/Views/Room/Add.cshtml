@@ -1,0 +1,76 @@
+﻿@model RoomFormViewModel
+
+@{
+    ViewData["Title"] = "Add Room";
+}
+
+<h1>Add</h1>
+
+<h4>Room</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input hidden asp-for="@Model.HotelPublicId" />
+            <div class="form-group">
+                <label asp-for="@Model.Title" class="control-label">Room Name</label>
+                <input asp-for="@Model.Title" class="form-control" />
+                <span asp-validation-for="@Model.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Description" class="control-label">Description</label>
+                <input asp-for="@Model.Description" class="form-control" />
+                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.BedsCount" class="control-label">Amount of Beds</label>
+                <input asp-for="@Model.BedsCount" type="number" class="form-control" />
+                <span asp-validation-for="@Model.BedsCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.RoomSizeSquareMeters" class="control-label">Size in Square Meters</label>
+                <input asp-for="@Model.RoomSizeSquareMeters" type="number" class="form-control" />
+                <span asp-validation-for="@Model.RoomSizeSquareMeters" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.PricePerNight" class="control-label">Price Per Night</label>
+                <input asp-for="@Model.PricePerNight" type="number" class="form-control" />
+                <span asp-validation-for="@Model.PricePerNight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ImageUrls" class="control-label">Enter Image Urls each on New Line</label>
+                <textarea asp-for="@Model.ImageUrls" class="form-control" rows="4" cols="50"></textarea>
+                <span asp-validation-for="@Model.ImageUrls" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-12 row mb-3">
+                        @foreach (var feature in @Model.Features)
+                        {
+                            <div class="form-check col col-sm-12">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       value="@feature.PublicId"
+                                       name="@nameof(RoomFormViewModel.SelectedFeatureIds)"
+                                       id="checkbox_@feature.PublicId"
+                                       checked="@feature.IsChecked" />
+
+                                <label class="form-check-label" for="checkbox_@feature.PublicId">@feature.Name</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
