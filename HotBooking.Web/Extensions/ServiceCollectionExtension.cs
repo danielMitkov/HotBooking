@@ -18,6 +18,8 @@ public static class ServiceCollectionExtension
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IFacilityService, FacilityService>();
         services.AddScoped<IManagerService, ManagerService>();
+        services.AddScoped<IRoomService, RoomService>();
+        services.AddScoped<IFeatureService, FeatureService>();
 
         return services;
     }
