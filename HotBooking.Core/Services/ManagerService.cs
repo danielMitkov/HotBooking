@@ -74,6 +74,7 @@ public class ManagerService : IManagerService
         }
 
         var hotelDtos = await dbContext.Hotels
+            .Where(h => h.IsActive)
             .Where(h => h.Manager.UserId == userId)
             .Select(h => new ManagerHotelPreviewDto(
                 h.PublicId,
@@ -85,5 +86,42 @@ public class ManagerService : IManagerService
             .ToListAsync();
 
         return hotelDtos;
+    }
+
+    public async Task<ICollection<ManagerRoomPreviewDto>> MyRoomsAsync(int userId, Guid hotelId)
+    {
+        bool doesManagerExist = await dbContext.Managers
+            .AnyAsync(m => m.UserId == userId);
+
+        if (doesManagerExist == false)
+        {
+            throw new InvalidModelDataException(ManagerErrors.NotFound);
+        }
+
+        var hotel = await dbContext.Hotels
+            .Include(h => h.Manager)
+            .SingleOrDefaultAsync(h => h.PublicId == hotelId);
+
+        if (hotel == null)
+        {
+            throw new InvalidModelDataException(HotelErrors.NotFound);
+        }
+
+        if (hotel.Manager.UserId != userId)
+        {
+            throw new InvalidModelDataException(ManagerErrors.NotTheHotelManager);
+        }
+
+        var roomDtos = await dbContext.Rooms
+            .Where(r => r.IsActive)
+            .Where(r => r.Hotel.PublicId == hotelId)
+            .Select(r => new ManagerRoomPreviewDto(
+                r.PublicId,
+                r.Title,
+                r.BedsCount,
+                r.PricePerNight))
+            .ToListAsync();
+
+        return roomDtos;
     }
 }
