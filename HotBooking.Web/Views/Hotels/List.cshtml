@@ -121,6 +121,12 @@
             <partial name="_Pagination" model="@Model.Pager" />
         </div>
     }
+    else
+    {
+        <div class="container-fluid mt-5">
+            <h5>No Suitable Hotels are Found. Please Adjust your Search criteria.</h5>
+        </div>
+    }
 </form>
 
 @section Scripts {
