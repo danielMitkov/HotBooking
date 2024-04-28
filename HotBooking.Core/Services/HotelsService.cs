@@ -352,4 +352,33 @@ public class HotelsService : IHotelsService
 
         await dbContext.SaveChangesAsync();
     }
+
+    public async Task DeleteAsync(int userId, Guid hotelId)
+    {
+        bool isUserFound = await dbContext.Users
+            .AnyAsync(u => u.Id == userId);
+
+        if (isUserFound == false)
+        {
+            throw new InvalidModelDataException(UserErrors.NotFound);
+        }
+
+        var hotel = await dbContext.Hotels
+            .Include(h => h.Manager)
+            .SingleOrDefaultAsync(h => h.PublicId == hotelId);
+
+        if (hotel == null)
+        {
+            throw new InvalidModelDataException(HotelErrors.NotFound);
+        }
+
+        if (hotel.Manager.UserId != userId)
+        {
+            throw new InvalidModelDataException(HotelErrors.NotManager);
+        }
+
+        hotel.IsActive = false;
+
+        await dbContext.SaveChangesAsync();
+    }
 }
