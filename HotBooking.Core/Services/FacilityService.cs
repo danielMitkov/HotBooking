@@ -19,8 +19,7 @@ public class FacilityService : IFacilityService
 
     public async Task<IEnumerable<FacilityControlDetailsDto>> AllAsync()
     {
-        var facilityDtos = await dbContext.Facilities
-            .Select(f => new FacilityControlDetailsDto(
+        var facilityDtos = await dbContext.Facilities.Select(f => new FacilityControlDetailsDto(
                 f.PublicId,
                 f.IsActive,
                 f.Name,
@@ -107,14 +106,11 @@ public class FacilityService : IFacilityService
 
     public async Task<ICollection<FacilityChecksDto>> GetFacilityCheckboxesAsync(IEnumerable<Guid> selectedFacilityIds)
     {
-        var allFacilities = await dbContext.Facilities
-            .ToListAsync();
+        var allFacilities = await dbContext.Facilities.ToListAsync();
 
-        var selectedFacilities = allFacilities
-            .Where(f => selectedFacilityIds.Contains(f.PublicId));
+        var selectedFacilities = allFacilities.Where(f => selectedFacilityIds.Contains(f.PublicId));
 
-        var facilityDtos = allFacilities
-            .Select(f => new FacilityChecksDto(
+        var facilityDtos = allFacilities.Select(f => new FacilityChecksDto(
                 f.PublicId,
                 selectedFacilities.Contains(f),
                 f.Name,

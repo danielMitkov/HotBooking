@@ -80,10 +80,7 @@ public class ReviewService : IReviewService
 
         bool containsMyReview = reviewsDto.Any(r => r.IsMyReview == true);
 
-        if (containsMyReview == false && lastUserBookingForHotel != null)
-        {
-            canAddReview = true;
-        }
+        if (containsMyReview == false && lastUserBookingForHotel != null) canAddReview = true;
 
         return new ReviewBrowseOutputDto(canAddReview, reviewsDto, totalPages, reviewsCount);
     }
@@ -144,10 +141,7 @@ public class ReviewService : IReviewService
             .Select(b => b.Id)
             .FirstOrDefaultAsync();
 
-        if (lastUserBookingId == null)
-        {
-            throw new InvalidModelDataException(BookingErrors.NotFound);
-        }
+        if (lastUserBookingId == null) throw new InvalidModelDataException(BookingErrors.NotFound);
 
         review.BookingId = (int)lastUserBookingId;
         review.RatingScore = editDto.Score;
@@ -164,10 +158,7 @@ public class ReviewService : IReviewService
             .Where(u => u.IsActive)
             .AnyAsync(u => u.Id == userId);
 
-        if (isUserFound == false)
-        {
-            return null;
-        }
+        if (isUserFound == false) return null;
 
         bool isHotelFound = await dbContext.Hotels
             .Where(h => h.IsActive)
@@ -214,9 +205,6 @@ public class ReviewService : IReviewService
             .Select(u => true)
             .SingleOrDefaultAsync();
 
-        if (isUserFound == false)
-        {
-            throw new InvalidModelDataException(UserErrors.NotFound);
-        }
+        if (isUserFound == false) throw new InvalidModelDataException(UserErrors.NotFound);
     }
 }

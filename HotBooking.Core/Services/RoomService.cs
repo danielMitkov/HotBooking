@@ -19,24 +19,15 @@ public class RoomService : IRoomService
 
     public async Task AddAsync(int userId, Guid hotelPublicId, RoomAddDto addDto)
     {
-        var manager = await dbContext.Managers
-            .FirstOrDefaultAsync(m => m.UserId == userId);
+        var manager = await dbContext.Managers.FirstOrDefaultAsync(m => m.UserId == userId);
 
-        if (manager == null)
-        {
-            throw new InvalidModelDataException(ManagerErrors.NotFound);
-        }
+        if (manager == null) throw new InvalidModelDataException(ManagerErrors.NotFound);
 
-        int hotelId = await dbContext.Hotels
-            .Where(h => h.IsActive)
-            .Where(h => h.PublicId == hotelPublicId)
+        int hotelId = await dbContext.Hotels.Where(h => h.IsActive).Where(h => h.PublicId == hotelPublicId)
             .Select(h => h.Id)
             .SingleOrDefaultAsync();
 
-        if (hotelId == 0)
-        {
-            throw new InvalidModelDataException(HotelErrors.NotFound);
-        }
+        if (hotelId == 0) throw new InvalidModelDataException(HotelErrors.NotFound);
 
         var room = new Room()
         {
@@ -51,16 +42,11 @@ public class RoomService : IRoomService
         await dbContext.Rooms.AddAsync(room);
         await dbContext.SaveChangesAsync();
 
-        string[] urls = addDto.ImageUrls
-            .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] urls = addDto.ImageUrls.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
         foreach (var url in urls)
         {
-            var roomImageUrl = new RoomImageUrl()
-            {
-                Url = url,
-                Room = room
-            };
+            var roomImageUrl = new RoomImageUrl() { Url = url, Room = room };
 
             dbContext.RoomImageUrls.Add(roomImageUrl);
         }
@@ -74,11 +60,7 @@ public class RoomService : IRoomService
 
         foreach (var feature in selectedFeaturesEntities)
         {
-            var roomFeature = new RoomFeature()
-            {
-                Feature = feature,
-                Room = room
-            };
+            var roomFeature = new RoomFeature() { Feature = feature, Room = room };
 
             dbContext.RoomsFeatures.Add(roomFeature);
         }
@@ -91,18 +73,12 @@ public class RoomService : IRoomService
         bool isUserTheHotelManager = await dbContext.Rooms
             .AnyAsync(r => r.PublicId == roomId && r.Hotel.Manager.UserId == userId);
 
-        if (isUserTheHotelManager == false)
-        {
-            throw new InvalidModelDataException(ManagerErrors.NotTheHotelManager);
-        }
+        if (isUserTheHotelManager == false) throw new InvalidModelDataException(ManagerErrors.NotTheHotelManager);
 
         var room = await dbContext.Rooms
             .FirstOrDefaultAsync(r => r.PublicId == roomId);
 
-        if (room == null)
-        {
-            throw new InvalidModelDataException(RoomErrors.NotFound);
-        }
+        if (room == null) throw new InvalidModelDataException(RoomErrors.NotFound);
 
         var selectedFeatureIds = await dbContext.RoomsFeatures
             .Where(rf => rf.RoomId == room.Id)
@@ -133,18 +109,12 @@ public class RoomService : IRoomService
             .Include(r => r.Hotel)
             .FirstOrDefaultAsync(r => r.PublicId == editDto.PublicId);
 
-        if (room == null)
-        {
-            throw new InvalidModelDataException(RoomErrors.NotFound);
-        }
+        if (room == null) throw new InvalidModelDataException(RoomErrors.NotFound);
 
         bool isUserTheHotelManager = await dbContext.Hotels
             .AnyAsync(h => h.Id == room.HotelId && h.Manager.UserId == userId);
 
-        if (isUserTheHotelManager == false)
-        {
-            throw new InvalidModelDataException(ManagerErrors.NotTheHotelManager);
-        }
+        if (isUserTheHotelManager == false) throw new InvalidModelDataException(ManagerErrors.NotTheHotelManager);
 
         room.Title = editDto.Title;
         room.Description = editDto.Description;
@@ -163,11 +133,7 @@ public class RoomService : IRoomService
 
         foreach (var url in urls)
         {
-            var roomImageUrl = new RoomImageUrl()
-            {
-                Url = url,
-                RoomId = room.Id
-            };
+            var roomImageUrl = new RoomImageUrl() { Url = url, RoomId = room.Id };
 
             dbContext.RoomImageUrls.Add(roomImageUrl);
         }
@@ -186,11 +152,7 @@ public class RoomService : IRoomService
 
         foreach (var feature in selectedFeaturesEntities)
         {
-            var roomFeature = new RoomFeature()
-            {
-                Feature = feature,
-                Room = room
-            };
+            var roomFeature = new RoomFeature() { Feature = feature, Room = room };
 
             dbContext.RoomsFeatures.Add(roomFeature);
         }
@@ -205,25 +167,16 @@ public class RoomService : IRoomService
         bool isUserFound = await dbContext.Users
             .AnyAsync(u => u.Id == userId);
 
-        if (isUserFound == false)
-        {
-            throw new InvalidModelDataException(UserErrors.NotFound);
-        }
+        if (isUserFound == false) throw new InvalidModelDataException(UserErrors.NotFound);
 
         var room = await dbContext.Rooms
             .Include(r => r.Hotel)
             .Include(r => r.Hotel.Manager)
             .SingleOrDefaultAsync(r => r.PublicId == roomId);
 
-        if (room == null)
-        {
-            throw new InvalidModelDataException(HotelErrors.NotFound);
-        }
+        if (room == null) throw new InvalidModelDataException(HotelErrors.NotFound);
 
-        if (room.Hotel.Manager.UserId != userId)
-        {
-            throw new InvalidModelDataException(HotelErrors.NotManager);
-        }
+        if (room.Hotel.Manager.UserId != userId) throw new InvalidModelDataException(HotelErrors.NotManager);
 
         room.IsActive = false;
 

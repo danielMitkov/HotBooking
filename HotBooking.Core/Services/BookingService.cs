@@ -51,13 +51,11 @@ public class BookingService : IBookingService
 
     public async Task<ICollection<BookingListDto>> GetBookingsAsync(int userId)
     {
-        var bookings = await dbContext.Bookings
-            .Where(b => b.UserId == userId)
+        var bookings = await dbContext.Bookings.Where(b => b.UserId == userId)
             .Select(b => new BookingListDto()
             {
                 BookingPublicId = b.PublicId,
-                RoomImageUrl = b.Room.RoomImages
-                    .Select(i => i.Url).FirstOrDefault()!,
+                RoomImageUrl = b.Room.RoomImages.Select(i => i.Url).FirstOrDefault()!,
                 CreatedOn = b.CreatedOn,
                 CheckIn = b.CheckIn,
                 CheckOut = b.CheckOut,
@@ -65,8 +63,7 @@ public class BookingService : IBookingService
                 RoomTitle = b.Room.Title,
                 HotelName = b.Hotel.HotelName,
                 HotelLocation = b.Hotel.CountryName + ", " + b.Hotel.StreetAddress
-            })
-            .ToArrayAsync();
+            }).ToArrayAsync();
 
         for (int i = 0; i < bookings.Count(); ++i)
         {

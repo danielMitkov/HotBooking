@@ -185,13 +185,9 @@ public class HotelsService : IHotelsService
 
     public async Task AddAsync(int userId, HotelAddDto addDto)
     {
-        var manager = await dbContext.Managers
-            .FirstOrDefaultAsync(m => m.UserId == userId);
+        var manager = await dbContext.Managers.FirstOrDefaultAsync(m => m.UserId == userId);
 
-        if (manager == null)
-        {
-            throw new InvalidModelDataException(ManagerErrors.NotFound);
-        }
+        if (manager == null) throw new InvalidModelDataException(ManagerErrors.NotFound);
 
         var hotel = new Hotel()
         {
@@ -211,29 +207,18 @@ public class HotelsService : IHotelsService
 
         foreach (var url in urls)
         {
-            var hotelImageUrl = new HotelImageUrl()
-            {
-                Url = url,
-                Hotel = hotel
-            };
-
+            var hotelImageUrl = new HotelImageUrl() { Url = url, Hotel = hotel };
             dbContext.HotelImageUrls.Add(hotelImageUrl);
         }
-
         await dbContext.SaveChangesAsync();
 
 
         var selectedFacilitiesEntities = await dbContext.Facilities
-            .Where(f => addDto.SelectedFacilityIds.Contains(f.PublicId))
-            .ToListAsync();
+            .Where(f => addDto.SelectedFacilityIds.Contains(f.PublicId)).ToListAsync();
 
         foreach (var facility in selectedFacilitiesEntities)
         {
-            var hotelFacility = new HotelFacility()
-            {
-                Facility = facility,
-                Hotel = hotel
-            };
+            var hotelFacility = new HotelFacility() { Facility = facility, Hotel = hotel };
 
             dbContext.HotelsFacilities.Add(hotelFacility);
         }
@@ -243,30 +228,19 @@ public class HotelsService : IHotelsService
 
     public async Task<HotelEditDto> GetForEditAsync(int userId, Guid hotelId)
     {
-        bool isUserTheHotelManager = await dbContext.Hotels
-            .AnyAsync(h => h.PublicId == hotelId && h.Manager.UserId == userId);
+        bool isUserTheHotelManager = await dbContext.Hotels.AnyAsync(h => h.PublicId == hotelId && h.Manager.UserId == userId);
 
-        if (isUserTheHotelManager == false)
-        {
-            throw new InvalidModelDataException(ManagerErrors.NotTheHotelManager);
-        }
+        if (isUserTheHotelManager == false) throw new InvalidModelDataException(ManagerErrors.NotTheHotelManager);
 
-        var hotel = await dbContext.Hotels
-            .FirstOrDefaultAsync(h => h.PublicId == hotelId);
+        var hotel = await dbContext.Hotels.FirstOrDefaultAsync(h => h.PublicId == hotelId);
 
-        if (hotel == null)
-        {
-            throw new InvalidModelDataException(HotelErrors.NotFound);
-        }
+        if (hotel == null) throw new InvalidModelDataException(HotelErrors.NotFound);
 
-        var selectedFacilityIds = await dbContext.HotelsFacilities
-            .Where(hf => hf.HotelId == hotel.Id)
+        var selectedFacilityIds = await dbContext.HotelsFacilities.Where(hf => hf.HotelId == hotel.Id)
             .Select(hf => hf.Facility.PublicId)
             .ToListAsync();
 
-        var imageUrls = await dbContext.HotelImageUrls
-            .Where(i => i.HotelId == hotel.Id)
-            .Select(i => i.Url)
+        var imageUrls = await dbContext.HotelImageUrls.Where(i => i.HotelId == hotel.Id).Select(i => i.Url)
             .ToArrayAsync();
 
         var editDto = new HotelEditDto(
@@ -285,21 +259,13 @@ public class HotelsService : IHotelsService
 
     public async Task EditAsync(int userId, HotelEditDto editDto)
     {
-        bool isUserTheHotelManager = await dbContext.Hotels
-            .AnyAsync(h => h.PublicId == editDto.PublicId && h.Manager.UserId == userId);
+        bool isUserTheHotelManager = await dbContext.Hotels.AnyAsync(h => h.PublicId == editDto.PublicId && h.Manager.UserId == userId);
 
-        if (isUserTheHotelManager == false)
-        {
-            throw new InvalidModelDataException(ManagerErrors.NotTheHotelManager);
-        }
+        if (isUserTheHotelManager == false) throw new InvalidModelDataException(ManagerErrors.NotTheHotelManager);
 
-        var hotel = await dbContext.Hotels
-            .FirstOrDefaultAsync(h => h.PublicId == editDto.PublicId);
+        var hotel = await dbContext.Hotels.FirstOrDefaultAsync(h => h.PublicId == editDto.PublicId);
 
-        if (hotel == null)
-        {
-            throw new InvalidModelDataException(HotelErrors.NotFound);
-        }
+        if (hotel == null) throw new InvalidModelDataException(HotelErrors.NotFound);
 
         hotel.HotelName = editDto.HotelName;
         hotel.Description = editDto.Description;
@@ -308,45 +274,28 @@ public class HotelsService : IHotelsService
         hotel.CountryName = editDto.CountryName;
         hotel.StarRating = editDto.StarRating;
 
-        var hotelImages = await dbContext.HotelImageUrls
-            .Where(i => i.HotelId == hotel.Id)
-            .ToListAsync();
+        var hotelImages = await dbContext.HotelImageUrls.Where(i => i.HotelId == hotel.Id).ToListAsync();
 
         dbContext.HotelImageUrls.RemoveRange(hotelImages);
-
         string[] urls = editDto.ImageUrls.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
         foreach (var url in urls)
         {
-            var hotelImageUrl = new HotelImageUrl()
-            {
-                Url = url,
-                HotelId = hotel.Id
-            };
-
+            var hotelImageUrl = new HotelImageUrl() { Url = url, HotelId = hotel.Id };
             dbContext.HotelImageUrls.Add(hotelImageUrl);
         }
 
         await dbContext.SaveChangesAsync();
 
-        var hotelFacilities = await dbContext.HotelsFacilities
-            .Where(hf => hf.HotelId == hotel.Id)
-            .ToListAsync();
+        var hotelFacilities = await dbContext.HotelsFacilities.Where(hf => hf.HotelId == hotel.Id).ToListAsync();
 
         dbContext.HotelsFacilities.RemoveRange(hotelFacilities);
 
-        var selectedFacilitiesEntities = await dbContext.Facilities
-            .Where(f => editDto.SelectedFacilityIds.Contains(f.PublicId))
-            .ToListAsync();
+        var selectedFacilitiesEntities = await dbContext.Facilities.Where(f => editDto.SelectedFacilityIds.Contains(f.PublicId)).ToListAsync();
 
         foreach (var facility in selectedFacilitiesEntities)
         {
-            var hotelFacility = new HotelFacility()
-            {
-                Facility = facility,
-                Hotel = hotel
-            };
-
+            var hotelFacility = new HotelFacility() { Facility = facility, Hotel = hotel };
             dbContext.HotelsFacilities.Add(hotelFacility);
         }
 
@@ -355,30 +304,17 @@ public class HotelsService : IHotelsService
 
     public async Task DeleteAsync(int userId, Guid hotelId)
     {
-        bool isUserFound = await dbContext.Users
-            .AnyAsync(u => u.Id == userId);
+        bool isUserFound = await dbContext.Users.AnyAsync(u => u.Id == userId);
 
-        if (isUserFound == false)
-        {
-            throw new InvalidModelDataException(UserErrors.NotFound);
-        }
+        if (isUserFound == false) throw new InvalidModelDataException(UserErrors.NotFound);
 
-        var hotel = await dbContext.Hotels
-            .Include(h => h.Manager)
-            .SingleOrDefaultAsync(h => h.PublicId == hotelId);
+        var hotel = await dbContext.Hotels.Include(h => h.Manager).SingleOrDefaultAsync(h => h.PublicId == hotelId);
 
-        if (hotel == null)
-        {
-            throw new InvalidModelDataException(HotelErrors.NotFound);
-        }
+        if (hotel == null) throw new InvalidModelDataException(HotelErrors.NotFound);
 
-        if (hotel.Manager.UserId != userId)
-        {
-            throw new InvalidModelDataException(HotelErrors.NotManager);
-        }
+        if (hotel.Manager.UserId != userId) throw new InvalidModelDataException(HotelErrors.NotManager);
 
         hotel.IsActive = false;
-
         await dbContext.SaveChangesAsync();
     }
 }

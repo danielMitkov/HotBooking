@@ -60,4 +60,36 @@ public class RoomServiceTests
 
         Assert.Equal(seeder.Hotel_KempinskiHotelGrandArena.PublicId, hotelGuid);
     }
+
+    [Fact]
+    public async Task AddAsync_WorksCorrectly()
+    {
+        var addDto = new RoomAddDto(
+            "Title",
+            "Desciption",
+            4,
+            4,
+            4,
+            new List<Guid>(),
+            string.Empty);
+
+        await roomService
+            .AddAsync(seeder.User_TobeManager.Id,
+            seeder.Hotel_StrandPalace.PublicId,
+            addDto);
+
+        bool exists = await dbContext.Rooms
+            .AnyAsync(r => r.Title == "Title");
+
+        Assert.True(exists);
+    }
+
+    [Fact]
+    public async Task DeleteAsync_WorksCorrectly()
+    {
+        var hotelGuid = await roomService
+            .DeleteAsync(seeder.User_TobeManager.Id, seeder.Room_ChilworthLondonPaddington_CozyRetreat.PublicId);
+
+        Assert.Equal(seeder.Hotel_ChilworthLondonPaddington.PublicId, hotelGuid);
+    }
 }
