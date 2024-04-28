@@ -42,8 +42,7 @@ public class HotelFormViewModel
     public IEnumerable<Guid> SelectedFacilityIds { get; set; } = new List<Guid>();
 
     [Required]
-    public string ImageUrls { get; set; }
-
+    public string ImageUrls { get; set; } = null!;
 
 
     public IEnumerable<FacilityChecksDto> Facilities { get; set; } = new List<FacilityChecksDto>();
