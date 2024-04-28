@@ -34,6 +34,15 @@ public class FacilityServiceTests
     }
 
     [Fact]
+    public async Task DetailsAsync_ThrowsFor_NotFound()
+    {
+        var ex = await Assert.ThrowsAsync<InvalidModelDataException>(
+            () => facilityService.DetailsAsync(Guid.NewGuid()));
+
+        Assert.Equal(FacilityErrors.NotFound, ex.Message);
+    }
+
+    [Fact]
     public async Task CreateAsync_ThrowsFor_NameAlreadyExists()
     {
         var facilityDto = new FacilityDetailsDto(
