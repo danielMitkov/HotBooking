@@ -17,7 +17,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -37,7 +37,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.SvgTag)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -60,9 +59,9 @@
                     @Html.DisplayFor(modelItem => item.SvgTag)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.PublicId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.PublicId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.PublicId">Delete</a>
+                    <a class="btn btn-outline-warning" asp-action="Edit" asp-route-publicId="@item.PublicId">Edit</a> |
+                    <a class="btn btn-outline-info" asp-action="Details" asp-route-publicId="@item.PublicId">Details</a> |
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-publicId="@item.PublicId">Delete</a>
                 </td>
             </tr>
         }
