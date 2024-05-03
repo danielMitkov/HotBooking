@@ -119,4 +119,26 @@ public class FacilityService : IFacilityService
 
         return facilityDtos;
     }
+
+    public async Task<string> DeleteAsync(Guid publicId)
+    {
+        var facility = await dbContext.Facilities
+            .SingleOrDefaultAsync(f => f.PublicId == publicId);
+
+        if (facility == null)
+        {
+            throw new InvalidModelDataException(FacilityErrors.NotFound);
+        }
+
+        if (facility.IsActive == false)
+        {
+            throw new InvalidModelDataException(FacilityErrors.AlreadyDeleted);
+        }
+
+        facility.IsActive = false;
+
+        await dbContext.SaveChangesAsync();
+
+        return facility.Name;
+    }
 }
