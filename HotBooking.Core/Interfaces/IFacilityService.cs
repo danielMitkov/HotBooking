@@ -4,9 +4,9 @@ namespace HotBooking.Core.Interfaces;
 
 public interface IFacilityService
 {
-    Task<IEnumerable<FacilityControlDetailsDto>> AllAsync();
-    Task<FacilityControlDetailsDto> DetailsAsync(Guid id);
-    Task CreateAsync(FacilityDetailsDto facilityDto);
+    Task<IEnumerable<FacilityDetailsDto>> AllAsync();
+    Task<FacilityDetailsDto> DetailsAsync(Guid id);
+    Task CreateAsync(FacilityPreviewDto facilityDto);
     Task<FacilityFormDto> GetByPublicId(Guid publicId);
     Task UpdateAsync(FacilityFormDto formDto);
     Task<ICollection<FacilityChecksDto>> GetFacilityCheckboxesAsync(IEnumerable<Guid> selectedFacilityIds);

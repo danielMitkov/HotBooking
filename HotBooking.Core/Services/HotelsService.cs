@@ -144,7 +144,7 @@ public class HotelsService : IHotelsService
                 h.Reviews.Sum(r => r.RatingScore) / (h.Reviews.Count() == 0 ? 1 : h.Reviews.Count()),
                 h.Reviews.Count(),
                 h.HotelsFacilities
-                    .Select(hf => new FacilityDetailsDto(
+                    .Select(hf => new FacilityPreviewDto(
                         hf.Facility.Name,
                         hf.Facility.SvgTag
                     )),

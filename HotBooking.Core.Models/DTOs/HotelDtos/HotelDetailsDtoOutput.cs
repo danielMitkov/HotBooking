@@ -12,7 +12,7 @@ string CountryName,
 int StarRating,
 decimal AverageRating,
 int ReviewsCount,
-IEnumerable<FacilityDetailsDto> Facilities,
+IEnumerable<FacilityPreviewDto> Facilities,
 IEnumerable<string> ImagesUrls,
 IEnumerable<RoomDetailsDto> Rooms
 );

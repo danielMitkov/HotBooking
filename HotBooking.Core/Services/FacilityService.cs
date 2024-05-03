@@ -17,9 +17,9 @@ public class FacilityService : IFacilityService
         this.dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<FacilityControlDetailsDto>> AllAsync()
+    public async Task<IEnumerable<FacilityDetailsDto>> AllAsync()
     {
-        var facilityDtos = await dbContext.Facilities.Select(f => new FacilityControlDetailsDto(
+        var facilityDtos = await dbContext.Facilities.Select(f => new FacilityDetailsDto(
                 f.PublicId,
                 f.IsActive,
                 f.Name,
@@ -30,11 +30,11 @@ public class FacilityService : IFacilityService
         return facilityDtos;
     }
 
-    public async Task<FacilityControlDetailsDto> DetailsAsync(Guid id)
+    public async Task<FacilityDetailsDto> DetailsAsync(Guid id)
     {
         var facilityDto = await dbContext.Facilities
             .Where(f => f.PublicId == id)
-            .Select(f => new FacilityControlDetailsDto(
+            .Select(f => new FacilityDetailsDto(
                 f.PublicId,
                 f.IsActive,
                 f.Name,
@@ -50,7 +50,7 @@ public class FacilityService : IFacilityService
         return facilityDto;
     }
 
-    public async Task CreateAsync(FacilityDetailsDto facilityDto)
+    public async Task CreateAsync(FacilityPreviewDto facilityDto)
     {
         bool isFacilityNameTaken = await dbContext.Facilities
             .AnyAsync(f => f.Name.ToLower() == facilityDto.Name.ToLower());

@@ -45,7 +45,7 @@ public class FacilityServiceTests
     [Fact]
     public async Task CreateAsync_ThrowsFor_NameAlreadyExists()
     {
-        var facilityDto = new FacilityDetailsDto(
+        var facilityDto = new FacilityPreviewDto(
             seeder.Facilities.First().Name,
             svgTag);
 
@@ -58,7 +58,7 @@ public class FacilityServiceTests
     [Fact]
     public async Task CreateAsync_WorksCorrectly()
     {
-        var facilityDto = new FacilityDetailsDto(
+        var facilityDto = new FacilityPreviewDto(
             facilityName,
             svgTag);
 
