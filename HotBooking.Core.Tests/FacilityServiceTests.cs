@@ -34,6 +34,43 @@ public class FacilityServiceTests
     }
 
     [Fact]
+    public async Task DeleteAsync_ThrowsFor_AlreadyDeleted()
+    {
+        var publicId = seeder.Facility_Spa.PublicId;
+
+        await facilityService.DeleteAsync(publicId);
+
+        var ex = await Assert.ThrowsAsync<InvalidModelDataException>(
+            () => facilityService.DeleteAsync(publicId));
+
+        Assert.Equal(FacilityErrors.AlreadyDeleted, ex.Message);
+    }
+
+    [Fact]
+    public async Task DeleteAsync_ThrowsFor_NotFound()
+    {
+        var ex = await Assert.ThrowsAsync<InvalidModelDataException>(
+            () => facilityService.DeleteAsync(Guid.NewGuid()));
+
+        Assert.Equal(FacilityErrors.NotFound, ex.Message);
+    }
+
+    [Fact]
+    public async Task DeleteAsync_Works()
+    {
+        var expectedFacility = seeder.Facility_Spa;
+        var publicId = expectedFacility.PublicId;
+        //
+        string name = await facilityService.DeleteAsync(publicId);
+
+        var facility = await dbContext.Facilities
+            .FirstAsync(f => f.PublicId == publicId);
+
+        Assert.False(facility.IsActive);
+        Assert.Equal(expectedFacility.Name, name);
+    }
+
+    [Fact]
     public async Task DetailsAsync_ThrowsFor_NotFound()
     {
         var ex = await Assert.ThrowsAsync<InvalidModelDataException>(
