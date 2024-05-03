@@ -1,10 +1,8 @@
 ﻿using HotBooking.Core.Exceptions;
 using HotBooking.Core.Interfaces;
 using HotBooking.Core.Models.DTOs.FacilityDtos;
-using HotBooking.Data;
 using HotBooking.Web.Models.FacilityViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace HotBooking.Web.Areas.Admin.Controllers
 {
@@ -12,17 +10,14 @@ namespace HotBooking.Web.Areas.Admin.Controllers
     {
         public const string Name = "Facility";
 
-        private readonly HotBookingDbContext _context;
         private readonly IFacilityService facilityService;
         private readonly ILogger<FacilityController> logger;
 
-        public FacilityController(HotBookingDbContext context,
-            IFacilityService facilityService,
-            ILogger<FacilityController> logger)
+        public FacilityController(ILogger<FacilityController> logger,
+            IFacilityService facilityService)
         {
-            _context = context;
-            this.facilityService = facilityService;
             this.logger = logger;
+            this.facilityService = facilityService;
         }
 
         public async Task<IActionResult> Index()
@@ -32,11 +27,11 @@ namespace HotBooking.Web.Areas.Admin.Controllers
             return View(facilityDtos);
         }
 
-        public async Task<IActionResult> Details(Guid id)
+        public async Task<IActionResult> Details(Guid publicId)
         {
             try
             {
-                var facilityDto = await facilityService.DetailsAsync(id);
+                var facilityDto = await facilityService.DetailsAsync(publicId);
 
                 return View(facilityDto);
             }
@@ -64,7 +59,7 @@ namespace HotBooking.Web.Areas.Admin.Controllers
                 return View(model);
             }
 
-            var facilityDto = new FacilityDetailsDto(
+            var facilityDto = new FacilityPreviewDto(
                 model.Name,
                 model.SvgTag);
 
@@ -86,11 +81,11 @@ namespace HotBooking.Web.Areas.Admin.Controllers
             }
         }
 
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid publicId)
         {
             try
             {
-                var facilityDto = await facilityService.GetByPublicId(id);
+                var facilityDto = await facilityService.GetByPublicId(publicId);
 
                 var formModel = new FacilityFormViewModel()
                 {
@@ -143,44 +138,42 @@ namespace HotBooking.Web.Areas.Admin.Controllers
             }
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid publicId)
         {
-            if (id == null || _context.Facilities == null)
+            try
             {
-                return NotFound();
-            }
+                var facilityDto = await facilityService.DetailsAsync(publicId);
 
-            var facility = await _context.Facilities
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (facility == null)
+                return View(facilityDto);
+            }
+            catch (InvalidModelDataException ex)
             {
-                return NotFound();
-            }
+                logger.LogWarning(ex, DateTime.Now.ToString());
 
-            return View(facility);
+                TempData["Error"] = ex.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid publicId)
         {
-            if (_context.Facilities == null)
+            try
             {
-                return Problem("Entity set 'ApplicationDbContext.Facilities'  is null.");
+                string name = await facilityService.DeleteAsync(publicId);
+
+                TempData["OK"] = $"Facility '{name}' is Deleted!";
             }
-            var facility = await _context.Facilities.FindAsync(id);
-            if (facility != null)
+            catch (InvalidModelDataException ex)
             {
-                _context.Facilities.Remove(facility);
+                logger.LogWarning(ex, DateTime.Now.ToString());
+
+                TempData["Error"] = ex.Message;
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool FacilityExists(int id)
-        {
-            return (_context.Facilities?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
