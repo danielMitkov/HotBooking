@@ -1,7 +1,8 @@
-﻿using HotBooking.Data;
-using HotBooking.Data.Models;
+﻿using HotBooking.Core.Exceptions;
+using HotBooking.Core.Interfaces;
+using HotBooking.Core.Models.DTOs.FeatureDtos;
+using HotBooking.Web.Models.FeatureViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace HotBooking.Web.Areas.Admin.Controllers
 {
@@ -9,152 +10,170 @@ namespace HotBooking.Web.Areas.Admin.Controllers
     {
         public const string Name = "Feature";
 
-        private readonly HotBookingDbContext _context;
+        private readonly IFeatureService featureService;
+        private readonly ILogger<FeatureController> logger;
 
-        public FeatureController(HotBookingDbContext context)
+        public FeatureController(ILogger<FeatureController> logger,
+            IFeatureService featureService)
         {
-            _context = context;
+            this.logger = logger;
+            this.featureService = featureService;
         }
 
-        // GET: Features
         public async Task<IActionResult> Index()
         {
-            return _context.Features != null ?
-                        View(await _context.Features.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Features'  is null.");
+            var featureDtos = await featureService.AllAsync();
+
+            return View(featureDtos);
         }
 
-        // GET: Features/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid publicId)
         {
-            if (id == null || _context.Features == null)
+            try
             {
-                return NotFound();
-            }
+                var featureDto = await featureService.DetailsAsync(publicId);
 
-            var feature = await _context.Features
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (feature == null)
+                return View(featureDto);
+            }
+            catch (InvalidModelDataException ex)
             {
-                return NotFound();
-            }
+                logger.LogWarning(ex, DateTime.Now.ToString());
 
-            return View(feature);
+                TempData["Error"] = ex.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        // GET: Features/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Features/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PublicId,IsActive,Name,CreatedOn,SvgTag")] Feature feature)
+        public async Task<IActionResult> Create(FeatureCreateViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false)
             {
-                _context.Add(feature);
-                await _context.SaveChangesAsync();
+                return View(model);
+            }
+
+            var featureDto = new FeaturePreviewDto(
+                model.Name,
+                model.SvgTag);
+
+            try
+            {
+                await featureService.CreateAsync(featureDto);
+
+                TempData["OK"] = "Feature Created!";
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(feature);
+            catch (InvalidModelDataException ex)
+            {
+                logger.LogWarning(ex, DateTime.Now.ToString());
+
+                TempData["Error"] = ex.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        // GET: Features/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid publicId)
         {
-            if (id == null || _context.Features == null)
+            try
             {
-                return NotFound();
-            }
+                var featureDto = await featureService.GetByPublicId(publicId);
 
-            var feature = await _context.Features.FindAsync(id);
-            if (feature == null)
-            {
-                return NotFound();
+                var formModel = new FeatureFormViewModel()
+                {
+                    PublicId = featureDto.PublicId,
+                    Name = featureDto.Name,
+                    SvgTag = featureDto.SvgTag
+                };
+
+                return View(formModel);
             }
-            return View(feature);
+            catch (InvalidModelDataException ex)
+            {
+                logger.LogWarning(ex, DateTime.Now.ToString());
+
+                TempData["Error"] = ex.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        // POST: Features/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PublicId,IsActive,Name,CreatedOn,SvgTag")] Feature feature)
+        public async Task<IActionResult> Edit(Guid publicId, FeatureFormViewModel formModel)
         {
-            if (id != feature.Id)
+            if (ModelState.IsValid == false)
             {
-                return NotFound();
+                return View(formModel);
             }
 
-            if (ModelState.IsValid)
+            var formDto = new FeatureFormDto(
+                formModel.PublicId,
+                formModel.Name,
+                formModel.SvgTag);
+
+            try
             {
-                try
-                {
-                    _context.Update(feature);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FeatureExists(feature.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await featureService.UpdateAsync(formDto);
+
+                TempData["OK"] = "Feature Updated!";
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(feature);
+            catch (InvalidModelDataException ex)
+            {
+                logger.LogWarning(ex, DateTime.Now.ToString());
+
+                TempData["Error"] = ex.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        // GET: Features/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid publicId)
         {
-            if (id == null || _context.Features == null)
+            try
             {
-                return NotFound();
-            }
+                var featureDto = await featureService.DetailsAsync(publicId);
 
-            var feature = await _context.Features
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (feature == null)
+                return View(featureDto);
+            }
+            catch (InvalidModelDataException ex)
             {
-                return NotFound();
-            }
+                logger.LogWarning(ex, DateTime.Now.ToString());
 
-            return View(feature);
+                TempData["Error"] = ex.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        // POST: Features/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid publicId)
         {
-            if (_context.Features == null)
+            try
             {
-                return Problem("Entity set 'ApplicationDbContext.Features'  is null.");
+                string name = await featureService.DeleteAsync(publicId);
+
+                TempData["OK"] = $"Feature '{name}' is Deleted!";
             }
-            var feature = await _context.Features.FindAsync(id);
-            if (feature != null)
+            catch (InvalidModelDataException ex)
             {
-                _context.Features.Remove(feature);
+                logger.LogWarning(ex, DateTime.Now.ToString());
+
+                TempData["Error"] = ex.Message;
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool FeatureExists(int id)
-        {
-            return (_context.Features?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
