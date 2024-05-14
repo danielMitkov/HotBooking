@@ -145,15 +145,17 @@ public class FacilityServiceTests
     [Fact]
     public async Task UpdateAsync_Updates()
     {
+        var facility = seeder.Facility_Spa;
+
         var formDto = new FacilityFormDto(
-            seeder.Facility_Spa.PublicId,
+            facility.PublicId,
             facilityName,
             svgTag);
 
         await facilityService.UpdateAsync(formDto);
 
         var facilityUpdated = await dbContext.Facilities
-            .SingleAsync(f => f.Id == seeder.Facility_Spa.Id);
+            .SingleAsync(f => f.Id == facility.Id);
 
         Assert.NotNull(facilityUpdated);
         Assert.Equal(facilityName, facilityUpdated.Name);
