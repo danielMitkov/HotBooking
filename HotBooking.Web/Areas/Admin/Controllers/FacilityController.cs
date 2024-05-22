@@ -108,7 +108,7 @@ namespace HotBooking.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid publicId, FacilityFormViewModel formModel)
+        public async Task<IActionResult> Edit(FacilityFormViewModel formModel)
         {
             if (ModelState.IsValid == false)
             {
